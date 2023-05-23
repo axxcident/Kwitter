@@ -49,6 +49,32 @@ client.connect(function(err) {
   console.log('Database Connected')
 })
 
+// Lägg till detta sen för att skapa de Collections som vi behöver:
+// CREATE TABLE IF NOT EXISTS Users (
+//   id SERIAL PRIMARY KEY,
+//   name VARCHAR(50) NOT NULL,
+//   email VARCHAR(50) NOT NULL,
+//   password VARCHAR(50) NOT NULL
+// );
+
+// -- Create the Posts table
+// CREATE TABLE IF NOT EXISTS Posts (
+//   post_id SERIAL PRIMARY KEY,
+//   poster_id INT NOT NULL,
+//   post TEXT NOT NULL,
+//   likes INT NOT NULL,
+//   FOREIGN KEY (poster_id) REFERENCES Users(id)
+// );
+
+// -- Create the Comments table
+// CREATE TABLE IF NOT EXISTS Comments (
+//   comment_id SERIAL PRIMARY KEY,
+//   post_id INT NOT NULL,
+//   poster_id INT NOT NULL,
+//   comment VARCHAR(255) NOT NULL,
+//   FOREIGN KEY (post_id) REFERENCES Posts(post_id)
+// );
+
 app.get("/", (req, res) => {
   res.status(200).json('hello there')
 })
