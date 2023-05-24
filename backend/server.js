@@ -24,40 +24,6 @@ app.use((request, response, next) => {
   next()
 })
 
-// databaser
-const tablesToCreate = [
-  {
-    name: 'Users',
-    columns: [
-      { name: 'id', type: 'SERIAL', primaryKey: true },
-      { name: 'firstname', type: 'VARCHAR(25)', notNull: true },
-      { name: 'lastname', type: 'VARCHAR(25)', notNull: true },
-      { name: 'posts', type: 'VARCHAR(255)', notNull: true },
-      { name: 'likes', type: 'INTEGER', notNull: true }
-    ]
-  },
-  // Add more objects for each table you want to create
-  {
-    name: 'Posts',
-    columns: [
-      { name: 'post_id', type: 'SERIAL', primaryKey: true },
-      { name: 'poster_id', type: 'INTEGER', notNull: true },
-      { name: 'post', type: 'VARCHAR(255)', notNull: true },
-      { name: 'post', type: 'VARCHAR(255)', notNull: true },
-    ]
-  },
-  {
-    name: 'Comments',
-    columns: [
-      { name: 'comment_id', type: 'SERIAL', primaryKey: true },
-      { name: 'post_id', type: 'VARCHAR(25)', notNull: true },
-      { name: 'poster_id', type: 'VARCHAR(25)', notNull: true },
-      { name: 'post_id', type: 'VARCHAR(25)', notNull: true },
-      { name: 'post_id', type: 'VARCHAR(25)', notNull: true },
-    ]
-  }
-];
-
 // databas
 const client = new Client({
   database: process.env.PGDATABASE,
@@ -66,22 +32,125 @@ const client = new Client({
   port: process.env.PORT,
   user: process.env.PGUSER
 })
-client.connect(function(err) {
-  client.query(
-    `CREATE TABLE IF NOT EXISTS inlägg (
-      id SERIAL PRIMARY KEY,
-      firstname VARCHAR(25),
-      lastname VARCHAR(25),
-      posts VARCHAR(255),
-      likes INTEGER
-    )`
-  );
-  if(err) {
-    console.log(err)
-    throw err
+
+// client.connect(function(err) {
+//   client.query(
+//     `CREATE TABLE IF NOT EXISTS Users (
+//       id SERIAL PRIMARY KEY,
+//       name VARCHAR(50) NOT NULL,
+//       email VARCHAR(50) NOT NULL,
+//       password VARCHAR(50) NOT NULL
+//     );`
+//   );
+//   if(err) {
+//     console.log(err)
+//     throw err
+//   }
+//   console.log('Database Connected')
+// })
+// client.connect(function(err) {
+//   client.query(
+//     `CREATE TABLE IF NOT EXISTS Posts (
+//       post_id SERIAL PRIMARY KEY,
+//       poster_id INT NOT NULL,
+//       post TEXT NOT NULL,
+//       likes INT NOT NULL,
+//       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//       FOREIGN KEY (poster_id) REFERENCES Users(id)
+//     )`
+//   );
+//   if(err) {
+//     console.log(err)
+//     throw err
+//   }
+//   console.log('Database Connected')
+// })
+// client.connect(function(err) {
+//   client.query(
+//     `CREATE TABLE IF NOT EXISTS Comments (
+//       comment_id SERIAL PRIMARY KEY,
+//       post_id INT NOT NULL,
+//       poster_id INT NOT NULL,
+//       comment VARCHAR(255) NOT NULL,
+//       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//       FOREIGN KEY (post_id) REFERENCES Posts(post_id),
+//       FOREIGN KEY (poster_id) REFERENCES Users(id)
+//     )`
+//   );
+//   if(err) {
+//     console.log(err)
+//     throw err
+//   }
+//   console.log('Database Connected')
+// })
+
+client.connect(function (err) {
+  if (err) {
+    console.log(err);
+    throw err;
   }
-  console.log('Database Connected')
-})
+// Create Users table
+const createUsersTableQuery = `
+CREATE TABLE IF NOT EXISTS Users (
+  id SERIAL PRIMARY KEY,
+  firstname VARCHAR(25) NOT NULL,
+  lastname VARCHAR(25) NOT NULL,
+  posts VARCHAR(255) NOT NULL,
+  likes INT NOT NULL
+)
+`;
+
+client.query(createUsersTableQuery, function (err, result) {
+if (err) {
+  console.log(err);
+  throw err;
+}
+console.log('Table "Users" created successfully');
+});
+
+// Create Posts table
+const createPostsTableQuery = `
+CREATE TABLE IF NOT EXISTS Posts (
+  post_id SERIAL PRIMARY KEY,
+  poster_id INT NOT NULL,
+  post VARCHAR(255) NOT NULL,
+  likes INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (poster_id) REFERENCES Users (id)
+)
+`;
+
+client.query(createPostsTableQuery, function (err, result) {
+if (err) {
+  console.log(err);
+  throw err;
+}
+console.log('Table "Posts" created successfully');
+});
+
+// Create Comments table
+const createCommentsTableQuery = `
+CREATE TABLE IF NOT EXISTS Comments (
+  comment_id SERIAL PRIMARY KEY,
+  post_id INT NOT NULL,
+  poster_id INT NOT NULL,
+  comment VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (post_id) REFERENCES Posts (post_id),
+  FOREIGN KEY (poster_id) REFERENCES Users (id)
+)
+`;
+
+client.query(createCommentsTableQuery, function (err, result) {
+if (err) {
+  console.log(err);
+  throw err;
+}
+console.log('Table "Comments" created successfully');
+});
+
+console.log('Database Connected');
+});
 
 // Lägg till detta sen för att skapa de Collections som vi behöver:
 // CREATE TABLE IF NOT EXISTS Users (
@@ -118,7 +187,7 @@ app.get("/", (req, res) => {
 
 app.get("/posts", async (req, res) => {
   try {
-    const result = await client.query('SELECT * FROM inlägg')
+    const result = await client.query('SELECT * FROM posts')
     res.status(200).json(result.rows);
   }
   catch(err) {
