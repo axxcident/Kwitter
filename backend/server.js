@@ -33,57 +33,6 @@ const client = new Client({
   user: process.env.PGUSER
 })
 
-// client.connect(function(err) {
-//   client.query(
-//     `CREATE TABLE IF NOT EXISTS Users (
-//       id SERIAL PRIMARY KEY,
-//       name VARCHAR(50) NOT NULL,
-//       email VARCHAR(50) NOT NULL,
-//       password VARCHAR(50) NOT NULL
-//     );`
-//   );
-//   if(err) {
-//     console.log(err)
-//     throw err
-//   }
-//   console.log('Database Connected')
-// })
-// client.connect(function(err) {
-//   client.query(
-//     `CREATE TABLE IF NOT EXISTS Posts (
-//       post_id SERIAL PRIMARY KEY,
-//       poster_id INT NOT NULL,
-//       post TEXT NOT NULL,
-//       likes INT NOT NULL,
-//       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//       FOREIGN KEY (poster_id) REFERENCES Users(id)
-//     )`
-//   );
-//   if(err) {
-//     console.log(err)
-//     throw err
-//   }
-//   console.log('Database Connected')
-// })
-// client.connect(function(err) {
-//   client.query(
-//     `CREATE TABLE IF NOT EXISTS Comments (
-//       comment_id SERIAL PRIMARY KEY,
-//       post_id INT NOT NULL,
-//       poster_id INT NOT NULL,
-//       comment VARCHAR(255) NOT NULL,
-//       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//       FOREIGN KEY (post_id) REFERENCES Posts(post_id),
-//       FOREIGN KEY (poster_id) REFERENCES Users(id)
-//     )`
-//   );
-//   if(err) {
-//     console.log(err)
-//     throw err
-//   }
-//   console.log('Database Connected')
-// })
-
 client.connect(function (err) {
   if (err) {
     console.log(err);
@@ -151,35 +100,6 @@ console.log('Table "Comments" created successfully');
 
 console.log('Database Connected');
 });
-
-// Lägg till detta sen för att skapa de Collections som vi behöver:
-// CREATE TABLE IF NOT EXISTS Users (
-//   id SERIAL PRIMARY KEY,
-//   name VARCHAR(50) NOT NULL,
-//   email VARCHAR(50) NOT NULL,
-//   password VARCHAR(50) NOT NULL
-// );
-
-// -- Create the Posts table
-// CREATE TABLE IF NOT EXISTS Posts (
-//   post_id SERIAL PRIMARY KEY,
-//   poster_id INT NOT NULL,
-//   post TEXT NOT NULL,
-//   likes INT NOT NULL,
-//   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//   FOREIGN KEY (poster_id) REFERENCES Users(id)
-// );
-
-// -- Create the Comments table
-// CREATE TABLE IF NOT EXISTS Comments (
-//   comment_id SERIAL PRIMARY KEY,
-//   post_id INT NOT NULL,
-//   poster_id INT NOT NULL,
-//   comment VARCHAR(255) NOT NULL,
-//   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//   FOREIGN KEY (post_id) REFERENCES Posts(post_id)
-//   FOREIGN KEY (poster_id) REFERENCES Users(id)
-// );
 
 app.get("/", (req, res) => {
   res.status(200).json('hello there')
