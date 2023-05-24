@@ -1,31 +1,28 @@
-import React, {useEffect, useEffect} from 'react'
-import axois from 'axios'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
+function TestFetch() {
+  const [data, setData] = useState([]);
 
-function TestFecth() {
+  useEffect(() => {
+    axios.get('https://avancera.app/cities')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
-    const [data, setData] = useState('')
-
-
-    // BYT UT TILL VÅR ROUTES
-    useEffect(() => {
-        axois.get('https://avancera.app/cities')
-        .then(response => {
-            setData(response.data)
-        })
-        .catch(error =>{
-            console.error(error)
-        })
-     }, [])
   return (
     <div>
-        <ul>
-            {data.map(item =>{
-                <li key={item.id}>{item.name}</li>
-            })}
-        </ul>
+      <ul>
+        {data.map(city => (
+          <li key={city.id}>{city.name}</li>
+        ))}
+      </ul>
     </div>
-  )
+  );
 }
 
-export default TestFecth
+export default TestFetch;
