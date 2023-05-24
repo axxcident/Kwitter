@@ -73,6 +73,7 @@ client.connect(function(err) {
 //   poster_id INT NOT NULL,
 //   comment VARCHAR(255) NOT NULL,
 //   FOREIGN KEY (post_id) REFERENCES Posts(post_id)
+//   FOREIGN KEY (poster_id) REFERENCES Users(id)
 // );
 
 app.get("/", (req, res) => {
