@@ -120,7 +120,7 @@ app.post("/posts/submit", async(req, res) => {
   const {firstname, lastname, posts} = req.body;
   try {
     await client.query(
-      `INSERT INTO inlägg(firstname, lastname, posts) VALUES($1, $2, $3)`,
+      `INSERT INTO posts(firstname, lastname, posts) VALUES($1, $2, $3)`,
       [firstname, lastname, posts]
     )
     res.sendStatus(201)
