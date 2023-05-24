@@ -24,6 +24,40 @@ app.use((request, response, next) => {
   next()
 })
 
+// databaser
+const tablesToCreate = [
+  {
+    name: 'Users',
+    columns: [
+      { name: 'id', type: 'SERIAL', primaryKey: true },
+      { name: 'firstname', type: 'VARCHAR(25)', notNull: true },
+      { name: 'lastname', type: 'VARCHAR(25)', notNull: true },
+      { name: 'posts', type: 'VARCHAR(255)', notNull: true },
+      { name: 'likes', type: 'INTEGER', notNull: true }
+    ]
+  },
+  // Add more objects for each table you want to create
+  {
+    name: 'Posts',
+    columns: [
+      { name: 'post_id', type: 'SERIAL', primaryKey: true },
+      { name: 'poster_id', type: 'INTEGER', notNull: true },
+      { name: 'post', type: 'VARCHAR(255)', notNull: true },
+      { name: 'post', type: 'VARCHAR(255)', notNull: true },
+    ]
+  },
+  {
+    name: 'Comments',
+    columns: [
+      { name: 'comment_id', type: 'SERIAL', primaryKey: true },
+      { name: 'post_id', type: 'VARCHAR(25)', notNull: true },
+      { name: 'poster_id', type: 'VARCHAR(25)', notNull: true },
+      { name: 'post_id', type: 'VARCHAR(25)', notNull: true },
+      { name: 'post_id', type: 'VARCHAR(25)', notNull: true },
+    ]
+  }
+];
+
 // databas
 const client = new Client({
   database: process.env.PGDATABASE,
@@ -63,6 +97,7 @@ client.connect(function(err) {
 //   poster_id INT NOT NULL,
 //   post TEXT NOT NULL,
 //   likes INT NOT NULL,
+//   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 //   FOREIGN KEY (poster_id) REFERENCES Users(id)
 // );
 
@@ -72,6 +107,7 @@ client.connect(function(err) {
 //   post_id INT NOT NULL,
 //   poster_id INT NOT NULL,
 //   comment VARCHAR(255) NOT NULL,
+//   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 //   FOREIGN KEY (post_id) REFERENCES Posts(post_id)
 //   FOREIGN KEY (poster_id) REFERENCES Users(id)
 // );
