@@ -43,11 +43,10 @@ client.connect(function (err) {
 CREATE TABLE IF NOT EXISTS Users (
   id SERIAL PRIMARY KEY,
   firstname VARCHAR(25) NOT NULL,
-  lastname VARCHAR(25) NOT NULL,
-  posts VARCHAR(255) NOT NULL,
-  likes INT NOT NULL
-)
-`
+  lastname VARCHAR(25),
+  email VARCHAR(25) NOT NULL,
+  password VARCHAR(25) NOT NULL
+)`;
 
     client.query(createUsersTableQuery, function (err, result) {
         if (err) {
@@ -63,11 +62,11 @@ CREATE TABLE IF NOT EXISTS Posts (
   post_id SERIAL PRIMARY KEY,
   poster_id INT NOT NULL,
   post VARCHAR(255) NOT NULL,
-  likes INT NOT NULL,
+  likes INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (poster_id) REFERENCES Users (id)
 )
-`
+`;
 
     client.query(createPostsTableQuery, function (err, result) {
         if (err) {
@@ -88,8 +87,7 @@ CREATE TABLE IF NOT EXISTS Comments (
   FOREIGN KEY (post_id) REFERENCES Posts (post_id),
   FOREIGN KEY (poster_id) REFERENCES Users (id)
 )
-`
-
+`;
     client.query(createCommentsTableQuery, function (err, result) {
         if (err) {
             console.log(err)
