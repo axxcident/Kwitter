@@ -40,12 +40,12 @@ client.connect(function (err) {
     }
     // Create Users table
     const createUsersTableQuery = `
-CREATE TABLE IF NOT EXISTS Users (
+CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   firstname VARCHAR(25) NOT NULL,
   lastname VARCHAR(25),
-  email VARCHAR(25) NOT NULL,
-  password VARCHAR(25) NOT NULL
+  email VARCHAR(50) NOT NULL,
+  password VARCHAR(50) NOT NULL
 )`;
 
     client.query(createUsersTableQuery, function (err, result) {
@@ -53,12 +53,12 @@ CREATE TABLE IF NOT EXISTS Users (
             console.log(err)
             throw err
         }
-        console.log('Table "Users" created successfully')
+        console.log('Table "users" created successfully')
     })
 
     // Create Posts table
     const createPostsTableQuery = `
-CREATE TABLE IF NOT EXISTS Posts (
+CREATE TABLE IF NOT EXISTS posts (
   post_id SERIAL PRIMARY KEY,
   poster_id INT NOT NULL,
   post VARCHAR(255) NOT NULL,
@@ -73,12 +73,12 @@ CREATE TABLE IF NOT EXISTS Posts (
             console.log(err)
             throw err
         }
-        console.log('Table "Posts" created successfully')
+        console.log('Table "posts" created successfully')
     })
 
     // Create Comments table
     const createCommentsTableQuery = `
-CREATE TABLE IF NOT EXISTS Comments (
+CREATE TABLE IF NOT EXISTS comments (
   comment_id SERIAL PRIMARY KEY,
   post_id INT NOT NULL,
   poster_id INT NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS Comments (
             console.log(err)
             throw err
         }
-        console.log('Table "Comments" created successfully')
+        console.log('Table "comments" created successfully')
     })
 
     console.log('Database Connected')
@@ -103,6 +103,11 @@ app.get('/', (req, res) => {
     res.status(200).json('hello there')
 })
 
+// SELECT p.post_id, p.poster_id, p.post, p.likes, p.created_at
+// FROM posts p
+// JOIN users u ON p.poster_id = u.id
+// WHERE u.id = <user_id>;
+
 app.get('/users', async (req, res) => {
     try {
         const result = await client.query('SELECT * FROM Users')
@@ -111,6 +116,37 @@ app.get('/users', async (req, res) => {
         res.status(500).send('Internal Server Error')
         console.log(err)
     }
+})
+app.get('/users/:poster_id/posts', async (req, res) => {
+  const { poster_id } = req.params
+    try {
+        const result = await client.query(
+          `
+          SELECT p.post_id, p.poster_id, p.post, p.likes, p.created_at
+          FROM posts p
+          JOIN users u ON p.poster_id = u.id
+          WHERE u.id = $1;
+          `,
+          [poster_id]);
+        res.status(200).json(result.rows)
+    } catch (err) {
+        res.status(500).send('Internal Server Error')
+        console.log(err)
+    }
+})
+
+app.post('/users/submit', async (req, res) => {
+  const { firstname, lastname, email, password } = req.body;
+  try {
+    const insertUserQuery = `
+    INSERT INTO users (firstname, lastname, email, password) VALUES($1, $2, $3, $4)
+    `;
+    await client.query(insertUserQuery, [firstname, lastname, email, password]);
+    res.sendStatus(201);
+  } catch (err) {
+    res.sendStatus(400);
+    console.log(err);
+  }
 })
 
 app.get('/posts', async (req, res) => {
@@ -124,11 +160,11 @@ app.get('/posts', async (req, res) => {
 })
 
 app.post('/posts/submit', async (req, res) => {
-    const { firstname, lastname, posts } = req.body
+    const { poster_id, post } = req.body
     try {
         await client.query(
-            `INSERT INTO posts(firstname, lastname, posts) VALUES($1, $2, $3)`,
-            [firstname, lastname, posts]
+            `INSERT INTO posts (poster_id, post) VALUES($1, $2)`,
+            [poster_id, post]
         )
         res.sendStatus(201)
     } catch (err) {
@@ -147,27 +183,13 @@ app.get('/comments', async (req, res) => {
     }
 })
 
-app.post('/users/submit', async (req, res) => {
-  const { firstname, lastname, posts, likes } = req.body;
-  try {
-    const insertUserQuery = `
-      INSERT INTO users(firstname, lastname, posts, likes) VALUES($1, $2, $3, $4)
-    `;
-    await client.query(insertUserQuery, [firstname, lastname, posts, likes]);
-    res.sendStatus(201);
-  } catch (err) {
-    res.sendStatus(400);
-    console.log(err);
-  }
-})
-
 app.post('/comments/submit', async (req, res) => {
-  const { poster_id, comment } = req.body;
+  const { post_id, poster_id, comment } = req.body;
   try {
     const insertCommentQuery = `
-      INSERT INTO comments(poster_id, comment) VALUES($1, $2)
+      INSERT INTO comments (post_id, poster_id, comment) VALUES($1, $2, $3)
     `;
-    await client.query(insertCommentQuery, [poster_id, comment]);
+    await client.query(insertCommentQuery, [post_id, poster_id, comment]);
     res.sendStatus(201);
   } catch (err) {
     res.sendStatus(400);
