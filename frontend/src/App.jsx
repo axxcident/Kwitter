@@ -3,6 +3,7 @@ import './App.css'
 //import TestFecth from './components/TestFecth'
 import UserForm from './components/TestUserInput'
 import TestAxios from './components/TestAxios'
+import TestLogin from './components/TestLogin'
 
 
 function App() {
@@ -14,6 +15,9 @@ function App() {
         <TestFecth /> */}
           <UserForm />
       <TestAxios />
+
+      <h1>LOGIN</h1>
+      <TestLogin />
     </>
   )
 }
