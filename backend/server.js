@@ -149,6 +149,34 @@ app.get('/comments', async (req, res) => {
     }
 })
 
+app.post('/users/submit', async (req, res) => {
+  const { firstname, lastname, posts, likes } = req.body;
+  try {
+    const insertUserQuery = `
+      INSERT INTO users(firstname, lastname, posts, likes) VALUES($1, $2, $3, $4)
+    `;
+    await client.query(insertUserQuery, [firstname, lastname, posts, likes]);
+    res.sendStatus(201);
+  } catch (err) {
+    res.sendStatus(400);
+    console.log(err);
+  }
+})
+
+app.post('/comments/submit', async (req, res) => {
+  const { poster_id, comment } = req.body;
+  try {
+    const insertCommentQuery = `
+      INSERT INTO comments(poster_id, comment) VALUES($1, $2)
+    `;
+    await client.query(insertCommentQuery, [poster_id, comment]);
+    res.sendStatus(201);
+  } catch (err) {
+    res.sendStatus(400);
+    console.log(err);
+  }
+})
+
 app.listen(8800, () => {
     console.log('server is running Bae')
 })
