@@ -105,7 +105,15 @@ app.get('/', (req, res) => {
     res.status(200).json('hello there')
 })
 
-
+app.get('/users', async (req, res) => {
+    try {
+        const result = await client.query('SELECT * FROM Users')
+        res.status(200).json(result.rows)
+    } catch (err) {
+        res.status(500).send('Internal Server Error')
+        console.log(err)
+    }
+})
 
 app.get('/posts', async (req, res) => {
     try {
@@ -131,7 +139,15 @@ app.post('/posts/submit', async (req, res) => {
     }
 })
 
-
+app.get('/comments', async (req, res) => {
+    try {
+        const result = await client.query('SELECT * FROM Comments')
+        res.status(200).json(result.rows)
+    } catch (err) {
+        res.status(500).send('Internal Server Error')
+        console.log(err)
+    }
+})
 
 app.listen(8800, () => {
     console.log('server is running Bae')
