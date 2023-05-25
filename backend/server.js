@@ -103,10 +103,27 @@ app.get('/', (req, res) => {
     res.status(200).json('hello there')
 })
 
-// SELECT p.post_id, p.poster_id, p.post, p.likes, p.created_at
-// FROM posts p
-// JOIN users u ON p.poster_id = u.id
-// WHERE u.id = <user_id>;
+app.post('/login', async(req, res) => {
+    const {email, password} = req.body;
+    try {
+        const result = await client.query(
+          `SELECT * FROM Users WHERE email=$1 AND password=$2;`,
+          [email, password]
+        );
+
+        if (result.rows.length === 0) {
+          // No matching user found
+          res.status(401).send('Unauthorized');
+        } else {
+          // Successful login
+          res.status(200).json(result.rows);
+          console.log('Logged in successfully');
+        }
+      } catch (err) {
+        res.status(500).send('Internal Server Error');
+        console.log(err);
+      }
+})
 
 app.get('/users', async (req, res) => {
     try {
