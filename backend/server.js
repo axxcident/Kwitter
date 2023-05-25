@@ -106,6 +106,7 @@ app.get('/', (req, res) => {
 })
 
 
+
 app.get('/posts', async (req, res) => {
     try {
         const result = await client.query('SELECT * FROM Posts')
@@ -129,6 +130,8 @@ app.post('/posts/submit', async (req, res) => {
         console.log(err)
     }
 })
+
+
 
 app.listen(8800, () => {
     console.log('server is running Bae')
