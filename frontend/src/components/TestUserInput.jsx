@@ -10,7 +10,7 @@ const UserForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://localhost:8800/users', {
+    axios.post('http://localhost:8800/users/submit', {
       firstname,
       lastname,
       email,
