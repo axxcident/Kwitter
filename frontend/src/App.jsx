@@ -1,6 +1,8 @@
 import './App.css'
-import TestInput from './components/TestInput'
-import TestFecth from './components/TestFecth'
+//import TestInput from './components/TestInput'
+//import TestFecth from './components/TestFecth'
+import UserForm from './components/TestUserInput'
+import TestAxios from './components/TestAxios'
 
 
 function App() {
@@ -8,8 +10,10 @@ function App() {
   return (
     <>
     <h1>GANGBANG</h1>
-    <TestInput />
-    <TestFecth />
+        {/* <TestInput />
+        <TestFecth /> */}
+          <UserForm />
+      <TestAxios />
     </>
   )
 }
