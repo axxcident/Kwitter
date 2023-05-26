@@ -1,8 +1,8 @@
 import './App.css'
 //import TestInput from './components/TestInput'
 //import TestFecth from './components/TestFecth'
-import UserForm from './components/TestUserInput'
-import TestAxios from './components/TestAxios'
+ import UserForm from './components/TestUserInput'
+/* import TestAxios from './components/TestAxios' */
 import TestLogin from './components/TestLogin'
 
 
@@ -14,7 +14,7 @@ function App() {
         {/* <TestInput />
         <TestFecth /> */}
           <UserForm />
-      <TestAxios />
+  {/*     <TestAxios />  */}
 
       <h1>LOGIN</h1>
       <TestLogin />
