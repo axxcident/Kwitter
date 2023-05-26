@@ -17,12 +17,13 @@ function TestLogin() {
          })
            .then(response => {
              console.log('User found');
-
-             //localStorage.setItem('userId', response.data.id);
+             console.log(response.data[0].id)
+             localStorage.setItem('userId', response.data[0].id);
 
              setEmail('');
              setPassword('');
-             console.log(response.data)
+
+            //  console.log(response.data)
            })
            .catch(error => {
              console.log(error);
