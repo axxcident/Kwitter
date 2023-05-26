@@ -6,15 +6,15 @@ function TestPostInput() {
     // const [userId, setUserId] = useState('');
     const [post, setPost] = useState('');
 
-    const userId = localStorage.getItem('userId');
+    const poster_id = localStorage.getItem('userId');
 
     const handlePost = (e) => {
         e.preventDefault();
 
         console.log(post)
-        console.log(userId, post)
+        console.log(poster_id, post)
         axios.post('http://localhost:8800/posts/submit', {
-          userId,
+            poster_id,
           post,
         })
           .then(response => {
@@ -27,7 +27,7 @@ function TestPostInput() {
             console.log(error);
           });
       };
-      if(userId){
+      if(poster_id){
         return (
             <div>
             <h2>POST</h2>
