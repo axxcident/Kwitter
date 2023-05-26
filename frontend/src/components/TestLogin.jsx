@@ -10,21 +10,23 @@ function TestLogin() {
         e.preventDefault();
 
         console.log(email, password)
-        // OBS! skicka in email + password efter routes har skapats
-        // axios.post('http://localhost:8800/users', {
-        //   email,
-        //   password,
-        // })
-        //   .then(response => {
-        //     console.log('User found');
 
-        //     setEmail('');
-        //     setPassword('');
-        //     console.log(response.data)
-        //   })
-        //   .catch(error => {
-        //     console.log(error);
-        //   });
+         axios.post('http://localhost:8800/login', {
+           email,
+           password,
+         })
+           .then(response => {
+             console.log('User found');
+
+             //localStorage.setItem('userId', response.data.id);
+
+             setEmail('');
+             setPassword('');
+             console.log(response.data)
+           })
+           .catch(error => {
+             console.log(error);
+           });
       };
 
 
