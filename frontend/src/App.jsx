@@ -3,7 +3,7 @@ import './App.css'
  import TestFetchAllPosts from './components/TestFetchAllPosts'
  import TestPostInput from './components/TestPostInput'
 //  import TestFetchAllUsers from './components/TestFetchAllUsers'
-import TestLogin from './components/TestLogin'
+// import TestLogin from './components/TestLogin'
 
 import {Link} from 'react-router-dom'
 
@@ -17,8 +17,8 @@ function App() {
     <TestSubmitNewUser />
 
 
-      <h1>LOGIN</h1>
-      <TestLogin />
+      {/* <h1>LOGIN</h1>
+      <TestLogin /> */}
 
       <TestPostInput />
     <TestFetchAllPosts/>
