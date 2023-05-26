@@ -1,8 +1,8 @@
 import './App.css'
-//import TestInput from './components/TestInput'
-//import TestFecth from './components/TestFecth'
- import UserForm from './components/TestUserInput'
-/* import TestAxios from './components/TestAxios' */
+ import TestSubmitNewUser from './components/TestSubmitNewUser'
+ import TestFetchAllPosts from './components/TestFetchAllPosts'
+ import TestPostInput from './components/TestPostInput'
+//  import TestFetchAllUsers from './components/TestFetchAllUsers'
 import TestLogin from './components/TestLogin'
 
 
@@ -11,14 +11,16 @@ function App() {
   return (
     <>
     <h1>GANGBANG</h1>
-        {/* <TestInput />
-        <TestFecth /> */}
-          <UserForm />
-  {/*     <TestAxios />  */}
+    <TestSubmitNewUser />
+
 
       <h1>LOGIN</h1>
       <TestLogin />
-    </>
+
+      <TestPostInput />
+    <TestFetchAllPosts/>
+
+</>
   )
 }
 

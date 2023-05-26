@@ -18,8 +18,7 @@ function TestFetch() {
     <div>
       <ul>
         {posts.map(post => (
-            // ? poster_id?
-        <div key={post.id}>
+        <div key={post.poster_id}>
             <p>{post.post}</p>
         </div>
         ))}
