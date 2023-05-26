@@ -117,10 +117,12 @@ client.query(createLikesTableQuery, function (err, result) {
     console.log('Database Connected')
 })
 
+//  ------------------------------------- HUVUDSIDAN
 app.get('/', (req, res) => {
     res.status(200).json('hello there')
 })
 
+//  ------------------------------------- LOGGA IN
 app.post('/login', async(req, res) => {
     const {email, password} = req.body;
     try {
@@ -143,6 +145,7 @@ app.post('/login', async(req, res) => {
       }
 })
 
+//  ------------------------------------- HÄMTA ANVÄNDARE
 app.get('/users', async (req, res) => {
     try {
         const result = await client.query('SELECT * FROM Users')
@@ -152,6 +155,8 @@ app.get('/users', async (req, res) => {
         console.log(err)
     }
 })
+
+//  ------------------------------------- HÄMTA ALLA INLÄGG FRÅN EN ANVÄNDARE
 app.get('/users/:poster_id/posts', async (req, res) => {
   const { poster_id } = req.params
     try {
@@ -173,6 +178,7 @@ app.get('/users/:poster_id/posts', async (req, res) => {
     }
 })
 
+// ------------------------------------- LÄGG TILL ANVÄNDARE
 app.post('/users/submit', async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   try {
@@ -187,6 +193,7 @@ app.post('/users/submit', async (req, res) => {
   }
 })
 
+//  ------------------------------------- HÄMTA ALLA INLÄGG
 app.get('/posts', async (req, res) => {
     try {
         const result = await client.query('SELECT * FROM Posts')
@@ -197,6 +204,7 @@ app.get('/posts', async (req, res) => {
     }
 })
 
+//  ------------------------------------- LÄGG TILL INLÄGG
 app.post('/posts/submit', async (req, res) => {
     const { poster_id, post } = req.body
     try {
@@ -211,6 +219,7 @@ app.post('/posts/submit', async (req, res) => {
     }
 })
 
+//  ------------------------------------- HÄMTA ALLA KOMMENTARER
 app.get('/comments', async (req, res) => {
     try {
         const result = await client.query('SELECT * FROM Comments')
@@ -221,6 +230,7 @@ app.get('/comments', async (req, res) => {
     }
 })
 
+//  -------------------------------------  LÄGG TILL KOMMENTAR
 app.post('/comments/submit', async (req, res) => {
   const { post_id, poster_id, comment } = req.body;
   try {
@@ -235,47 +245,49 @@ app.post('/comments/submit', async (req, res) => {
   }
 })
 
+//  ------------------------------------- HÄMTA ALLA GILLADE INLÄGG AV EN ANVÄNDARE
 app.get('/users/:poster_id/liked-posts', async (req, res) => {
-    const { poster_id } = req.params;
-    try {
-      const result = await client.query(
-        `
-        SELECT p.post_id, p.poster_id, p.post, p.likes, p.created_at
-        FROM posts p
-        JOIN users u ON p.poster_id = u.id
-        JOIN likes l ON l.post_id = p.post_id
-        WHERE u.id = $1;
-        `,
-        [poster_id]
-      );
-      res.status(200).json(result.rows);
-    } catch (err) {
-      res.status(500).send('Internal Server Error');
-      console.log(err);
-    }
-  })
+  const { poster_id } = req.params;
+  try {
+    const result = await client.query(
+      `
+      SELECT p.post_id, p.poster_id, p.post, p.likes, p.created_at
+      FROM posts p
+      JOIN likes l ON p.post_id = l.post_id
+      WHERE l.poster_id = $1;
+      `,
+      [poster_id]
+    );
+    res.status(200).json(result.rows);
+  } catch (err) {
+    res.status(500).send('Internal Server Error');
+    console.log(err);
+  }
+})
 
-  app.post('/posts/:post_id/like', async (req, res) => {
-    const { post_id } = req.params;
-    const { poster_id } = req.body;
-    try {
-      const likeQuery = `
-        INSERT INTO likes (post_id, poster_id) VALUES ($1, $2)
-      `;
-      await client.query(likeQuery, [post_id, poster_id]);
-  
-      const updateLikesQuery = `
-        UPDATE posts SET likes = likes + 1 WHERE post_id = $1
-      `;
-      await client.query(updateLikesQuery, [post_id]);
-  
-      res.sendStatus(201);
-    } catch (err) {
-      res.sendStatus(400);
-      console.log(err);
-    }
-  })
+//  ------------------------------------- GILLA ETT INLÄGG
+app.post('/posts/:post_id/like', async (req, res) => {
+  const { post_id } = req.params;
+  const { poster_id } = req.body;
+  try {
+    const likeQuery = `
+      INSERT INTO likes (post_id, poster_id) VALUES ($1, $2)
+    `;
+    await client.query(likeQuery, [post_id, poster_id]);
 
+    const updateLikesQuery = `
+      UPDATE posts SET likes = likes + 1 WHERE post_id = $1
+    `;
+    await client.query(updateLikesQuery, [post_id]);
+
+    res.sendStatus(201);
+  } catch (err) {
+    res.sendStatus(400);
+    console.log(err);
+  }
+})
+
+//  ------------------------------------- SERVER IS RUNNING BAE
 app.listen(8800, () => {
     console.log('server is running Bae')
 })
