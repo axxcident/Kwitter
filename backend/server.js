@@ -96,6 +96,24 @@ CREATE TABLE IF NOT EXISTS comments (
         console.log('Table "comments" created successfully')
     })
 
+    // Create Likes table
+const createLikesTableQuery = `
+CREATE TABLE IF NOT EXISTS likes (
+  like_id SERIAL PRIMARY KEY,
+  post_id INT NOT NULL,
+  poster_id INT NOT NULL,
+  FOREIGN KEY (post_id) REFERENCES posts (post_id),
+  FOREIGN KEY (poster_id) REFERENCES users (id),
+  CONSTRAINT unique_like_per_user_per_post UNIQUE (post_id, poster_id)
+)
+`;
+client.query(createLikesTableQuery, function (err, result) {
+  if (err) {
+    console.log(err);
+    throw err;
+  }
+  console.log('Table "likes" created successfully');
+})
     console.log('Database Connected')
 })
 
@@ -139,7 +157,10 @@ app.get('/users/:poster_id/posts', async (req, res) => {
     try {
         const result = await client.query(
           `
-          SELECT p.post_id, p.poster_id, p.post, p.likes, p.created_at
+          SELECT p.post_id, p.poster_id, p.post, p.likes, p.created_at,
+          (
+            SELECT COUNT(*) FROM likes WHERE post_id = p.post_id
+          ) AS total_likes
           FROM posts p
           JOIN users u ON p.poster_id = u.id
           WHERE u.id = $1;
@@ -213,6 +234,47 @@ app.post('/comments/submit', async (req, res) => {
     console.log(err);
   }
 })
+
+app.get('/users/:poster_id/liked-posts', async (req, res) => {
+    const { poster_id } = req.params;
+    try {
+      const result = await client.query(
+        `
+        SELECT p.post_id, p.poster_id, p.post, p.likes, p.created_at
+        FROM posts p
+        JOIN users u ON p.poster_id = u.id
+        JOIN likes l ON l.post_id = p.post_id
+        WHERE u.id = $1;
+        `,
+        [poster_id]
+      );
+      res.status(200).json(result.rows);
+    } catch (err) {
+      res.status(500).send('Internal Server Error');
+      console.log(err);
+    }
+  })
+
+  app.post('/posts/:post_id/like', async (req, res) => {
+    const { post_id } = req.params;
+    const { poster_id } = req.body;
+    try {
+      const likeQuery = `
+        INSERT INTO likes (post_id, poster_id) VALUES ($1, $2)
+      `;
+      await client.query(likeQuery, [post_id, poster_id]);
+  
+      const updateLikesQuery = `
+        UPDATE posts SET likes = likes + 1 WHERE post_id = $1
+      `;
+      await client.query(updateLikesQuery, [post_id]);
+  
+      res.sendStatus(201);
+    } catch (err) {
+      res.sendStatus(400);
+      console.log(err);
+    }
+  })
 
 app.listen(8800, () => {
     console.log('server is running Bae')
