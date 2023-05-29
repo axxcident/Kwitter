@@ -23,7 +23,7 @@ function PostsContainer() {
   return (
     <Container>
         {posts.map(post => (
-    <Post id={post.poster_id} post={post.post}/>
+    <Post key={post.poster_id} id={post.poster_id} post={post.post} created={post.created_at}/>
         ))}
 
     </Container>
@@ -34,4 +34,8 @@ export default PostsContainer;
 
 
 const Container = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
 `

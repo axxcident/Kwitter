@@ -159,19 +159,20 @@ app.get('/users', async (req, res) => {
 
 //  ------------------------------------- HÄMTA EN ANVÄNDARE
 app.get('/users/:id', async (req, res) => {
-    const post_id = req.params.id;
+    const poster_id = req.params.id;
     try {
         const result = await client.query(
           `SELECT * FROM Users WHERE id=$1;`,
-          [post_id]
+          [poster_id]
         );
 
         if (result.rows.length === 0) {
           // No matching user found
           res.status(401).send('Unauthorized');
         } else {
-          // Successful login
-          res.status(200).json(result.rows);
+          // Successful Fetch
+          res.status(200).json(result.rows[0]);
+          console.log(result.rows)
           console.log('Found');
         }
       } catch (err) {
