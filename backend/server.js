@@ -271,6 +271,7 @@ app.get('/posts/:id', async (req, res) => {
           // Successful login
           res.status(200).json(result.rows);
           console.log('Found');
+          console.log(result.rows[0].likes); // KOLLA ALLA LIKES ETT INLÄGG HAR
         }
       } catch (err) {
         res.status(500).send('Internal Server Error');
@@ -347,7 +348,7 @@ app.post('/comments/submit', async (req, res) => {
   }
 })
 
-// ------------------------------------- RADERA INLÄGG
+// ------------------------------------- RADERA KOMMENTAR
 app.delete('/comments/:comments_id/delete', async (req, res) => {
   const { comments_id } = req.params;
   try {
@@ -359,7 +360,7 @@ app.delete('/comments/:comments_id/delete', async (req, res) => {
   }
 })
 
-// ------------------------------------- ÄNDRA INLÄGG
+// ------------------------------------- ÄNDRA KOMMENTAR
 app.put('/comments/:comments_id/put', async (req, res) => {
   const { comments_id } = req.params;
   const { firstname, lastname, email, password } = req.body;
