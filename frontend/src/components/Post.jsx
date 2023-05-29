@@ -7,6 +7,7 @@ import styled from 'styled-components'
 function Post(props) {
     const [dateCreated, setDateCreated] = useState(null)
     const [user, setUser] = useState([]);
+    const [canEdit, setCanEdit] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:8800/users/${props.id}`)
@@ -19,6 +20,12 @@ function Post(props) {
           });
       }, [props.id, props.created]);
 
+      useEffect(() => {
+        const loggedInUserId = localStorage.getItem('userId');
+        const isOwner = loggedInUserId && Number(props.id) === Number(loggedInUserId);
+        setCanEdit(isOwner);
+        console.log(isOwner);
+      }, [props.id]);
 
 
       function formatTimeDifference() {
@@ -45,7 +52,7 @@ function Post(props) {
     }
   return (
     <Container>
-        <TopContainer>{user.firstname} {user.lastname} {formatTimeDifference()} <button>Redigera</button></TopContainer>
+        <TopContainer>{user.firstname} {user.lastname} {formatTimeDifference()} {canEdit && <button>Redigera</button>}</TopContainer>
         <EmailContainer>{user.email}</EmailContainer>
         <PostContainer>{props.post}</PostContainer>
         <ButtonsContainer></ButtonsContainer>
