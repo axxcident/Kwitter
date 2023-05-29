@@ -1,8 +1,23 @@
-
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+.comment-btn,
+.like-btn{
+    width: 40px;
+    fill: none;
+}
+
+.comment-stroke,
+.like-stroke{
+    stroke: #000;
+}
+
+.like-btn:hover,
+.comment-btn:hover,
+.like-btn:focus,
+.comment-btn:focus{
+    fill: red
+}
