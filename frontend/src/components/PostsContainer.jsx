@@ -23,7 +23,7 @@ function PostsContainer() {
   return (
     <Container>
         {posts.map(post => (
-    <Post key={post.poster_id} id={post.poster_id} post={post.post} created={post.created_at}/>
+    <Post key={post.post_id} id={post.poster_id} post={post.post} created={post.created_at}/>
         ))}
 
     </Container>
