@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import styled from 'styled-components'
 
+import { Colors, TextColor } from '../styles';
+
 
 function Post(props) {
     const [dateCreated, setDateCreated] = useState(null)
@@ -59,13 +61,13 @@ export default Post
 const Container = styled.div`
 width: 100%;
 max-width: 500px;
-background-color: #D9D9D9;
+background-color: ${Colors.GREY};
 padding: 1rem;
 margin-bottom: 1.5rem;
 border-radius: 10px;
-box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.75);
--webkit-box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
+-webkit-box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
+-moz-box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
 `
 
 const TopContainer = styled.div`
@@ -74,7 +76,7 @@ font-weight: bold;
 `
 
 const EmailContainer = styled.div`
-color: rgba(0,0,0,.5);
+color: ${TextColor.LIGHTER};
 `
 
 
