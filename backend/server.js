@@ -156,6 +156,30 @@ app.get('/users', async (req, res) => {
     }
 })
 
+
+//  ------------------------------------- HÄMTA EN ANVÄNDARE
+app.get('/users/:id', async (req, res) => {
+    const post_id = req.params.id;
+    try {
+        const result = await client.query(
+          `SELECT * FROM Users WHERE id=$1;`,
+          [post_id]
+        );
+
+        if (result.rows.length === 0) {
+          // No matching user found
+          res.status(401).send('Unauthorized');
+        } else {
+          // Successful login
+          res.status(200).json(result.rows);
+          console.log('Found');
+        }
+      } catch (err) {
+        res.status(500).send('Internal Server Error');
+        console.log(err);
+      }
+})
+
 //  ------------------------------------- HÄMTA ALLA INLÄGG FRÅN EN ANVÄNDARE
 app.get('/users/:poster_id/posts', async (req, res) => {
   const { poster_id } = req.params
@@ -229,6 +253,29 @@ app.get('/posts', async (req, res) => {
         res.status(500)
         console.log(err)
     }
+})
+
+//  ------------------------------------- HÄMTA ETT INLÄGG
+app.get('/posts/:id', async (req, res) => {
+    const poster_id = req.params.id;
+    try {
+        const result = await client.query(
+          `SELECT * FROM posts WHERE post_id=$1;`,
+          [poster_id]
+        );
+
+        if (result.rows.length === 0) {
+          // No matching user found
+          res.status(401).send('Unauthorized');
+        } else {
+          // Successful login
+          res.status(200).json(result.rows);
+          console.log('Found');
+        }
+      } catch (err) {
+        res.status(500).send('Internal Server Error');
+        console.log(err);
+      }
 })
 
 //  ------------------------------------- LÄGG TILL INLÄGG
