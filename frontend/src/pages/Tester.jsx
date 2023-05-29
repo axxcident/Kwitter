@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, Route, Routes } from "react-router-dom";
+import PostsContainer from '../components/PostsContainer';
 
 const Tester = () => {
   return (
@@ -8,6 +9,8 @@ const Tester = () => {
     <button>
       <Link to={"/login"}>Logga in</Link>
     </button>
+
+    <PostsContainer />
     </>
   )
 }

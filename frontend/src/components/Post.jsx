@@ -8,25 +8,44 @@ function Post(props) {
     const [dateCreated, setDateCreated] = useState(null)
     const [user, setUser] = useState([]);
 
-    function setDate(){
-        setDateCreated()
-
-        return
-    }
-
     useEffect(() => {
         axios.get(`http://localhost:8800/users/${props.id}`)
           .then(response => {
             setUser(response.data);
+            setDateCreated(new Date(props.created));
           })
           .catch(error => {
             console.error(error);
           });
-      }, []);
+      }, [props.id, props.created]);
 
+
+
+      function formatTimeDifference() {
+        if (!dateCreated) return '';
+        const currentDate = new Date();
+        const timeDifference = currentDate - dateCreated;
+        if (timeDifference < 60000) {
+
+            const seconds = Math.floor(timeDifference / 1000);
+        return `${seconds} sek sedan`;
+    } else if (timeDifference < 3600000) {
+
+            const minutes = Math.floor(timeDifference / 60000);
+        return `${minutes} min sedan`;
+    } else if (timeDifference < 86400000) {
+
+            const hours = Math.floor(timeDifference / 3600000);
+        return `${hours} h sedan`;
+    } else {
+
+            const days = Math.floor(timeDifference / 86400000);
+        return `${days} dagar sedan`;
+    }
+    }
   return (
     <Container>
-        <TopContainer>{user.firstname} {user.lastname} {props.created} <button>Redigera</button></TopContainer>
+        <TopContainer>{user.firstname} {user.lastname} {formatTimeDifference()} <button>Redigera</button></TopContainer>
         <EmailContainer>{user.email}</EmailContainer>
         <PostContainer>{props.post}</PostContainer>
         <ButtonsContainer></ButtonsContainer>
