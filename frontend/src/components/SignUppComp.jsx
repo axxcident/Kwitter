@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const SignUppWrap = styled.div`
   height: 90vh;
@@ -30,10 +31,11 @@ const SignUppWrap = styled.div`
   .submitBTN {
     background-color: black;
     color: white;
-    padding: 12px 35px;
+    padding: 10px 35px;
     border-radius: 15px;
     margin-top: 45px;
     cursor: pointer;
+    font-size: 1.1rem;
   }
 `
 
@@ -42,6 +44,8 @@ const UserForm = () => {
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,14 +57,15 @@ const UserForm = () => {
       password,
     })
       .then(response => {
-        console.log('User submitted');
+        alert('Välkommen till Kwitter!');
 
         setFirstname('');
         setLastname('');
         setEmail('');
         setPassword('');
 
-        console.log(response.data)
+        console.log(response.data);
+        navigate('/login');
       })
       .catch(error => {
         console.log(error);
