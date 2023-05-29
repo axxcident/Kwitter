@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link, Route, Routes } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-
 import Post from '../components/Post';
 import PostsContainer from '../components/PostsContainer';
 

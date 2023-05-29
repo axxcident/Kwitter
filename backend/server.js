@@ -172,7 +172,6 @@ app.get('/users/:id', async (req, res) => {
         } else {
           // Successful Fetch
           res.status(200).json(result.rows[0]);
-          console.log(result.rows)
           console.log('Found');
         }
       } catch (err) {
