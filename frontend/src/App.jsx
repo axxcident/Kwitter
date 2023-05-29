@@ -9,9 +9,7 @@ import Login from './pages/Login'
 import Tester from './pages/Tester'
 import SignaUpp from './pages/SignaUpp';
 
-
 function App() {
-
   return (
     <>
       <Routes>

@@ -1,5 +1,41 @@
 import { useState } from 'react';
 import axios from 'axios';
+import styled from "styled-components";
+
+const SignUppWrap = styled.div`
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 250px;
+  }
+  form label {
+    margin-top: 30px;
+    font-weight: bolder;
+  }
+  form label, button {
+    display: flex;
+  }
+  form input {
+    margin-top: 9px;
+    width: 250px;
+    padding: 10px;
+    border-radius: 7px;
+  }
+  .submitBTN {
+    background-color: black;
+    color: white;
+    padding: 12px 35px;
+    border-radius: 15px;
+    margin-top: 45px;
+    cursor: pointer;
+  }
+`
 
 const UserForm = () => {
   const [firstname, setFirstname] = useState('');
@@ -32,50 +68,47 @@ const UserForm = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <SignUppWrap>
+      <form onSubmit={handleSubmit} id="signeraUppFormulär">
         <label>
-          Firstname:
+          Användarnamn
+          </label>
           <input
             type="text"
             value={firstname}
             onChange={e => setFirstname(e.target.value)}
             required
           />
-        </label>
-        <br />
-        <label>
+        {/* <label>
           Lastname:
           <input
             type="text"
             value={lastname}
             onChange={e => setLastname(e.target.value)}
           />
-        </label>
-        <br />
+        </label> */}
         <label>
-          Email:
+          Mejladress
+        </label>
           <input
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
           />
-        </label>
-        <br />
         <label>
-          Password:
+          Lösenord
+        </label>
           <input
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
           />
-        </label>
-        <br />
-        <button type="submit">Submit</button>
+        {/* <button type="submit">Submit</button> */}
       </form>
-    </div>
+      <button type="submit" form="signeraUppFormulär" className='submitBTN'>Skapa Konto</button>
+    </SignUppWrap>
   );
 };
 
