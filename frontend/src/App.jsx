@@ -1,15 +1,22 @@
 import './App.css'
-import TestInput from './components/TestInput'
-import TestFecth from './components/TestFecth'
-
+//  import TestSubmitNewUser from './components/TestSubmitNewUser'
+//  import TestFetchAllPosts from './components/TestFetchAllPosts'
+//  import TestPostInput from './components/TestPostInput'
+//  import TestFetchAllUsers from './components/TestFetchAllUsers'
+//  import TestLogin from './components/TestLogin'
+import { Link, Route, Routes } from "react-router-dom";
+import Login from './pages/Login'
+import Tester from './pages/Tester'
+import SignaUpp from './pages/SignaUpp';
 
 function App() {
-
   return (
     <>
-    <h1>GANGBANG</h1>
-    <TestInput />
-    <TestFecth />
+      <Routes>
+        <Route path='/' element={ <Tester /> } />
+        <Route path='/login' element={ <Login /> } />
+        <Route path='/signupp' element={ <SignaUpp /> } />
+      </Routes>
     </>
   )
 }

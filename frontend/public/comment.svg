@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34.25 35.31">
+  <defs>
+    <style>
+      .c {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <path id="b" data-name="Commnet" class="c" d="M24.64,7.21H9.61c-2.41,0-4.36,1.95-4.36,4.36v8.48c0,2.35,1.86,4.25,4.19,4.34-.71,.92-1.46,1.8-2.29,2.62l-1.12,1.1c3.18-.64,6.17-1.91,8.84-3.7h9.78c2.41,0,4.36-1.95,4.36-4.36V11.57c0-2.41-1.95-4.36-4.36-4.36Z"/>
+</svg>
