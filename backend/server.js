@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   firstname VARCHAR(25) NOT NULL,
   lastname VARCHAR(25),
-  email VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL UNIQUE,
   password VARCHAR(50) NOT NULL
 )`;
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS posts (
   post VARCHAR(255) NOT NULL,
   likes INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (poster_id) REFERENCES Users (id)
+  FOREIGN KEY (poster_id) REFERENCES Users (id) ON DELETE CASCADE
 )
 `;
 
@@ -84,8 +84,8 @@ CREATE TABLE IF NOT EXISTS comments (
   poster_id INT NOT NULL,
   comment VARCHAR(255) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (post_id) REFERENCES Posts (post_id),
-  FOREIGN KEY (poster_id) REFERENCES Users (id)
+  FOREIGN KEY (post_id) REFERENCES Posts (post_id) ON DELETE CASCADE,
+  FOREIGN KEY (poster_id) REFERENCES Users (id) ON DELETE CASCADE
 )
 `;
     client.query(createCommentsTableQuery, function (err, result) {
@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS likes (
   like_id SERIAL PRIMARY KEY,
   post_id INT NOT NULL,
   poster_id INT NOT NULL,
-  FOREIGN KEY (post_id) REFERENCES posts (post_id),
-  FOREIGN KEY (poster_id) REFERENCES users (id),
+  FOREIGN KEY (post_id) REFERENCES posts (post_id) ON DELETE CASCADE,
+  FOREIGN KEY (poster_id) REFERENCES users (id) ON DELETE CASCADE,
   CONSTRAINT unique_like_per_user_per_post UNIQUE (post_id, poster_id)
 )
 `;
@@ -193,6 +193,33 @@ app.post('/users/submit', async (req, res) => {
   }
 })
 
+// ------------------------------------- RADERA ANVÄNDARE
+app.delete('/users/:poster_id/delete', async (req, res) => {
+  const { poster_id } = req.params;
+  try {
+    await client.query('DELETE FROM users WHERE id = $1', [poster_id]);
+    res.status(204).send('användare raderad');
+  } catch (err) {
+    res.status(500).send('Internal Server Error');
+    console.log(err);
+  }
+})
+
+// ------------------------------------- ÄNDRA ANVÄNDARE
+app.put('/users/:poster_id/put', async (req, res) => {
+  const { poster_id } = req.params;
+  const { firstname, lastname, email, password } = req.body;
+  try {
+    await client.query(`
+    UPDATE users SET firstname = $1, lastname = $2, email = $3, password = $4 WHERE id = $5`,
+    [firstname, lastname, email, password, poster_id]);
+    res.status(204).send('användare updaterad');
+  } catch (err) {
+    res.status(500).send('Internal Server Error');
+    console.log(err);
+  }
+})
+
 //  ------------------------------------- HÄMTA ALLA INLÄGG
 app.get('/posts', async (req, res) => {
     try {
@@ -219,6 +246,34 @@ app.post('/posts/submit', async (req, res) => {
     }
 })
 
+
+// ------------------------------------- RADERA INLÄGG
+app.delete('/posts/:post_id/delete', async (req, res) => {
+  const { post_id } = req.params;
+  try {
+    await client.query('DELETE FROM posts WHERE id = $1', [post_id]);
+    res.status(204).send('inlägg raderat');
+  } catch (err) {
+    res.status(500).send('Internal Server Error');
+    console.log(err);
+  }
+})
+
+// ------------------------------------- ÄNDRA INLÄGG
+app.put('/posts/:post_id/put', async (req, res) => {
+  const { post_id } = req.params;
+  const { firstname, lastname, email, password } = req.body;
+  try {
+    await client.query(`
+    UPDATE posts SET firstname = $1, lastname = $2, email = $3, password = $4 WHERE post_id = $5`,
+    [firstname, lastname, email, password, post_id]);
+    res.status(204).send('inlägg updaterat');
+  } catch (err) {
+    res.status(500).send('Internal Server Error');
+    console.log(err);
+  }
+})
+
 //  ------------------------------------- HÄMTA ALLA KOMMENTARER
 app.get('/comments', async (req, res) => {
     try {
@@ -241,6 +296,33 @@ app.post('/comments/submit', async (req, res) => {
     res.sendStatus(201);
   } catch (err) {
     res.sendStatus(400);
+    console.log(err);
+  }
+})
+
+// ------------------------------------- RADERA INLÄGG
+app.delete('/comments/:comments_id/delete', async (req, res) => {
+  const { comments_id } = req.params;
+  try {
+    await client.query('DELETE FROM comments WHERE id = $1', [comments_id]);
+    res.status(204).send('kommentar raderad');
+  } catch (err) {
+    res.status(500).send('Internal Server Error');
+    console.log(err);
+  }
+})
+
+// ------------------------------------- ÄNDRA INLÄGG
+app.put('/comments/:comments_id/put', async (req, res) => {
+  const { comments_id } = req.params;
+  const { firstname, lastname, email, password } = req.body;
+  try {
+    await client.query(`
+    UPDATE comments SET firstname = $1, lastname = $2, email = $3, password = $4 WHERE comments_id = $5`,
+    [firstname, lastname, email, password, comments_id]);
+    res.status(204).send('kommentar updaterad');
+  } catch (err) {
+    res.status(500).send('Internal Server Error');
     console.log(err);
   }
 })
