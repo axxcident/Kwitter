@@ -1,8 +1,14 @@
 import React from 'react'
+import LoginComp from '../components/LoginComp'
 
 const Login = () => {
   return (
-    <div>Login</div>
+    <>
+      <div className="login-container">
+        <h1>Välkommen till Kwitter</h1>
+        <LoginComp />
+      </div>
+    </>
   )
 }
 
