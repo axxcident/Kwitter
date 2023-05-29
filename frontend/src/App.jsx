@@ -7,15 +7,15 @@ import './App.css'
 import { Link, Route, Routes } from "react-router-dom";
 import Login from './pages/Login'
 import Tester from './pages/Tester'
-
+import SignaUpp from './pages/SignaUpp';
 
 function App() {
-
   return (
     <>
       <Routes>
         <Route path='/' element={ <Tester /> } />
         <Route path='/login' element={ <Login /> } />
+        <Route path='/signupp' element={ <SignaUpp /> } />
       </Routes>
     </>
   )

@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+import { useNavigate } from 'react-router-dom';
+
 function TestLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,7 +25,8 @@ function TestLogin() {
 
              setEmail('');
              setPassword('');
-
+             alert("Du är inloggad!")
+             navigate('/')
             //  console.log(response.data)
            })
            .catch(error => {
