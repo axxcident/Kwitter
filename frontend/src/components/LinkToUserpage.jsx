@@ -51,14 +51,30 @@ export default LinkToUserPage
 
 const ButtonContainer = styled.div`
     .login {
+        font-size: .7rem;
         font-family: 'Poppins', sans-serif;
         color: ${TextColor.PRIMARY};
         text-decoration: none;
         font-weight: bold;
-        border: 2px solid #000;
+        border: 1px solid #000;
         padding: .5rem;
+        transform: translate(0px, 0px);
         border-radius: 100px;
+        --webkit-box-shadow: 0px 0px 0px 0px #000;
+        --moz-boz-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+        transition:
+        transform 50ms ease-in,
+        box-shadow 50ms ease-in
+        ;
+
     }
+
+    /* .login:hover{
+        box-shadow: 0px 3px 0px 0px #000;
+        transform: translate(7px, 0px);
+    } */
+
     .user-icon {
         width: 40px;
     }

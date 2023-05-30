@@ -53,7 +53,8 @@ const ButtonContainer = styled.div`
     .add-icon-detail {
         fill: none;
         stroke: #000;
-        stroke-miterlimit: 10;
+        stroke-width: 1px;
+        /* stroke-miterlimit: 100; */
     }
 `
 
