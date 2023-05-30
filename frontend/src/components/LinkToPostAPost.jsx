@@ -48,6 +48,9 @@ export default LinkToPostAPost
 
 const ButtonContainer = styled.div`
     .add-icon {
+        padding: .2rem;
+        border: 1px solid #000;
+        border-radius: 100px;
         width: 40px;
     }
     .add-icon-detail {

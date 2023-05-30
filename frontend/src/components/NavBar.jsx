@@ -8,7 +8,9 @@ const backgroundImage = 'url("/kwitter-logo-3.png")'
 function NavBar() {
     return (
         <Container>
+            <Link to="/">
             <LogoContainer />
+            </Link>
             <ButtonContainer>
                 <LinkToUserPage />
                 <Link to="/">
@@ -84,7 +86,7 @@ const ButtonContainer = styled.div`
         justify-content: space-between;
     }
     .flow-icon {
-        width: 40px;
+        height: 40px;
     }
     .flow-icon-detail {
         fill: none;
