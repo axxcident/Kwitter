@@ -37,7 +37,7 @@ const FormField = styled.label`
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    width: 90%;
+    width: 100%;
   }
 `;
 
@@ -73,15 +73,13 @@ const SignInButton = styled.button`
   width: 75%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 20px;
 
   &:hover {
     background-color: #fff;
   }
 `;
-
-import { useNavigate } from 'react-router-dom';
 
 function TestLogin() {
   const [email, setEmail] = useState('');
