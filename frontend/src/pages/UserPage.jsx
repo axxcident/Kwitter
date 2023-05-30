@@ -6,12 +6,12 @@ import { Colors, TextColor } from '../styles';
 
 function UserPage() {
 
-    const {paramsId} = useParams()
+    const {id} = useParams()
 
     const [user, setUser] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:8800/users/${paramsId}`)
+        axios.get(`http://localhost:8800/users/${id}`)
           .then(response => {
             setUser(response.data);
           })
