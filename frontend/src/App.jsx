@@ -11,6 +11,7 @@ import SignaUpp from './pages/SignaUpp';
 import Flow from './pages/Flow'
 import NavBar from './components/NavBar';
 import UserPage from './pages/UserPage';
+import PostAPostPage from './pages/PostAPostPage';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/login' element={ <Login /> } />
         <Route path='/signupp' element={ <SignaUpp /> } />
         <Route path='/userpage/:id' element={ <UserPage /> } />
+        <Route path='/post-a-post' element={<PostAPostPage/>} />
       </Routes>
       <NavBar />
     </>
