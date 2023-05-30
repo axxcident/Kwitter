@@ -40,7 +40,7 @@ function LinkToUserPage() {
         return (
             <ButtonContainer>
                 <Link className="login" to="/login">
-                    <p>LOGGA IN</p>
+                    LOGGA IN
                 </Link>
             </ButtonContainer>
         )
@@ -55,6 +55,9 @@ const ButtonContainer = styled.div`
         color: ${TextColor.PRIMARY};
         text-decoration: none;
         font-weight: bold;
+        border: 2px solid #000;
+        padding: .5rem;
+        border-radius: 100px;
     }
     .user-icon {
         width: 40px;

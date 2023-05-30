@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import LinkToUserPage from './LinkToUserpage'
+import LinkToPostAPost from './LinkToPostAPost'
+
+const backgroundImage = 'url("/kwitter-logo-3.png")'
 
 function NavBar() {
     return (
         <Container>
+            <LogoContainer />
             <ButtonContainer>
                 <LinkToUserPage />
                 <Link to="/">
@@ -29,29 +33,7 @@ function NavBar() {
                         />
                     </svg>
                 </Link>
-
-                <Link to="/post-a-post">
-                    <svg
-                        className="add-icon"
-                        id="a"
-                        data-name="Layer 1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 25.47 25.47"
-                    >
-                        <polyline
-                            id="b"
-                            data-name="POINT"
-                            className="add-icon-detail"
-                            points="25.47 12.73 12.73 12.73 12.73 25.47"
-                        />
-                        <polyline
-                            id="c"
-                            data-name="POINT"
-                            className="add-icon-detail"
-                            points="0 12.74 12.74 12.74 12.74 0"
-                        />
-                    </svg>
-                </Link>
+                <LinkToPostAPost />
             </ButtonContainer>
         </Container>
     )
@@ -60,30 +42,51 @@ function NavBar() {
 export default NavBar
 
 const Container = styled.div`
-    min-height: 60px;
-    background-color: #fff;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border: 1px solid #000;
-`
-
-const ButtonContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    border: 1px solid #000;
+
+    @media (max-width: 425px) {
+        bottom: 0;
+        top: auto !important;
+    }
+`
+
+const LogoContainer = styled.div`
+    margin: 0 1rem;
+    display: block;
+    background-image: ${backgroundImage};
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 50px;
+    height: 50px;
+    @media (max-width: 425px) {
+        display: none;
+    }
+`
+
+const ButtonContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
     padding: 1rem;
-    .flow-icon,
-    .add-icon {
+
+    @media (max-width: 425px) {
+        justify-content: space-between;
+    }
+    .flow-icon {
         width: 40px;
     }
     .flow-icon-detail {
-        fill: none;
-        stroke: #000;
-        stroke-miterlimit: 10;
-    }
-    .add-icon-detail {
         fill: none;
         stroke: #000;
         stroke-miterlimit: 10;
