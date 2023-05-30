@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginComp from '../components/LoginComp';
 import styled, { createGlobalStyle } from 'styled-components';
+import { useNavigate } from 'react-router';
 
 // Global styles for the body element
 const GlobalStyle = createGlobalStyle`
