@@ -244,6 +244,17 @@ app.put('/users/:poster_id/put', async (req, res) => {
   }
 })
 
+//  ------------------------------------- HÄMTA ALLA Likes
+app.get('/likes', async (req, res) => {
+  try {
+      const result = await client.query('SELECT * FROM likes')
+      res.status(200).json(result.rows)
+  } catch (err) {
+      res.status(500)
+      console.log(err)
+  }
+})
+
 //  ------------------------------------- HÄMTA ALLA INLÄGG
 app.get('/posts', async (req, res) => {
     try {
@@ -268,7 +279,7 @@ app.get('/posts/:id', async (req, res) => {
           // No matching user found
           res.status(401).send('Unauthorized');
         } else {
-          // Successful login
+          // Successful Post Fetch
           res.status(200).json(result.rows);
           console.log('Found');
           console.log(result.rows[0].likes); // KOLLA ALLA LIKES ETT INLÄGG HAR
