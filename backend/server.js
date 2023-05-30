@@ -310,7 +310,7 @@ app.post('/posts/submit', async (req, res) => {
 app.delete('/posts/:post_id/delete', async (req, res) => {
   const { post_id } = req.params;
   try {
-    await client.query('DELETE FROM posts WHERE id = $1', [post_id]);
+    await client.query('DELETE FROM posts WHERE post_id = $1', [post_id]);
     res.status(204).send('inlägg raderat');
   } catch (err) {
     res.status(500).send('Internal Server Error');
