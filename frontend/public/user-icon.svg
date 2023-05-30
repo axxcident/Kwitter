@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.14 27.85">
+  <defs>
+    <style>
+      .b {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <circle class="b" cx="11.07" cy="6.81" r="6.31"/>
+  <path class="b" d="M11.07,13.11h0c5.83,0,10.57,4.74,10.57,10.57v3.67H.5v-3.67c0-5.83,4.74-10.57,10.57-10.57Z"/>
+</svg>
