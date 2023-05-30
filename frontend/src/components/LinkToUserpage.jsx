@@ -76,7 +76,8 @@ const ButtonContainer = styled.div`
     } */
 
     .user-icon {
-        width: 40px;
+        height: 40px;
+        fill: none;
     }
 
     .user-icon-detail {
