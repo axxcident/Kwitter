@@ -9,6 +9,7 @@ import Tester from './pages/Tester'
 import Login from './pages/Login'
 import SignaUpp from './pages/SignaUpp';
 import Flow from './pages/Flow'
+import NavBar from './components/NavBar';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/login' element={ <Login /> } />
         <Route path='/signupp' element={ <SignaUpp /> } />
       </Routes>
+      <NavBar />
     </>
   )
 }
