@@ -3,22 +3,26 @@ import './App.css'
 //  import TestFetchAllPosts from './components/TestFetchAllPosts'
 //  import TestPostInput from './components/TestPostInput'
 //  import TestFetchAllUsers from './components/TestFetchAllUsers'
-// import TestLogin from './components/TestLogin'
-import { Link, Route, Routes } from "react-router-dom";
+//  import TestLogin from './components/TestLogin'
+import { Link, Route, Routes } from 'react-router-dom'
 import Login from './pages/Login'
 import Tester from './pages/Tester'
-
+import SignaUpp from './pages/SignaUpp'
+import UserPage from './pages/UserPage'
+import NavBar from './components/NavBar'
 
 function App() {
-
-  return (
-    <>
-      <Routes>
-        <Route path='/' element={ <Tester /> } />
-        <Route path='/login' element={ <Login /> } />
-      </Routes>
-    </>
-  )
+    return (
+        <>
+            <Routes>
+                <Route path="/" element={<Tester />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signupp" element={<SignaUpp />} />
+                <Route path="/userpage/:id" element={<UserPage />} />
+            </Routes>
+            <NavBar />
+        </>
+    )
 }
 
 export default App
