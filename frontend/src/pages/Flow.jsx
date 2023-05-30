@@ -1,14 +1,18 @@
 import  { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import styled from 'styled-components'
+import Post from '../components/Post'
 
-import Post from './Post';
+const Container = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+`
 
-function PostsContainer() {
+function Flow() {
 
   const [posts, setPosts] = useState([]);
-
 
   useEffect(() => {
     axios.get('http://localhost:8800/posts')
@@ -23,19 +27,11 @@ function PostsContainer() {
   return (
     <Container>
         {posts.map(post => (
-    <Post key={post.post_id} post_id={post.post_id} id={post.poster_id} post={post.post} created={post.created_at}/>
+    <Post key={post.post_id} id={post.poster_id} post={post.post} created={post.created_at}/>
         ))}
 
     </Container>
   );
 }
 
-export default PostsContainer;
-
-
-const Container = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-`
+export default Flow;

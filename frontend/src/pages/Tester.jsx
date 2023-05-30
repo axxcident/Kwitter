@@ -29,8 +29,8 @@ const Tester = () => {
   }
 
 
-    <h5>Nedan ligger Post komponenten:</h5>
-    <Post />
+    {/* <h5>Nedan ligger Post komponenten:</h5>
+    <Post /> */}
     <h5>Nedan ligger PostContainer komponenten:</h5>
     <PostsContainer />
     </>
