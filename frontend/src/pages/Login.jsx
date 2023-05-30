@@ -19,15 +19,15 @@ const LoginContainer = styled.div`
 `;
 
 const Login = () => {
-  const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem('userId');
-  console.log(isLoggedIn)
+  // const navigate = useNavigate();
+  // const isLoggedIn = localStorage.getItem('userId');
+  // console.log(isLoggedIn)
 
-  React.useEffect(() => {
-    if(isLoggedIn != 0) {
-      navigate("/")
-    }
-  }, [isLoggedIn, navigate])
+  // React.useEffect(() => {
+  //   if(isLoggedIn != null) {
+  //     navigate("/")
+  //   }
+  // }, [isLoggedIn, navigate])
 
   return (
     <>

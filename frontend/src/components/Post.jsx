@@ -2,8 +2,6 @@ import  { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components'
 import { Colors, TextColor } from '../styles';
-import { useNavigate } from 'react-router-dom';
-
 
 function Post(props) {
     const [dateCreated, setDateCreated] = useState(null)
@@ -14,7 +12,7 @@ function Post(props) {
 
     // Hämta all data om en user
     useEffect(() => {
-        axios.get(`http://localhost:8800/users/${props.id}`)
+        axios.get(`http://localhost:8800/users/${props.user_id}`)
           .then(response => {
             setUser(response.data);
             setDateCreated(new Date(props.created));
@@ -23,36 +21,27 @@ function Post(props) {
           .catch(error => {
             console.error(error);
           });
-      }, [props.id, props.created]);
+      }, [props.user_id, props.created]);
 
       // kolla ifall user är inloggad
       useEffect(() => {
         const loggedInUserId = localStorage.getItem('userId');
-        const isOwner = loggedInUserId && Number(props.id) === Number(loggedInUserId);
+        const isOwner = loggedInUserId && Number(props.user_id) === Number(loggedInUserId);
         setCanEdit(isOwner);
         console.log(isOwner);
-      }, [props.id]);
+      }, [props.user_id]);
 
-      // Hämta likes som är associerad med en user
-      // useEffect(() => {
-      //   // const loggedInUserId = localStorage.getItem('userId');
-      //   axios.get(`http://localhost:8800/likes`)
-      //     .then(response => {
-      //       console.log(response.data)
-      //     })
-      //     .catch(error => {
-      //       console.error(error);
-      //     });
-      // }, []);
-
-function handleDelete() {
-        axios.delete(`http://localhost:8800/posts/${props.id}/delete`)
-          .then(response => {
-            console.log(response.data);
-          })
-          .catch(error => {
-            console.error(error);
-          });
+    // Radera ett inlägg
+    function handleDelete(post_id) {
+      axios.delete(`http://localhost:8800/posts/${post_id}/delete`)
+        .then(response => {
+          console.log(response.data);
+          console.log(`http://localhost:8800/posts/${post_id}/delete`);
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error(error);
+        });
       }
       function handleEdit() {
         setIsEditing(!isEditing);
@@ -81,10 +70,7 @@ function handleDelete() {
           }
       }
 
-      // För att refresha sidan
-      const navigate = useNavigate();
-
-      // Att göra, likea ett inlägg
+      // Likea ett inlägg
       const handleLike = async () => {
         const loggedInUserId = localStorage.getItem('userId');
         if(!loggedInUserId) {
@@ -93,30 +79,42 @@ function handleDelete() {
           return
         }
         try {
-          const postId = props.id;
+          const postId = props.post_id;
           const requestBody = {
             poster_id: loggedInUserId
           };
           await axios.post(`http://localhost:8800/posts/${postId}/like`, requestBody);
-
-          // Perform any additional actions after successful like
-          // For example, you can update the UI or fetch the updated post data
           console.log("Du som användare ", loggedInUserId, " har gillat inlägg nr: ", postId)
-          navigate('/') // denna verkar ej funka
+          window.location.reload();
 
         } catch (error) {
           console.error(error);
         }
       }
 
-      // Visa röda hjärtan ifall man har gillat
-      // console.log(props)
-      // props.post_id
+      // Un-Likea ett inlägg
+      const handleDisLike = async () => {
+        const loggedInUserId = localStorage.getItem('userId');
+        if(!loggedInUserId) {
+          console.log(loggedInUserId)
+          alert('Du måste vara inloggad för att kunna ogilla ett inlägg')
+          return
+        }
+        try {
+          const postId = props.post_id;
+          const requestBody = {
+            poster_id: loggedInUserId
+          };
+          await axios.post(`http://localhost:8800/posts/${postId}/dislike`, requestBody);
+          console.log("Du som användare ", loggedInUserId, " har ogillat inlägg nr: ", postId)
+          window.location.reload();
 
-      // Kunna ta bort ens like med ett click
+        } catch (error) {
+          console.error(error);
+        }
+      }
 
       // Klicka på en användare och komm till userpage
-
       // Klicka på inlägg och komma till inlägg sida
 
   return (
@@ -129,7 +127,7 @@ function handleDelete() {
             {isEditing && (
               <>
                 <button onClick={handleEdit}>Avbryt</button>
-                <button onClick={handleDelete}>Ta bort</button>
+                <button onClick={handleDelete(props.post_id)}>Ta bort</button>
               </>
             )}
           </div>
@@ -138,13 +136,23 @@ function handleDelete() {
         <EmailContainer>{user.email}</EmailContainer>
         <PostContainer>{props.post}</PostContainer>
         <ButtonsWrapper>
+        {props.hasLike ? (
         <ButtonsContainer>
-            <svg onClick={handleLike} className='like-btn' id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34.25 35.31">
+          <svg onClick={handleDisLike} className='like-btn' id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34.25 35.31">
             <g id="b" data-name="Like">
-                <path className="like-stroke" d="M25.8,8.19c-1.45-.89-3.04-1.16-4.72-.86-1.14,.21-2.17,.69-3.06,1.43-.32,.27-.61,.57-.92,.87,0,0-.02-.02-.03-.03-.71-.84-1.58-1.47-2.59-1.88-1.13-.46-2.32-.6-3.53-.43-1.15,.17-2.18,.6-3.1,1.31-1.32,1.02-2.16,2.34-2.52,3.98-.21,.95-.17,1.91-.03,2.87,.21,1.47,.77,2.8,1.57,4.04,1,1.54,2.29,2.79,3.71,3.94,1.24,1,2.56,1.87,3.87,2.77,.76,.52,1.51,1.06,2.26,1.6,.14,.1,.27,.22,.38,.32,.62-.45,1.21-.91,1.82-1.33,1.05-.73,2.11-1.43,3.16-2.16,1.32-.93,2.57-1.94,3.68-3.11,.83-.87,1.56-1.82,2.13-2.89,.62-1.17,1.01-2.4,1.13-3.72,.09-.95,.05-1.89-.23-2.81-.5-1.68-1.5-2.98-2.99-3.89Z"/>
-                </g>
-                </svg>
+            <path className="like-fill" fill="#FF0000" d="M25.8,8.19c-1.45-.89-3.04-1.16-4.72-.86-1.14,.21-2.17,.69-3.06,1.43-.32,.27-.61,.57-.92,.87,0,0-.02-.02-.03-.03-.71-.84-1.58-1.47-2.59-1.88-1.13-.46-2.32-.6-3.53-.43-1.15,.17-2.18,.6-3.1,1.31-1.32,1.02-2.16,2.34-2.52,3.98-.21,.95-.17,1.91-.03,2.87,.21,1.47,.77,2.8,1.57,4.04,1,1.54,2.29,2.79,3.71,3.94,1.24,1,2.56,1.87,3.87,2.77,.76,.52,1.51,1.06,2.26,1.6,.14,.1,.27,.22,.38,.32,.62-.45,1.21-.91,1.82-1.33,1.05-.73,2.11-1.43,3.16-2.16,1.32-.93,2.57-1.94,3.68-3.11,.83-.87,1.56-1.82,2.13-2.89,.62-1.17,1.01-2.4,1.13-3.72,.09-.95,.05-1.89-.23-2.81-.5-1.68-1.5-2.98-2.99-3.89Z"/>
+            </g>
+          </svg>
         </ButtonsContainer>
+        ): (
+        <ButtonsContainer>
+          <svg onClick={handleLike} className='like-btn' id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34.25 35.31">
+            <g id="b" data-name="Like">
+              <path className="like-stroke" d="M25.8,8.19c-1.45-.89-3.04-1.16-4.72-.86-1.14,.21-2.17,.69-3.06,1.43-.32,.27-.61,.57-.92,.87,0,0-.02-.02-.03-.03-.71-.84-1.58-1.47-2.59-1.88-1.13-.46-2.32-.6-3.53-.43-1.15,.17-2.18,.6-3.1,1.31-1.32,1.02-2.16,2.34-2.52,3.98-.21,.95-.17,1.91-.03,2.87,.21,1.47,.77,2.8,1.57,4.04,1,1.54,2.29,2.79,3.71,3.94,1.24,1,2.56,1.87,3.87,2.77,.76,.52,1.51,1.06,2.26,1.6,.14,.1,.27,.22,.38,.32,.62-.45,1.21-.91,1.82-1.33,1.05-.73,2.11-1.43,3.16-2.16,1.32-.93,2.57-1.94,3.68-3.11,.83-.87,1.56-1.82,2.13-2.89,.62-1.17,1.01-2.4,1.13-3.72,.09-.95,.05-1.89-.23-2.81-.5-1.68-1.5-2.98-2.99-3.89Z"/>
+            </g>
+          </svg>
+        </ButtonsContainer>
+        )}
         <ButtonsContainer>
         <svg className='comment-btn' id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34.25 35.31">
   <path id="b" data-name="Commnet" className="comment-stroke" d="M24.64,7.21H9.61c-2.41,0-4.36,1.95-4.36,4.36v8.48c0,2.35,1.86,4.25,4.19,4.34-.71,.92-1.46,1.8-2.29,2.62l-1.12,1.1c3.18-.64,6.17-1.91,8.84-3.7h9.78c2.41,0,4.36-1.95,4.36-4.36V11.57c0-2.41-1.95-4.36-4.36-4.36Z"/>

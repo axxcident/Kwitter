@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 
 // Styled component for the container div
 const Container = styled.div`
@@ -84,14 +85,16 @@ const SignInButton = styled.button`
 function TestLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/signupp")
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     console.log(email, password);
-
-    axios
-      .post('http://localhost:8800/login', {
+    axios.post('http://localhost:8800/login', {
         email,
         password,
       })
@@ -102,6 +105,7 @@ function TestLogin() {
 
         setEmail('');
         setPassword('');
+        navigate("/")
       })
       .catch((error) => {
         console.log(error);
@@ -130,10 +134,10 @@ function TestLogin() {
             required
           />
         </FormField>
-        <SubmitButton type="submit">Log in</SubmitButton>
+        <SubmitButton type="submit">Logga in</SubmitButton>
       </Form>
-      <p style={{ textAlign: 'center', fontWeight: 'bold', marginTop: '20px' }}>Or</p>
-      <SignInButton type="button">Sign in</SignInButton>
+      <p style={{ textAlign: 'center', fontWeight: 'bold', marginTop: '20px' }}>Eller</p>
+      <SignInButton type="button" onClick={handleClick} >Skapa Konto</SignInButton>
     </Container>
   );
 }

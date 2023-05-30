@@ -172,7 +172,7 @@ app.get('/users/:id', async (req, res) => {
         } else {
           // Successful Fetch
           res.status(200).json(result.rows[0]);
-          console.log('Found');
+          console.log('Användare hämtad');
         }
       } catch (err) {
         res.status(500).send('Internal Server Error');
@@ -281,7 +281,7 @@ app.get('/posts/:id', async (req, res) => {
         } else {
           // Successful Post Fetch
           res.status(200).json(result.rows);
-          console.log('Found');
+          console.log('Inlägg Hämtat');
           console.log(result.rows[0].likes); // KOLLA ALLA LIKES ETT INLÄGG HAR
         }
       } catch (err) {
@@ -418,6 +418,27 @@ app.post('/posts/:post_id/like', async (req, res) => {
 
     const updateLikesQuery = `
       UPDATE posts SET likes = likes + 1 WHERE post_id = $1
+    `;
+    await client.query(updateLikesQuery, [post_id]);
+
+    res.sendStatus(201);
+  } catch (err) {
+    res.sendStatus(400);
+    console.log(err);
+  }
+})
+
+//  ------------------------------------- OGILLA ETT INLÄGG
+app.post('/posts/:post_id/dislike', async (req, res) => {
+  const { post_id } = req.params;
+  const { poster_id } = req.body;
+  try {
+    const disLikeQuery = `
+      DELETE FROM likes WHERE post_id = $1 AND poster_id = $2`;
+    await client.query(disLikeQuery, [post_id, poster_id]);
+
+    const updateLikesQuery = `
+      UPDATE posts SET likes = likes - 1 WHERE post_id = $1
     `;
     await client.query(updateLikesQuery, [post_id]);
 
