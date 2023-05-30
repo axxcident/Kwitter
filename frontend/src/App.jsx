@@ -10,6 +10,8 @@ import Login from './pages/Login'
 import SignaUpp from './pages/SignaUpp';
 import Flow from './pages/Flow'
 import NavBar from './components/NavBar';
+import UserPage from './pages/UserPage';
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
         <Route path='/' element={ <Flow /> } />
         <Route path='/login' element={ <Login /> } />
         <Route path='/signupp' element={ <SignaUpp /> } />
+        <Route path='/userpage/:id' element={ <UserPage /> } />
       </Routes>
       <NavBar />
     </>
