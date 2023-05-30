@@ -45,7 +45,8 @@ function Flow() {
       {posts.map(post => (
         <Post
           key={post.post_id}
-          id={post.poster_id}
+          user_id={post.poster_id}
+          post_id={post.post_id}
           post={post.post}
           created={post.created_at}
           hasLike={getHasLike(post.post_id)}
