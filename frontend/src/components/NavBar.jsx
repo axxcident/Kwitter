@@ -30,26 +30,28 @@ function NavBar() {
                     </svg>
                 </Link>
 
-                <svg
-                    className="add-icon"
-                    id="a"
-                    data-name="Layer 1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 25.47 25.47"
-                >
-                    <polyline
-                        id="b"
-                        data-name="POINT"
-                        className="add-icon-detail"
-                        points="25.47 12.73 12.73 12.73 12.73 25.47"
-                    />
-                    <polyline
-                        id="c"
-                        data-name="POINT"
-                        className="add-icon-detail"
-                        points="0 12.74 12.74 12.74 12.74 0"
-                    />
-                </svg>
+                <Link to="/post-a-post">
+                    <svg
+                        className="add-icon"
+                        id="a"
+                        data-name="Layer 1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 25.47 25.47"
+                    >
+                        <polyline
+                            id="b"
+                            data-name="POINT"
+                            className="add-icon-detail"
+                            points="25.47 12.73 12.73 12.73 12.73 25.47"
+                        />
+                        <polyline
+                            id="c"
+                            data-name="POINT"
+                            className="add-icon-detail"
+                            points="0 12.74 12.74 12.74 12.74 0"
+                        />
+                    </svg>
+                </Link>
             </ButtonContainer>
         </Container>
     )
