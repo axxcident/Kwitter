@@ -89,6 +89,7 @@ const ButtonContainer = styled.div`
     .flow-icon-detail {
         fill: none;
         stroke: #000;
-        stroke-miterlimit: 10;
+        stroke-width: 1px;
+        /* stroke-miterlimit: 10; */
     }
 `
