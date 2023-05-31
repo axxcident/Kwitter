@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router';
 
 // Styled component for the container div
 const Container = styled.div`
+  font-family: 'Poppins', sans-serif;
   width: 250px;
   height: 500px;
   margin: 0 auto;
-  padding: 20px;
+  margin-top: 45px;
   background-color: #B2D6F8;
   border-radius: 4px;
 `;
@@ -34,48 +35,46 @@ const FormField = styled.label`
   font-weight: bold;
 
   input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 100%;
-  }
+      display: flex;
+      flex-direction: column;
+      font-weight: bolder;
+      margin-top: 9px;
+      width: 250px;
+      padding: 10px;
+      border-radius: 7px;
 `;
 
 const SubmitButton = styled.button`
-  padding: 8px 12px;
   background-color: #000;
+  padding: 10px 35px;
   color: #fff;
-  border: 2px solid #000;
-  border-radius: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  width: 75%;
+  border-radius: 15px;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20px;
   margin-bottom: 20px;
+  margin-top: 45px;
+  cursor: pointer;
+  font-size: 1.1rem;
 
   &:hover {
     background-color: #B2D6F8;
   }
 `;
 
-
 const SignInButton = styled.button`
   background: none;
-  border: 1px solid black;
-  color: #000;
-  padding: 8px 12px;
+  padding: 10px 35px;
   border: 2px solid #000;
-  border-radius: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  width: 75%;
+  color: #000;
+  border-radius: 15px;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 40px;
   margin-bottom: 20px;
+  margin-top: 45px;
+  cursor: pointer;
+  font-size: 1.1rem;
 
   &:hover {
     background-color: #fff;
@@ -114,10 +113,10 @@ function TestLogin() {
 
   return (
     <Container>
-      <Heading>User Form</Heading>
+      <Heading>Logga in nu</Heading>
       <Form onSubmit={handleSubmit}>
         <FormField>
-          Email:
+          Mejladress
           <input
             type="email"
             value={email}
@@ -126,7 +125,7 @@ function TestLogin() {
           />
         </FormField>
         <FormField>
-          Password:
+          Lösenord
           <input
             type="password"
             value={password}

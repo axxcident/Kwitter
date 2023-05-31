@@ -36,6 +36,10 @@ const SignUppWrap = styled.div`
     margin-top: 45px;
     cursor: pointer;
     font-size: 1.1rem;
+
+    &:hover {
+      background-color: #B2D6F8;
+    }
   }
 `
 
