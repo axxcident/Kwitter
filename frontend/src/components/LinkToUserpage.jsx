@@ -26,17 +26,11 @@ function LinkToUserPage() {
                         id="a"
                         data-name="Layer 1"
                         xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 22.14 27.85"
+                        viewBox="0 0 74.64 76.41"
                     >
-                        <circle
-                            className="user-icon-detail"
-                            cx="11.07"
-                            cy="6.81"
-                            r="6.31"
-                        />
                         <path
                             className="user-icon-detail"
-                            d="M11.07,13.11h0c5.83,0,10.57,4.74,10.57,10.57v3.67H.5v-3.67c0-5.83,4.74-10.57,10.57-10.57Z"
+                            d="M70.47,42.99L38.37,4.43c-.55-.66-1.56-.66-2.11,0L4.17,42.99c-.74,.89-.11,2.25,1.06,2.25h4.13v23.78c0,1.91,1.55,3.45,3.45,3.45H61.83c1.91,0,3.45-1.55,3.45-3.45v-23.78h4.13c1.16,0,1.8-1.36,1.06-2.25Zm-33.15,15.34c-6.04,0-10.94-4.9-10.94-10.94s4.9-10.94,10.94-10.94,10.94,4.9,10.94,10.94-4.9,10.94-10.94,10.94Z"
                         />
                     </svg>
                 </Link>
@@ -78,12 +72,18 @@ const ButtonContainer = styled.div`
     } */
 
     .user-icon {
-        height: 40px;
+        height: 30px;
         fill: #fff;
+    }
+
+    .user-icon:hover,
+    .user-icon:active{
+        fill: #000;
     }
 
     .user-icon-detail {
         stroke: #000;
         stroke-miterlimit: 10;
+        stroke-width: 3px;
     }
 `

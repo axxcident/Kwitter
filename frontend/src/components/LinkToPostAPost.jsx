@@ -21,23 +21,15 @@ function LinkToPostAPost() {
             <ButtonContainer>
                 <Link to="/post-a-post">
                     <svg
-                        className="add-icon"
+                        className="add-icon "
                         id="a"
                         data-name="Layer 1"
                         xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 25.47 25.47"
+                        viewBox="0 0 75.73 75.73"
                     >
-                        <polyline
-                            id="b"
-                            data-name="POINT"
+                        <path
                             className="add-icon-detail"
-                            points="25.47 12.73 12.73 12.73 12.73 25.47"
-                        />
-                        <polyline
-                            id="c"
-                            data-name="POINT"
-                            className="add-icon-detail"
-                            points="0 12.74 12.74 12.74 12.74 0"
+                            d="M37.87,3.94C19.13,3.94,3.94,19.13,3.94,37.87s15.19,33.93,33.93,33.93,33.93-15.19,33.93-33.93S56.6,3.94,37.87,3.94Zm22.24,37.43h-18.74v18.74c0,1.93-1.57,3.5-3.5,3.5s-3.5-1.57-3.5-3.5v-18.74H15.63c-1.93,0-3.5-1.57-3.5-3.5s1.57-3.5,3.5-3.5h18.74V15.63c0-1.93,1.57-3.5,3.5-3.5s3.5,1.57,3.5,3.5v18.74h18.74c1.93,0,3.5,1.57,3.5,3.5s-1.57,3.5-3.5,3.5Z"
                         />
                     </svg>
                 </Link>
@@ -56,17 +48,19 @@ export default LinkToPostAPost
 
 const ButtonContainer = styled.div`
     .add-icon {
-        padding: .2rem;
-        border: 1px solid #000;
-        border-radius: 100px;
-        width: 40px;
-        background-color: #fff;
+        width: 30px;
     }
+
     .add-icon-detail {
-        fill: none;
+        fill: #fff;
         stroke: #000;
-        stroke-width: 1px;
-        /* stroke-miterlimit: 100; */
+        stroke-width: 3px;
+    }
+
+    .add-icon:hover .add-icon-detail,
+    .add-icon:active .add-icon-detail {
+        fill: #000;
+        stroke: none;
     }
 `
 
