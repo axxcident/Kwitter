@@ -11,3 +11,8 @@ export const Colors = {
     YELLOW : "#F1B441",
     GREY : "#D9D9D9"
 }
+
+
+export const Shadows = {
+    DROPSHADOWS : "10px 10px 0px 0px rgba(0,0,0,1)"
+}
