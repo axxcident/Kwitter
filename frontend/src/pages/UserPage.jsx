@@ -117,6 +117,7 @@ const ButtonsContainer = styled.div`
         background: none;
         border: none;
         font-weight: bold;
+        border-bottom: 3px solid transparent;
     }
 
     .filter-button:active{
