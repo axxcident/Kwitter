@@ -37,16 +37,18 @@ function PostsContainer({posts}) {
 
   return (
     <Container>
-      {flowPosts.map(post => (
-        <Post
+  {flowPosts
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .map((post) => (
+      <Post
         key={post.post_id}
         user_id={post.poster_id}
         post_id={post.post_id}
         post={post.post}
         created={post.created_at}
         hasLike={getHasLike(post.post_id)}
-        />
-      ))}
+      />
+    ))}
     </Container>
   );
 }
