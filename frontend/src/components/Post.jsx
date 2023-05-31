@@ -1,7 +1,7 @@
 import  { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components'
-import { Colors, TextColor } from '../styles';
+import { Colors, TextColor,Shadows } from '../styles';
 import { useNavigate } from 'react-router-dom';
 
 function Post(props) {
@@ -179,9 +179,9 @@ background-color: ${Colors.GREY};
 padding: 1rem;
 margin-bottom: 1.5rem;
 border-radius: 10px;
-box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
--webkit-box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
--moz-box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
+box-shadow: ${Shadows.DROPSHADOWS};
+-webkit-box-shadow: ${Shadows.DROPSHADOWS};
+-moz-box-shadow: ${Shadows.DROPSHADOWS};
 `
 
 const TopContainer = styled.div`
