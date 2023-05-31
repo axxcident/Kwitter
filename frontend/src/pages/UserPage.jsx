@@ -4,11 +4,13 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Colors, TextColor } from '../styles'
 import ProfileEdit from '../components/ProfileEdit'
+import PostsContainer from '../components/PostsContainer';
 
 function UserPage() {
     const { id } = useParams()
 
     const [user, setUser] = useState([])
+    const [userPosts, setUserPosts] = useState([]);
 
     useEffect(() => {
         axios
@@ -20,6 +22,17 @@ function UserPage() {
                 console.error(error)
             })
     }, [])
+
+    // Hämta alla inlägg från en användare
+    useEffect(() => {
+        axios.get(`http://localhost:8800/users/${id}/posts`)
+        .then(response => {
+            setUserPosts(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }, []);
 
     return (
         <>
@@ -33,7 +46,7 @@ function UserPage() {
                     <h1 className="user-email">{user.email}</h1>
                 </Presentation>
             </PresentationContainer>
-
+            <PostsContainer posts={userPosts} />
         </>
     )
 }
