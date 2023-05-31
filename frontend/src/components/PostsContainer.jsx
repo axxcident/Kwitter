@@ -35,18 +35,24 @@ function PostsContainer({posts}) {
   // }, []);
   // setFlowPosts(posts)
 
+  // Sortera inlägg efter nyast
+  const sortPostsByNewest = (posts) => {
+    posts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  };
+  sortPostsByNewest(flowPosts);
+
   return (
     <Container>
-      {flowPosts.map(post => (
-        <Post
+  {flowPosts.map((post) => (
+      <Post
         key={post.post_id}
         user_id={post.poster_id}
         post_id={post.post_id}
         post={post.post}
         created={post.created_at}
         hasLike={getHasLike(post.post_id)}
-        />
-      ))}
+      />
+    ))}
     </Container>
   );
 }
