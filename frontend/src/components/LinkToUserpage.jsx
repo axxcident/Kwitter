@@ -5,16 +5,22 @@ import { TextColor } from '../styles'
 
 function LinkToUserPage() {
     const [id, setId] = useState(0)
-    useEffect(() => {
-        setId(localStorage.getItem('userId'))
-    }, [id])
 
-    const url = `/userpage/${id}`
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const storedId = localStorage.getItem('userId')
+            setId(storedId ? parseInt(storedId) : 0)
+        }, 100)
+
+        return () => {
+            clearInterval(interval)
+        }
+    }, [])
 
     if (id) {
         return (
             <ButtonContainer>
-                <Link to={url}>
+                <Link to={`/userpage/${id}`}>
                     <svg
                         className="user-icon"
                         id="a"
@@ -51,23 +57,19 @@ export default LinkToUserPage
 
 const ButtonContainer = styled.div`
     .login {
-        font-size: .7rem;
+        font-size: 0.7rem;
         font-family: 'Poppins', sans-serif;
         color: ${TextColor.PRIMARY};
         text-decoration: none;
         font-weight: bold;
         border: 1px solid #000;
-        padding: .5rem;
+        padding: 0.5rem;
         transform: translate(0px, 0px);
         border-radius: 100px;
         --webkit-box-shadow: 0px 0px 0px 0px #000;
         --moz-boz-box-shadow: 0px 0px 0px 0px #000;
         box-shadow: 0px 0px 0px 0px #000;
-        transition:
-        transform 50ms ease-in,
-        box-shadow 50ms ease-in
-        ;
-
+        transition: transform 50ms ease-in, box-shadow 50ms ease-in;
     }
 
     /* .login:hover{
