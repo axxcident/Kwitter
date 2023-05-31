@@ -79,7 +79,7 @@ const ButtonContainer = styled.div`
 
     .user-icon {
         height: 40px;
-        fill: none;
+        fill: #fff;
     }
 
     .user-icon-detail {
