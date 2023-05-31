@@ -134,12 +134,15 @@ function Post(props) {
         navigate(`/userpage/${id}`)
     }
 
-    // Klicka på inlägg och komma till inlägg sida
+    // Klicka på inlägg och komma till inläggets sida
+    const handleComment = (post_id, user_id) => {
+      navigate(`/post-focus-page/${post_id}/${user_id}`)
+    }
 
     return (
         <Container>
             <TopContainer onClick={() => goToUserPage(user.id)}>
-                {user.firstname} {user.lastname} {formatTimeDifference()}{' '}
+                {user.firstname} {user.lastname} {formatTimeDifference()}
                 {canEdit && (
                     <div>
                         {!isEditing && (
@@ -201,6 +204,7 @@ function Post(props) {
                 )}
                 <ButtonsContainer>
                     <svg
+                        onClick={() => handleComment(props.post_id, user.id)}
                         className="comment-btn"
                         id="a"
                         data-name="Layer 1"

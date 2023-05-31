@@ -267,12 +267,12 @@ app.get('/posts', async (req, res) => {
 })
 
 //  ------------------------------------- HÄMTA ETT INLÄGG
-app.get('/posts/:id', async (req, res) => {
-    const poster_id = req.params.id;
+app.get('/posts/:post_id', async (req, res) => {
+    const post_id = req.params.post_id;
     try {
         const result = await client.query(
           `SELECT * FROM posts WHERE post_id=$1;`,
-          [poster_id]
+          [post_id]
         );
 
         if (result.rows.length === 0) {
