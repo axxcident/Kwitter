@@ -4,9 +4,17 @@ import styled from 'styled-components'
 
 function LinkToPostAPost() {
     const [id, setId] = useState(0)
+
     useEffect(() => {
-        setId(localStorage.getItem('userId'))
-    }, [id])
+        const interval = setInterval(() => {
+            const storedId = localStorage.getItem('userId')
+            setId(storedId ? parseInt(storedId) : 0)
+        }, 100)
+
+        return () => {
+            clearInterval(interval)
+        }
+    }, [])
 
     if (id) {
         return (
