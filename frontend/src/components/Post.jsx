@@ -2,13 +2,14 @@ import  { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components'
 import { Colors, TextColor } from '../styles';
+import { useNavigate } from 'react-router-dom';
 
 function Post(props) {
     const [dateCreated, setDateCreated] = useState(null)
     const [user, setUser] = useState([]);
     const [canEdit, setCanEdit] = useState(false);
-    /* const [showDeleteButton, setShowDeleteButton] = useState(false); */
     const [isEditing, setIsEditing] = useState(false);
+    const navigate = useNavigate();
 
     // Hämta all data om en user
     useEffect(() => {
@@ -115,11 +116,15 @@ function Post(props) {
       }
 
       // Klicka på en användare och komm till userpage
+      const goToUserPage = (id) => {
+        navigate(`/userpage/${id}`)
+      }
+
       // Klicka på inlägg och komma till inlägg sida
 
   return (
     <Container>
-        <TopContainer>{user.firstname} {user.lastname} {formatTimeDifference()} {canEdit && (
+        <TopContainer onClick={() => goToUserPage(user.id)}>{user.firstname} {user.lastname} {formatTimeDifference()} {canEdit && (
           <div>
             {!isEditing && (
               <button onClick={handleEdit}>Redigera</button>
@@ -127,7 +132,7 @@ function Post(props) {
             {isEditing && (
               <>
                 <button onClick={handleEdit}>Avbryt</button>
-                <button onClick={handleDelete(props.post_id)}>Ta bort</button>
+                <button onClick={() => handleDelete(props.post_id)}>Ta bort</button>
               </>
             )}
           </div>
@@ -181,7 +186,7 @@ box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
 
 const TopContainer = styled.div`
 font-weight: bold;
-
+cursor: pointer;
 `
 
 const EmailContainer = styled.div`
