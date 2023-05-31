@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Colors, TextColor } from '../styles'
+import ProfileEdit from '../components/ProfileEdit'
 
 function UserPage() {
     const { id } = useParams()
@@ -25,12 +26,14 @@ function UserPage() {
             <TopContainer />
             <PresentationContainer>
                 <Presentation>
-                    <h1 className="user-title">
+                <ProfileEdit className="edit-button" user={user} id={id} />
+                     <h1 className="user-title">
                         {user.firstname} {user.lastname}
                     </h1>
                     <h1 className="user-email">{user.email}</h1>
                 </Presentation>
             </PresentationContainer>
+
         </>
     )
 }
@@ -39,7 +42,7 @@ export default UserPage
 
 const TopContainer = styled.div`
     min-height: 200px;
-    background-color: ${Colors.BLUE};
+    background-color: #B2D6F8 /* ${Colors.BLUE} */;
 `
 const PresentationContainer = styled.div`
     font-family: 'Poppins', sans-serif;
