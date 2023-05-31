@@ -15,9 +15,18 @@
     stroke: #000;
 }
 
-.like-btn:hover,
+/* .like-btn:hover,
 .comment-btn:hover,
 .like-btn:focus,
 .comment-btn:focus{
     fill: red
+} */
+.like-btn:hover,
+.like-btn:focus{
+    fill: red
+}
+
+.comment-btn:hover,
+.comment-btn:focus{
+    fill: white
 }
