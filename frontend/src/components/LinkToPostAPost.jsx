@@ -60,6 +60,7 @@ const ButtonContainer = styled.div`
         border: 1px solid #000;
         border-radius: 100px;
         width: 40px;
+        background-color: #fff;
     }
     .add-icon-detail {
         fill: none;

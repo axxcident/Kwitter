@@ -9,10 +9,13 @@ export const Colors = {
     GREEN : "#1BC0A2",
     LIGHTBLUE: "#DFF2F0",
     YELLOW : "#F1B441",
-    GREY : "#D9D9D9"
+    GREY : "#D9DDDC"
+    // GREY : "#D9D9D9"
 }
 
 
 export const Shadows = {
-    DROPSHADOWS : "10px 10px 0px 0px rgba(0,0,0,1)"
+    DROPSHADOWS : "10px 10px 0px 0px rgba(0,0,0,1)",
+    NAVBARSHADOW : "rgba(0, 0, 0, 0.35) 0px 5px 15px"
+    // NAVBARSHADOW : "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
 }
