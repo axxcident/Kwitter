@@ -4,15 +4,14 @@ import './App.css'
 //  import TestPostInput from './components/TestPostInput'
 //  import TestFetchAllUsers from './components/TestFetchAllUsers'
 //  import TestLogin from './components/TestLogin'
-import { Link, Route, Routes } from "react-router-dom";
-import Tester from './pages/Tester'
+import { Route, Routes } from "react-router-dom";
 import Login from './pages/Login'
 import SignaUpp from './pages/SignaUpp';
 import Flow from './pages/Flow'
 import NavBar from './components/NavBar';
 import UserPage from './pages/UserPage';
 import PostAPostPage from './pages/PostAPostPage';
-
+import PostFocusPage from './pages/PostFocusPage';
 
 function App() {
   return (
@@ -23,6 +22,7 @@ function App() {
         <Route path='/signupp' element={ <SignaUpp /> } />
         <Route path='/userpage/:id' element={ <UserPage /> } />
         <Route path='/post-a-post' element={<PostAPostPage/>} />
+        <Route path='/post-focus-page/:post_id/:poster_id' element={<PostFocusPage/>} />
       </Routes>
       <NavBar />
     </>

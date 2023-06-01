@@ -134,7 +134,10 @@ function Post(props) {
         navigate(`/userpage/${id}`)
     }
 
-    // Klicka på inlägg och komma till inlägg sida
+    // Klicka på inlägg och komma till inläggets sida
+    const handleComment = (post_id, poster_id) => {
+      navigate(`/post-focus-page/${post_id}/${poster_id}`)
+    }
 
     return (
         <Container>
@@ -208,6 +211,7 @@ function Post(props) {
                 )}
                 <ButtonsContainer>
                     <svg
+                        onClick={() => handleComment(props.post_id, user.id)}
                         className="comment-btn"
                         id="a"
                         data-name="Layer 1"
