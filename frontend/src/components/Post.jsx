@@ -141,25 +141,32 @@ function Post(props) {
 
     return (
         <Container>
-            <TopContainer onClick={() => goToUserPage(user.id)}>
-                {user.firstname} {user.lastname} {formatTimeDifference()}
-                {canEdit && (
-                    <div>
-                        {!isEditing && (
-                            <button onClick={handleEdit}>Redigera</button>
-                        )}
-                        {isEditing && (
-                            <>
-                                <button onClick={handleEdit}>Avbryt</button>
-                                <button
-                                    onClick={() => handleDelete(props.post_id)}
-                                >
-                                    Ta bort
-                                </button>
-                            </>
-                        )}
-                    </div>
-                )}
+            <TopContainer>
+                <UserInfo onClick={() => goToUserPage(user.id)}>
+                    {user.firstname} {user.lastname} {formatTimeDifference()}{' '}
+                </UserInfo>
+
+                <ButtonsContainer>
+                    {canEdit && (
+                        <div>
+                            {!isEditing && (
+                                <button onClick={handleEdit}>Redigera</button>
+                            )}
+                            {isEditing && (
+                                <>
+                                    <button onClick={handleEdit}>Avbryt</button>
+                                    <button
+                                        onClick={() =>
+                                            handleDelete(props.post_id)
+                                        }
+                                    >
+                                        Ta bort
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    )}
+                </ButtonsContainer>
             </TopContainer>
             <EmailContainer>{user.email}</EmailContainer>
             <PostContainer>{props.post}</PostContainer>
@@ -240,6 +247,11 @@ const Container = styled.div`
 `
 
 const TopContainer = styled.div`
+display: flex;
+justify-content: space-between;
+`
+
+const UserInfo = styled.div`
     font-weight: bold;
     cursor: pointer;
 `

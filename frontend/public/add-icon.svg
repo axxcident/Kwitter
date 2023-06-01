@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.47 25.47">
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.73 75.73">
   <defs>
     <style>
-      .d {
-        fill: none;
+      .b {
         stroke: #000;
         stroke-miterlimit: 10;
       }
     </style>
   </defs>
-  <polyline id="b" data-name="POINT" class="d" points="25.47 12.73 12.73 12.73 12.73 25.47"/>
-  <polyline id="c" data-name="POINT" class="d" points="0 12.74 12.74 12.74 12.74 0"/>
+  <path class="b" d="M37.87,3.94C19.13,3.94,3.94,19.13,3.94,37.87s15.19,33.93,33.93,33.93,33.93-15.19,33.93-33.93S56.6,3.94,37.87,3.94Zm22.24,37.43h-18.74v18.74c0,1.93-1.57,3.5-3.5,3.5s-3.5-1.57-3.5-3.5v-18.74H15.63c-1.93,0-3.5-1.57-3.5-3.5s1.57-3.5,3.5-3.5h18.74V15.63c0-1.93,1.57-3.5,3.5-3.5s3.5,1.57,3.5,3.5v18.74h18.74c1.93,0,3.5,1.57,3.5,3.5s-1.57,3.5-3.5,3.5Z"/>
 </svg>
