@@ -47,6 +47,12 @@ function ProfileEdit({ user, id, onCancel }) {
     onCancel();
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('userId');
+    console.log("KOMMER VI HIT?")
+    window.location.href = '/login';
+  };
+
   return (
     <Container>
       {!editMode ? (
@@ -89,6 +95,7 @@ function ProfileEdit({ user, id, onCancel }) {
           />
           <SaveButton onClick={handleSaveProfile}>Spara</SaveButton>
           <CancelButton onClick={handleCancel}>Avbryt</CancelButton>
+          <LogoutButton onClick={handleLogout}>Logga ut</LogoutButton>
         </>
       )}
     </Container>
@@ -100,6 +107,16 @@ export default ProfileEdit;
 const Container = styled.div`
   font-family: 'Poppins', sans-serif;
 `;
+
+const LogoutButton = styled.button`
+    background-color: ${Colors.RED};
+    color: ${TextColor.LIGHT};
+    padding: 10px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+`
 
 const Input = styled.input`
   width: 300%;
