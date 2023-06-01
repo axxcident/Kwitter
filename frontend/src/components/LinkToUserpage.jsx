@@ -64,6 +64,7 @@ const ButtonContainer = styled.div`
         --moz-boz-box-shadow: 0px 0px 0px 0px #000;
         box-shadow: 0px 0px 0px 0px #000;
         transition: transform 50ms ease-in, box-shadow 50ms ease-in;
+        background-color: #fff;
     }
 
     /* .login:hover{
