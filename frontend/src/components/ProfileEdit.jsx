@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Colors, TextColor } from '../styles';
 
-function ProfileEdit({ user, id, onCancel }) {
+
+function ProfileEdit({ user, id, onCancel}) {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     firstname: user.firstname,
@@ -11,6 +12,8 @@ function ProfileEdit({ user, id, onCancel }) {
     email: user.email,
     password: user.password,
   });
+
+
 
   const handleInputChange = (e) => {
     setFormData((prevFormData) => ({
@@ -47,9 +50,25 @@ function ProfileEdit({ user, id, onCancel }) {
     onCancel();
   };
 
+  const handleDeleteAccount = () => {
+    if (window.confirm('Är du säker att du vill radera ditt konto?')) {
+    axios
+      .delete(`http://localhost:8800/users/${id}/delete`)
+      .then(() => {
+        console.log('Account deleted successfully');
+        localStorage.removeItem('userId');
+        console.log('Kontot är raderad')
+        window.location.replace('/login');
+      })
+      .catch((error) => {
+        console.error('Error deleting account:', error);
+      });
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('userId');
-    console.log("KOMMER VI HIT?")
+    console.log("Användaren är utloggad")
     window.location.href = '/login';
   };
 
@@ -57,10 +76,6 @@ function ProfileEdit({ user, id, onCancel }) {
     <Container>
       {!editMode ? (
         <>
-{/*           <h1 className="user-title">
-            {user.firstname} {user.lastname}
-          </h1>
-          <h1 className="user-email">{user.email}</h1> */}
           <EditButton onClick={handleEditProfile}>Redigera profil</EditButton>
         </>
       ) : (
@@ -96,6 +111,7 @@ function ProfileEdit({ user, id, onCancel }) {
           <SaveButton onClick={handleSaveProfile}>Spara</SaveButton>
           <CancelButton onClick={handleCancel}>Avbryt</CancelButton>
           <LogoutButton onClick={handleLogout}>Logga ut</LogoutButton>
+          <DeleteButton onClick={handleDeleteAccount}>Radera kontot</DeleteButton>
         </>
       )}
     </Container>
@@ -109,6 +125,15 @@ const Container = styled.div`
 `;
 
 const LogoutButton = styled.button`
+    background-color: ${Colors.RED};
+    color: ${TextColor.LIGHT};
+    padding: 10px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+`
+const DeleteButton = styled.button`
     background-color: ${Colors.RED};
     color: ${TextColor.LIGHT};
     padding: 10px;
