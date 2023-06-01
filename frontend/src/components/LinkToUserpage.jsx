@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { TextColor } from '../styles'
+import { Colors,TextColor } from '../styles'
 
 function LinkToUserPage() {
     const [id, setId] = useState(0)
@@ -74,7 +74,7 @@ const ButtonContainer = styled.div`
 
     .user-icon {
         height: 30px;
-        fill: #fff;
+        fill: ${Colors.KWITTERBLUE};
     }
 
     .user-icon:hover,
@@ -85,6 +85,6 @@ const ButtonContainer = styled.div`
     .user-icon-detail {
         stroke: #000;
         stroke-miterlimit: 10;
-        stroke-width: 3px;
+        stroke-width: 1px;
     }
 `

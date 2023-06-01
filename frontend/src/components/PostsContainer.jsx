@@ -72,6 +72,7 @@ const NoPosts = styled.div`
     font-family: 'Poppins', sans-serif;
     padding: 1rem;
     text-align: center;
+    margin-bottom: 10rem;
 `
 
 const LogoContainer = styled.div`

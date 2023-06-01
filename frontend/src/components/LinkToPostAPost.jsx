@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { Colors } from '../styles'
 
 function LinkToPostAPost() {
     const [id, setId] = useState(0)
@@ -52,9 +53,9 @@ const ButtonContainer = styled.div`
     }
 
     .add-icon-detail {
-        fill: #fff;
+        fill: ${Colors.KWITTERBLUE};
         stroke: #000;
-        stroke-width: 3px;
+        stroke-width: 1px;
     }
 
     .add-icon:hover .add-icon-detail,
