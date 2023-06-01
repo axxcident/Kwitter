@@ -38,49 +38,40 @@ function UserPage() {
             })
     }, [])
 
+    // Knsk tas bort.knsk överflödig.
     const handleEditProfile = () => {
-        setShowLogoutButton(true);
+        setShowLogoutButton(!showLogoutButton);
       };
-
-      const handleLogout = () => {
-        clearSession();
-        redirectToLoginPage();
-      };
-
-      const clearSession = () => {
-        localStorage.removeItem('token');
-        sessionStorage.clear();
-
-      };
-
-      const redirectToLoginPage = () => {
-       window.location.href = '/login';
-      };
+    //   const handleLogout = () => {
+    //     localStorage.removeItem('userId');
+    //     console.log("KOMMER VI HIT?")
+    //     window.location.href = '/login';
+    //   };
+    //   {showLogoutButton && <LogoutButton onClick={() => handleLogout}>Logout</LogoutButton>}
 
     return (
-        <>
-        
-            <TopContainer />
-            <PresentationContainer>
-                <ProfileEdit className="edit-button" user={user} id={id} onClick={handleEditProfile} />
-                <Presentation>
-                    <p className="user-title">
-                        {user.firstname} {user.lastname}
-                    </p>
-                    <p className="user-email">{user.email}</p>
-                </Presentation>
-            </PresentationContainer>
-            <ButtonsWrapper>
-                <ButtonsContainer>
-                    <button className="filter-button">Allt</button>
-                    <button className="filter-button">Mest likes</button>
-                    <button className="filter-button">
-                        {user.firstname}s likes
-                    </button>
-                </ButtonsContainer>
-            </ButtonsWrapper>
-            <PostsContainer posts={userPosts} />
-        </>
+    <>
+        <TopContainer />
+        <PresentationContainer>
+            <ProfileEdit className="edit-button" user={user} id={id} onClick={() => handleEditProfile} />
+            <Presentation>
+                <p className="user-title">
+                    {user.firstname} {user.lastname}
+                </p>
+                <p className="user-email">{user.email}</p>
+            </Presentation>
+        </PresentationContainer>
+        <ButtonsWrapper>
+            <ButtonsContainer>
+                <button className="filter-button">Allt</button>
+                <button className="filter-button">Mest likes</button>
+                <button className="filter-button">
+                    {user.firstname}s likes
+                </button>
+            </ButtonsContainer>
+        </ButtonsWrapper>
+        <PostsContainer posts={userPosts} />
+    </>
     )
 }
 
