@@ -11,10 +11,29 @@ function UserPage() {
     const { id } = useParams()
 
     const [user, setUser] = useState([])
+
     const [userPosts, setUserPosts] = useState([])
+    const [userLikes, setUserLikes] = useState([])
+
+
     const [showLogoutButton, setShowLogoutButton] = useState(false);
 
+    const [sortOption, setSortOption] = useState('created_at')
+    const [activeButton, setActiveButton] = useState('')
 
+        // Hämtar alla users likade post
+        useEffect(() => {
+            axios
+                .get(`http://localhost:8800/users/${id}/liked-posts`)
+                .then((response) => {
+                    setUserLikes(response.data)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        }, [id])
+
+    // Hämtar användare
     useEffect(() => {
         axios
             .get(`http://localhost:8800/users/${id}`)
@@ -24,19 +43,28 @@ function UserPage() {
             .catch((error) => {
                 console.error(error)
             })
-    }, [])
+    }, [id])
 
-    // Hämta alla inlägg från en användare
+    // Hämta alla inlägg från en användare och sortera dem
     useEffect(() => {
         axios
             .get(`http://localhost:8800/users/${id}/posts`)
             .then((response) => {
-                setUserPosts(response.data)
+                let sortedPosts = response.data
+                if (sortOption === 'likes') {
+                    sortedPosts.sort((a, b) => b.likes - a.likes)
+                } else if (sortOption === 'created_at') {
+                    sortedPosts.sort(
+                        (a, b) =>
+                            new Date(b.created_at) - new Date(a.created_at)
+                    )
+                }
+                setUserPosts(sortedPosts)
             })
             .catch((error) => {
                 console.error(error)
             })
-    }, [])
+    }, [id, sortOption])
 
     // Knsk tas bort.knsk överflödig.
     const handleEditProfile = () => {
@@ -49,27 +77,60 @@ function UserPage() {
     //   };
     //   {showLogoutButton && <LogoutButton onClick={() => handleLogout}>Logout</LogoutButton>}
 
+
+
+    // Ändrar sortering
+    const handleSortOptionChange = (option) => {
+        setSortOption(option)
+        setActiveButton(option)
+    }
+
+    // Sorterar User Likes
+    const allUserLikes = () => {
+        setUserPosts(userLikes)
+        console.log(userLikes.length)
+        setActiveButton('user_likes')
+    }
     return (
     <>
         <TopContainer />
         <PresentationContainer>
             <ProfileEdit className="edit-button" user={user} id={id} onClick={() => handleEditProfile} />
             <Presentation>
-                <p className="user-title">
-                    {user.firstname} {user.lastname}
-                </p>
-                <p className="user-email">{user.email}</p>
-            </Presentation>
+                    <p className="user-title">
+                        {user?.firstname} {user?.lastname}
+                    </p>
+                    <p className="user-email">{user?.email}</p>
+                </Presentation>
         </PresentationContainer>
         <ButtonsWrapper>
-            <ButtonsContainer>
-                <button className="filter-button">Allt</button>
-                <button className="filter-button">Mest likes</button>
-                <button className="filter-button">
-                    {user.firstname}s likes
-                </button>
-            </ButtonsContainer>
-        </ButtonsWrapper>
+                <ButtonsContainer>
+                    <button
+                        onClick={() => handleSortOptionChange('created_at')}
+                        className={`filter-button ${
+                            activeButton === 'created_at' ? 'active' : ''
+                        }`}
+                    >
+                        Allt
+                    </button>
+                    <button
+                        onClick={() => handleSortOptionChange('likes')}
+                        className={`filter-button ${
+                            activeButton === 'likes' ? 'active' : ''
+                        }`}
+                    >
+                        Mest likes
+                    </button>
+                    <button
+                        onClick={allUserLikes}
+                        className={`filter-button ${
+                            activeButton === 'user_likes' ? 'active' : ''
+                        }`}
+                    >
+                        {user.firstname}s likes
+                    </button>
+                </ButtonsContainer>
+            </ButtonsWrapper>
         <PostsContainer posts={userPosts} />
     </>
     )
@@ -110,14 +171,19 @@ const Presentation = styled.div`
 `
 
 const ButtonsWrapper = styled.div`
+    position: sticky;
+    top: 0;
     min-height: 50px;
     background-color: ${Colors.GREY};
     box-shadow: ${Shadows.DROPSHADOWS};
     -webkit-box-shadow: ${Shadows.DROPSHADOWS};
     -moz-box-shadow: ${Shadows.DROPSHADOWS};
+    padding-top: 60px;
+    padding-bottom: 1rem;
     margin-bottom: 2rem;
     border-radius: 0 0 10px 10px;
 `
+
 const ButtonsContainer = styled.div`
     padding: 0 1rem;
     max-width: 500px;
@@ -133,7 +199,7 @@ const ButtonsContainer = styled.div`
         border-bottom: 3px solid transparent;
     }
 
-    .filter-button:active{
+    .filter-button.active {
         border-bottom: 3px solid #000;
     }
 `
