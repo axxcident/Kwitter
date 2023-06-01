@@ -6,7 +6,6 @@ import { Colors, TextColor, Shadows } from '../styles'
 import ProfileEdit from '../components/ProfileEdit'
 import PostsContainer from '../components/PostsContainer'
 
-
 function UserPage() {
     const { id } = useParams()
 
@@ -15,23 +14,22 @@ function UserPage() {
     const [userPosts, setUserPosts] = useState([])
     const [userLikes, setUserLikes] = useState([])
 
-
-    const [showLogoutButton, setShowLogoutButton] = useState(false);
+    const [showLogoutButton, setShowLogoutButton] = useState(false)
 
     const [sortOption, setSortOption] = useState('created_at')
     const [activeButton, setActiveButton] = useState('')
 
-        // Hämtar alla users likade post
-        useEffect(() => {
-            axios
-                .get(`http://localhost:8800/users/${id}/liked-posts`)
-                .then((response) => {
-                    setUserLikes(response.data)
-                })
-                .catch((error) => {
-                    console.error(error)
-                })
-        }, [id])
+    // Hämtar alla users likade post
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8800/users/${id}/liked-posts`)
+            .then((response) => {
+                setUserLikes(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [id])
 
     // Hämtar användare
     useEffect(() => {
@@ -68,16 +66,14 @@ function UserPage() {
 
     // Knsk tas bort.knsk överflödig.
     const handleEditProfile = () => {
-        setShowLogoutButton(!showLogoutButton);
-      };
+        setShowLogoutButton(!showLogoutButton)
+    }
     //   const handleLogout = () => {
     //     localStorage.removeItem('userId');
     //     console.log("KOMMER VI HIT?")
     //     window.location.href = '/login';
     //   };
     //   {showLogoutButton && <LogoutButton onClick={() => handleLogout}>Logout</LogoutButton>}
-
-
 
     // Ändrar sortering
     const handleSortOptionChange = (option) => {
@@ -92,18 +88,23 @@ function UserPage() {
         setActiveButton('user_likes')
     }
     return (
-    <>
-        <TopContainer />
-        <PresentationContainer>
-            <ProfileEdit className="edit-button" user={user} id={id} onClick={() => handleEditProfile} />
-            <Presentation>
+        <>
+            <TopContainer />
+            <PresentationContainer>
+                <ProfileEdit
+                    className="edit-button"
+                    user={user}
+                    id={id}
+                    onClick={() => handleEditProfile}
+                />
+                <Presentation>
                     <p className="user-title">
                         {user?.firstname} {user?.lastname}
                     </p>
                     <p className="user-email">{user?.email}</p>
                 </Presentation>
-        </PresentationContainer>
-        <ButtonsWrapper>
+            </PresentationContainer>
+            <ButtonsWrapper>
                 <ButtonsContainer>
                     <button
                         onClick={() => handleSortOptionChange('created_at')}
@@ -131,8 +132,8 @@ function UserPage() {
                     </button>
                 </ButtonsContainer>
             </ButtonsWrapper>
-        <PostsContainer posts={userPosts} />
-    </>
+            <PostsContainer posts={userPosts} />
+        </>
     )
 }
 
@@ -182,6 +183,11 @@ const ButtonsWrapper = styled.div`
     padding-bottom: 1rem;
     margin-bottom: 2rem;
     border-radius: 0 0 10px 10px;
+
+    @media (max-width: 425px) {
+        max-height: 30px;
+        padding-top: 20px;
+    }
 `
 
 const ButtonsContainer = styled.div`
