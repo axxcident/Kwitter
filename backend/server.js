@@ -429,6 +429,7 @@ app.post('/posts/:post_id/like', async (req, res) => {
 })
 
 //  ------------------------------------- OGILLA ETT INLÄGG
+// UPDATE posts SET likes = likes - 1 WHERE post_id = $1
 app.post('/posts/:post_id/dislike', async (req, res) => {
   const { post_id } = req.params;
   const { poster_id } = req.body;
@@ -438,7 +439,7 @@ app.post('/posts/:post_id/dislike', async (req, res) => {
     await client.query(disLikeQuery, [post_id, poster_id]);
 
     const updateLikesQuery = `
-      UPDATE posts SET likes = likes - 1 WHERE post_id = $1
+    UPDATE posts SET likes = CASE WHEN likes > 0 THEN likes - 1 ELSE 0 END WHERE post_id = $1
     `;
     await client.query(updateLikesQuery, [post_id]);
 
