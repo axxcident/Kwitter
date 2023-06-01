@@ -1,127 +1,161 @@
-import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import { Colors, Shadows } from '../styles'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Colors, Shadows } from '../styles';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+const PageContainer = styled.div`
+  font-family: 'Poppins', sans-serif;
+  background-color: white;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Container = styled.div`
-    background-color: ${Colors.BLUE};
+  width: 100%;
+  max-width: 500px;
+  background-color: ${Colors.GREY};
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  box-shadow: ${Shadows.DROPSHADOWS};
+  -webkit-box-shadow: ${Shadows.DROPSHADOWS};
+  -moz-box-shadow: ${Shadows.DROPSHADOWS};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 75px;
+`;
 
-    margin-top: 5rem;
-    padding: 4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    box-shadow: ${Shadows.DROPSHADOWS};
-    -webkit-box-shadow: ${Shadows.DROPSHADOWS};
-    -moz-box-shadow: ${Shadows.DROPSHADOWS};
-`
 
 const CommentForm = styled.form`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 16px;
-`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  justify-content: center;
+  align-items: center;
+`;
 
 const CommentTextarea = styled.textarea`
-    height: 100px;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    resize: vertical;
-`
+  font-size: 1.5rem;
+  height: 250px;
+  width: 450px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  resize: vertical;
+`;
 
 const CommentButton = styled.button`
-    padding: 8px 16px;
-    background-color: #4caf50;
+  background-color: #000;
+  padding: 10px 35px;
+  color: #fff;
+  border-radius: 50px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  margin-top: 25px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+
+  &:hover {
+    background-color: ${Colors.GREY};
+    color: #000;
+  }
+`;
+
+const CancelLink = styled(Link)`
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  &:hover {
     color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  }
+`;
 
-    &:hover {
-        background-color: #45a049;
-    }
-`
-
-const ErrorMessage = styled.span`
-    color: red;
-    margin-top: 8px;
-`
+const UserName = styled.div`
+  .user-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    margin-right: 100%;
+    font-family: 'Poppins', sans-serif;
+    color: #000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
 
 function PostAPostPage() {
-    const [post, setPost] = useState('')
-    const [user, setUser] = useState([]);
+  const navigate = useNavigate()
+  const [post, setPost] = useState('');
+  const [user, setUser] = useState([]);
 
-    const poster_id = localStorage.getItem('userId')
+  const posterId = localStorage.getItem('userId');
 
-    useEffect(() => {
-        axios.get(`http://localhost:8800/users/${poster_id}`)
-          .then(response => {
-            setUser(response.data);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }, [poster_id]);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8800/users/${posterId}`)
+      .then(response => {
+        setUser(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [posterId]);
 
+  const handlePost = e => {
+    e.preventDefault();
 
+    axios
+      .post('http://localhost:8800/posts/submit', {
+        poster_id: posterId,
+        post
+      })
+      .then(response => {
+        console.log('CONNECT');
 
-    const handlePost = (e) => {
-        e.preventDefault()
+        setPost('');
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+      navigate('/')
+  };
 
-        axios
-            .post('http://localhost:8800/posts/submit', {
-                poster_id,
-                post
-            })
-            .then((response) => {
-                console.log('CONNECT')
-
-                setPost('')
-                console.log(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
-
-    return (
-        <Container>
-            <Link to="/" >Avbryt</Link>
-            <CommentForm onSubmit={handlePost}>
-
-                <br />
-                <label>
-                    {user.firstname}
-                    <textarea
-                        type="text"
-                        value={post}
-                        onChange={(e) => setPost(e.target.value)}
-                        required
-                    ></textarea>
-                </label>
-                <br />
-                <button type="submit">Post</button>
-            </CommentForm>
-            {/* <h2>Kommentarruta</h2>
-      <CommentForm onSubmit={handleSubmit}>
-        <CommentTextarea
-          value={comment}
-          onChange={handleChange}
-          placeholder="Skriv din kommentar här..."
-          rows={4}
-          cols={50}
-        />
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+  return (
+    <PageContainer>
+    <Container>
+      <CancelLink to="/">X Avbryt</CancelLink>
+      <CommentForm onSubmit={handlePost}>
         <br />
-        <CommentButton type="submit">Skicka kommentar</CommentButton>
-      </CommentForm> */}
-        </Container>
-    )
+        <label>
+          <UserName>
+            <h3 className="user-title">{user.firstname}</h3>
+            </UserName>
+          <CommentTextarea
+            type="text"
+            value={post}
+            onChange={e => setPost(e.target.value)}
+            required
+          ></CommentTextarea>
+        </label>
+        <br />
+        <CommentButton type="submit">Posta</CommentButton>
+      </CommentForm>
+    </Container>
+    </PageContainer>
+  );
 }
 
-export default PostAPostPage
+export default PostAPostPage;
