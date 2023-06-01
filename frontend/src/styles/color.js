@@ -15,7 +15,7 @@ export const Colors = {
 
 
 export const Shadows = {
-    DROPSHADOWS : "10px 10px 0px 0px rgba(0,0,0,1)",
+    DROPSHADOWS : "0px 7px 0px 0px rgba(0,0,0,.6)",
     NAVBARSHADOW : "rgba(0, 0, 0, 0.35) 0px 5px 15px"
     // NAVBARSHADOW : "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
 }
