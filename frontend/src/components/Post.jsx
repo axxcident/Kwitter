@@ -135,8 +135,8 @@ function Post(props) {
     }
 
     // Klicka på inlägg och komma till inläggets sida
-    const handleComment = (post_id, user_id) => {
-      navigate(`/post-focus-page/${post_id}/${user_id}`)
+    const handleComment = (post_id, poster_id) => {
+      navigate(`/post-focus-page/${post_id}/${poster_id}`)
     }
 
     return (

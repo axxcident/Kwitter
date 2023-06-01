@@ -22,7 +22,7 @@ function App() {
         <Route path='/signupp' element={ <SignaUpp /> } />
         <Route path='/userpage/:id' element={ <UserPage /> } />
         <Route path='/post-a-post' element={<PostAPostPage/>} />
-        <Route path='/post-focus-page/:post_id/:user_id' element={<PostFocusPage/>} />
+        <Route path='/post-focus-page/:post_id/:poster_id' element={<PostFocusPage/>} />
       </Routes>
       <NavBar />
     </>

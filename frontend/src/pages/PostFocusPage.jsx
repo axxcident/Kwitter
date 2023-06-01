@@ -1,65 +1,56 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import styled from 'styled-components'
 import { Colors, TextColor, Shadows } from '../styles'
 
 const PostFocusPage = () => {
-  const { post_id, user_id } = useParams()
+  const { post_id, poster_id } = useParams()
   const [singlePost, setSinglePost] = useState({})
   const [user, setUser] = useState({})
 
+  const navigate = useNavigate()
+
   // Hämta inlägget
-  // useEffect(() => {
-  //     axios
-  //         .get(`http://localhost:8800/posts/${post_id}`)
-  //         .then((response) => {
-  //           console.log(response.data[0])
-  //           setSinglePost(response.data[0])
-  //         })
-  //         .catch((error) => {
-  //             console.error(error)
-  //         })
-  // }, [])
-
-  // console.log(`http://localhost:8800/users/${user_id}`)
-  // // // Hämta Användaren
-  // useEffect(() => {
-  //     axios
-  //       .get(`http://localhost:8800/users/${user_id}`)
-  //       .then((response) => {
-  //         console.log(response.data[0])
-  //         setUser(response.data[0])
-  //       })
-  //       .catch((error) => {
-  //           console.error(error)
-  //       })
-  // }, [])
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const postResponse = await axios.get(`http://localhost:8800/posts/${post_id}`);
-        const userResponse = await axios.get(`http://localhost:8800/users/${user_id}`);
-        setSinglePost(postResponse.data[0]);
-        setUser(userResponse.data[0]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      axios.get(`http://localhost:8800/posts/${post_id}`)
+          .then((response) => {
+            console.log(response.data[0])
+            setSinglePost(response.data[0])
+          })
+          .catch((error) => {
+              console.error(error)
+          })
+  }, [])
 
-    fetchData();
-  }, [post_id, user_id]);
+  console.log(`http://localhost:8800/users/${poster_id}`)
+  // // Hämta Användaren
+  useEffect(() => {
+      axios
+        .get(`http://localhost:8800/users/${poster_id}`)
+        .then((response) => {
+          console.log(response.data)
+          // console.log(response.data[0])
+          setUser(response.data)
+        })
+        .catch((error) => {
+            console.error(error)
+        })
+  }, [])
+
+  const goToUserPage = (id) => {
+    navigate(`/userpage/${id}`)
+  }
 
   // onClick={() => goToUserPage(user.id)}
   return (
     <>
     <Container>
       <SinglePostContainer>
-        {/* <TopContainer>
+        <TopContainer onClick={() => goToUserPage(user.id)}>
           {user.firstname}
         </TopContainer>
-        <EmailContainer>{user.email}</EmailContainer> */}
+        <EmailContainer>{user.email}</EmailContainer>
         <PostContainer>{singlePost.post}</PostContainer>
       </SinglePostContainer>
     </Container>
