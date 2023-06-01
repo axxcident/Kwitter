@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Colors, TextColor } from '../styles';
 
-function ProfileEdit({ user, id }) {
+function ProfileEdit({ user, id, onCancel }) {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     firstname: user.firstname,
@@ -42,6 +42,11 @@ function ProfileEdit({ user, id }) {
       });
   };
 
+  const handleCancel = () => {
+    setEditMode(false);
+    onCancel();
+  };
+
   return (
     <Container>
       {!editMode ? (
@@ -64,7 +69,7 @@ function ProfileEdit({ user, id }) {
           <Input
             type="text"
             name="lastname"
-            placeholder="Skriv in ditt efternamn"
+            placeholder='Skriv in ditt efternamn'
             value={formData.lastname}
             onChange={handleInputChange}
           />
@@ -83,6 +88,7 @@ function ProfileEdit({ user, id }) {
             onChange={handleInputChange}
           />
           <SaveButton onClick={handleSaveProfile}>Spara</SaveButton>
+          <CancelButton onClick={handleCancel}>Avbryt</CancelButton>
         </>
       )}
     </Container>
@@ -96,17 +102,20 @@ const Container = styled.div`
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: 300%;
+  display: flex;
+  flex-direction: row;
   padding: 10px;
   margin-top: 1rem;
-  margin-bottom: .5rem;
+  margin-bottom: 10px;
+  margin-left: -10rem;
+  margin-right: 5rem;
 `;
 
 const EditButton = styled.button`
   background-color: #B2D6F8 /* ${Colors.BLUE} */;
   color: ${TextColor.LIGHT};
   padding: .5rem;
-  margin: 1rem;
   border: solid black .5px;
   border-radius: 5rem;
   cursor: pointer;
@@ -116,10 +125,21 @@ const EditButton = styled.button`
 `;
 
 const SaveButton = styled.button`
-  background-color: #333333 /* ${Colors.BLUE} */;
-  color: white /* ${TextColor.LIGHT} */;
+  background-color: ${Colors.BLUE};
+  color: ${TextColor.LIGHT};
   padding: 10px;
+  margin-left: -10rem;
   border: none;
-  border-radius: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
+const CancelButton = styled.button`
+  background-color: ${Colors.GREY};
+  color: ${TextColor.DARK};
+  padding: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
 `;

@@ -6,11 +6,14 @@ import { Colors, TextColor, Shadows } from '../styles'
 import ProfileEdit from '../components/ProfileEdit'
 import PostsContainer from '../components/PostsContainer'
 
+
 function UserPage() {
     const { id } = useParams()
 
     const [user, setUser] = useState([])
     const [userPosts, setUserPosts] = useState([])
+    const [showLogoutButton, setShowLogoutButton] = useState(false);
+
 
     useEffect(() => {
         axios
@@ -35,11 +38,31 @@ function UserPage() {
             })
     }, [])
 
+    const handleEditProfile = () => {
+        setShowLogoutButton(true);
+      };
+
+      const handleLogout = () => {
+        clearSession();
+        redirectToLoginPage();
+      };
+
+      const clearSession = () => {
+        localStorage.removeItem('token');
+        sessionStorage.clear();
+
+      };
+
+      const redirectToLoginPage = () => {
+       window.location.href = '/login';
+      };
+
     return (
         <>
+        
             <TopContainer />
             <PresentationContainer>
-                <ProfileEdit className="edit-button" user={user} id={id} />
+                <ProfileEdit className="edit-button" user={user} id={id} onClick={handleEditProfile} />
                 <Presentation>
                     <p className="user-title">
                         {user.firstname} {user.lastname}
@@ -104,7 +127,6 @@ const ButtonsWrapper = styled.div`
     margin-bottom: 2rem;
     border-radius: 0 0 10px 10px;
 `
-
 const ButtonsContainer = styled.div`
     padding: 0 1rem;
     max-width: 500px;
