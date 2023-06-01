@@ -9,8 +9,10 @@ export const Colors = {
     GREEN : "#1BC0A2",
     LIGHTBLUE: "#DFF2F0",
     YELLOW : "#F1B441",
-    GREY : "#D9DDDC"
-    // GREY : "#D9D9D9"
+    GREY : "#D9DDDC",
+    // GREY : "#D9D9D9,"
+
+    KWITTERBLUE : "#29ABE2"
 }
 
 

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Shadows } from '../styles'
+import { Colors, Shadows } from '../styles'
 import styled from 'styled-components'
 import LinkToUserPage from './LinkToUserpage'
 import LinkToPostAPost from './LinkToPostAPost'
@@ -98,9 +98,9 @@ const ButtonContainer = styled.div`
         height: 30px;
     }
     .flow-icon-detail {
-        fill: #fff;
+        fill: ${Colors.KWITTERBLUE};
         stroke: #000;
-        stroke-width: 3px;
+        stroke-width: 1px;
     }
 
     .flow-icon:hover .flow-icon-detail{
