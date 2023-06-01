@@ -9,10 +9,20 @@ export const Colors = {
     GREEN : "#1BC0A2",
     LIGHTBLUE: "#DFF2F0",
     YELLOW : "#F1B441",
-    GREY : "#D9DDDC",
+    GREY : "#F2F2F2",
+    // GREY : "#D9DDDC",
     // GREY : "#D9D9D9,"
 
-    KWITTERBLUE : "#29ABE2"
+    KWITTERBLUE : "#4A30F3",
+    // KWITTERBLUE : "#29ABE2",
+
+    // NYA FÄRGER!
+    MAINLYBLUE : "#4A30F3",
+    PURPLEBLUE : "#705CF3",
+    MAINLYGREEN : "#3BBF8E",
+    RUSTRED : "#D96055",
+    ASHYBLACK : "#262626"
+
 }
 
 
