@@ -46,6 +46,7 @@ function PostsContainer({ posts }) {
                         post={post.post}
                         created={post.created_at}
                         hasLike={getHasLike(post.post_id)}
+                        xLikes={post.likes}
                     />
                 ))}
             </Container>

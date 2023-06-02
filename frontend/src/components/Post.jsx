@@ -9,6 +9,7 @@ function Post(props) {
     const [user, setUser] = useState([])
     const [canEdit, setCanEdit] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
+    const [numberLikes, setNumberLikes] = useState(0)
     const navigate = useNavigate()
 
     // Hämta all data om en user
@@ -18,6 +19,7 @@ function Post(props) {
             .then((response) => {
                 setUser(response.data)
                 setDateCreated(new Date(props.created))
+                setNumberLikes(props.xLikes)
                 // setCanEdit(false)
             })
             .catch((error) => {
@@ -31,7 +33,7 @@ function Post(props) {
         const isOwner =
             loggedInUserId && Number(props.user_id) === Number(loggedInUserId)
         setCanEdit(isOwner)
-        console.log(isOwner)
+        // console.log(isOwner)
     }, [props.user_id])
 
     // Radera ett inlägg
@@ -106,16 +108,8 @@ function Post(props) {
             const requestBody = {
                 poster_id: loggedInUserId
             }
-            await axios.post(
-                `http://localhost:8800/posts/${postId}/dislike`,
-                requestBody
-            )
-            console.log(
-                'Du som användare ',
-                loggedInUserId,
-                ' har ogillat inlägg nr: ',
-                postId
-            )
+            await axios.post(`http://localhost:8800/posts/${postId}/dislike`,requestBody)
+            console.log('Du som användare ', loggedInUserId, ' har ogillat inlägg nr: ', postId)
             // setMyLike(!mylike)
             window.location.reload()
         } catch (error) {
@@ -132,7 +126,6 @@ function Post(props) {
     const handleComment = (post_id, poster_id) => {
       navigate(`/post-focus-page/${post_id}/${poster_id}`)
     }
-    // props.hasLike
 
     return (
         <Container>
@@ -164,7 +157,7 @@ function Post(props) {
                 </ButtonsContainer>
             </TopContainer>
             <EmailContainer>{user.email}</EmailContainer>
-            <PostContainer>{props.post} {props.hasLike} </PostContainer>
+            <PostContainer>{props.post}</PostContainer>
             <ButtonsWrapper>
                 {props.hasLike ? (
                     <ButtonsContainer>
@@ -184,6 +177,7 @@ function Post(props) {
                                 />
                             </g>
                         </svg>
+                        {numberLikes != 0 && <span>{numberLikes}</span>}
                     </ButtonsContainer>
                 ) : (
                     <ButtonsContainer>
@@ -202,6 +196,7 @@ function Post(props) {
                                 />
                             </g>
                         </svg>
+                        {numberLikes != 0 && <span>{numberLikes}</span>}
                     </ButtonsContainer>
                 )}
                 <ButtonsContainer>
@@ -260,7 +255,15 @@ const PostContainer = styled.div`
     padding: 2rem;
 `
 
-const ButtonsContainer = styled.div``
+const ButtonsContainer = styled.div`
+    display: flex;
+    align-items: center;
+
+    span {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+`
 
 const ButtonsWrapper = styled.div`
     display: flex;
