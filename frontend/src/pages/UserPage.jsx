@@ -8,6 +8,7 @@ import PostsContainer from '../components/PostsContainer'
 
 function UserPage() {
     const { id } = useParams()
+    const userId = localStorage.getItem('userId')
 
     const [user, setUser] = useState([])
 
@@ -68,35 +69,30 @@ function UserPage() {
     const handleEditProfile = () => {
         setShowLogoutButton(!showLogoutButton)
     }
-    //   const handleLogout = () => {
-    //     localStorage.removeItem('userId');
-    //     console.log("KOMMER VI HIT?")
-    //     window.location.href = '/login';
-    //   };
-    //   {showLogoutButton && <LogoutButton onClick={() => handleLogout}>Logout</LogoutButton>}
 
     // Ändrar sortering
     const handleSortOptionChange = (option) => {
-        setSortOption(option)
-        setActiveButton(option)
+        if (option === 'user_likes') {
+            setUserPosts(userLikes)
+            setActiveButton('user_likes')
+        } else {
+            setSortOption(option)
+            setActiveButton(option)
+        }
     }
 
-    // Sorterar User Likes
-    const allUserLikes = () => {
-        setUserPosts(userLikes)
-        console.log(userLikes.length)
-        setActiveButton('user_likes')
-    }
     return (
         <>
             <TopContainer />
             <PresentationContainer>
-                <ProfileEdit
-                    className="edit-button"
-                    user={user}
-                    id={id}
-                    onClick={() => handleEditProfile}
-                />
+                {id === userId && (
+                    <ProfileEdit
+                        className="edit-button"
+                        user={user}
+                        id={id}
+                        onClick={handleEditProfile}
+                    />
+                )}
                 <Presentation>
                     <p className="user-title">
                         {user?.firstname} {user?.lastname}
@@ -123,7 +119,7 @@ function UserPage() {
                         Mest likes
                     </button>
                     <button
-                        onClick={allUserLikes}
+                        onClick={() => handleSortOptionChange('user_likes')}
                         className={`filter-button ${
                             activeButton === 'user_likes' ? 'active' : ''
                         }`}
@@ -132,7 +128,9 @@ function UserPage() {
                     </button>
                 </ButtonsContainer>
             </ButtonsWrapper>
+            <FlowContainer>
             <PostsContainer posts={userPosts} />
+            </FlowContainer>
         </>
     )
 }
@@ -150,7 +148,6 @@ const PresentationContainer = styled.div`
     align-items: center;
     background-color: ${Colors.GREY};
     min-height: 200px;
-    /* border-radius: 0 0 50px 50px; */
 `
 const Presentation = styled.div`
     padding: 1rem;
@@ -208,4 +205,8 @@ const ButtonsContainer = styled.div`
     .filter-button.active {
         border-bottom: 3px solid #000;
     }
+`
+
+const FlowContainer = styled.div`
+margin-bottom: 90px;
 `
