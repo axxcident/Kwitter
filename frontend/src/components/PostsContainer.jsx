@@ -27,7 +27,6 @@ function PostsContainer({ posts }) {
     }, [posts]);
 
     const getHasLike = (postId) => {
-        console.log(likesList)
         for(let i =0; i < likesList.length; i++) {
             if(likesList[i].poster_id === parseInt(loggedInUserId, 10) && likesList[i].post_id === postId) {
                 return true

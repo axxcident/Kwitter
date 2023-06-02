@@ -38,6 +38,16 @@ client.connect(function (err) {
         console.log(err)
         throw err
     }
+
+      // Set the timezone to 'Europe/Stockholm'
+  client.query('SET TIME ZONE \'Europe/Stockholm\';', function (err, result) {
+    if (err) {
+      console.log(err);
+      throw err;
+    }
+    console.log('Timezone set successfully');
+  })
+
     // Create Users table
     const createUsersTableQuery = `
 CREATE TABLE IF NOT EXISTS users (
