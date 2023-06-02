@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Post from './Post'
 
 const backgroundImage = 'url("/kwitter-logo-3.png")'
+const loggedInUserId = localStorage.getItem('userId')
 
 function PostsContainer({ posts }) {
     const [flowPosts, setFlowPosts] = useState([])
@@ -19,18 +20,21 @@ function PostsContainer({ posts }) {
             .catch((error) => {
                 console.error(error)
             })
-        setFlowPosts(posts)
-    }, [posts])
+    }, [])
+
+    useEffect(() => {
+      setFlowPosts(posts);
+    }, [posts]);
 
     const getHasLike = (postId) => {
-        return likesList.some((like) => like.post_id === postId)
+        console.log(likesList)
+        for(let i =0; i < likesList.length; i++) {
+            if(likesList[i].poster_id === parseInt(loggedInUserId, 10) && likesList[i].post_id === postId) {
+                return true
+            }
+        }
+        return false;
     }
-
-    // Sortera inlägg efter nyast
-    const sortPostsByNewest = (post) => {
-        post.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    }
-    sortPostsByNewest(flowPosts)
 
     if (flowPosts !== null && flowPosts !== '' && flowPosts.length !== 0) {
         return (

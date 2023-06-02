@@ -84,16 +84,9 @@ function Post(props) {
             const requestBody = {
                 poster_id: loggedInUserId
             }
-            await axios.post(
-                `http://localhost:8800/posts/${postId}/like`,
-                requestBody
-            )
-            console.log(
-                'Du som användare ',
-                loggedInUserId,
-                ' har gillat inlägg nr: ',
-                postId
-            )
+            await axios.post(`http://localhost:8800/posts/${postId}/like`,requestBody)
+            console.log('Du som användare ', loggedInUserId,' har gillat inlägg nr: ', postId)
+            // setMyLike(!mylike)
             window.location.reload()
         } catch (error) {
             console.error(error)
@@ -123,6 +116,7 @@ function Post(props) {
                 ' har ogillat inlägg nr: ',
                 postId
             )
+            // setMyLike(!mylike)
             window.location.reload()
         } catch (error) {
             console.error(error)
@@ -138,6 +132,7 @@ function Post(props) {
     const handleComment = (post_id, poster_id) => {
       navigate(`/post-focus-page/${post_id}/${poster_id}`)
     }
+    // props.hasLike
 
     return (
         <Container>
@@ -169,7 +164,7 @@ function Post(props) {
                 </ButtonsContainer>
             </TopContainer>
             <EmailContainer>{user.email}</EmailContainer>
-            <PostContainer>{props.post}</PostContainer>
+            <PostContainer>{props.post} {props.hasLike} </PostContainer>
             <ButtonsWrapper>
                 {props.hasLike ? (
                     <ButtonsContainer>
