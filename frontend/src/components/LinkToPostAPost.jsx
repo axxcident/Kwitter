@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Colors } from '../styles'
 
-function LinkToPostAPost() {
+function LinkToPostAPost({ strokeWidth, strokeColor, path }) {
     const [id, setId] = useState(0)
 
     useEffect(() => {
@@ -19,10 +19,15 @@ function LinkToPostAPost() {
 
     if (id) {
         return (
-            <ButtonContainer>
+            <ButtonContainer
+                strokeWidth={strokeWidth}
+                strokeColor={strokeColor}
+            >
                 <Link to="/post-a-post">
                     <svg
-                        className="add-icon "
+                        className={
+                            path === '/post-a-post' ? 'active' : 'add-icon'
+                        }
                         id="a"
                         data-name="Layer 1"
                         xmlns="http://www.w3.org/2000/svg"
@@ -48,18 +53,21 @@ function LinkToPostAPost() {
 export default LinkToPostAPost
 
 const ButtonContainer = styled.div`
+    .active,
     .add-icon {
         width: 30px;
     }
 
     .add-icon-detail {
         fill: ${Colors.KWITTERBLUE};
-        stroke: #000;
-        stroke-width: 1px;
+        stroke: none;
+        stroke: ${(props) => props.strokeColor};
+        stroke-width: ${(props) => props.strokeWidth};
     }
 
     .add-icon:hover .add-icon-detail,
-    .add-icon:active .add-icon-detail {
+    .add-icon:active .add-icon-detail,
+    .active .add-icon-detail {
         fill: #000;
         stroke: none;
     }
