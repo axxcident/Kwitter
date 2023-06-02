@@ -108,16 +108,8 @@ function Post(props) {
             const requestBody = {
                 poster_id: loggedInUserId
             }
-            await axios.post(
-                `http://localhost:8800/posts/${postId}/dislike`,
-                requestBody
-            )
-            console.log(
-                'Du som användare ',
-                loggedInUserId,
-                ' har ogillat inlägg nr: ',
-                postId
-            )
+            await axios.post(`http://localhost:8800/posts/${postId}/dislike`,requestBody)
+            console.log('Du som användare ', loggedInUserId, ' har ogillat inlägg nr: ', postId)
             // setMyLike(!mylike)
             window.location.reload()
         } catch (error) {
@@ -134,7 +126,6 @@ function Post(props) {
     const handleComment = (post_id, poster_id) => {
       navigate(`/post-focus-page/${post_id}/${poster_id}`)
     }
-    // props.hasLike
 
     return (
         <Container>
@@ -186,7 +177,7 @@ function Post(props) {
                                 />
                             </g>
                         </svg>
-                        {numberLikes}
+                        {numberLikes != 0 && <span>{numberLikes}</span>}
                     </ButtonsContainer>
                 ) : (
                     <ButtonsContainer>
@@ -205,7 +196,7 @@ function Post(props) {
                                 />
                             </g>
                         </svg>
-                        {numberLikes}
+                        {numberLikes != 0 && <span>{numberLikes}</span>}
                     </ButtonsContainer>
                 )}
                 <ButtonsContainer>
@@ -264,7 +255,15 @@ const PostContainer = styled.div`
     padding: 2rem;
 `
 
-const ButtonsContainer = styled.div``
+const ButtonsContainer = styled.div`
+    display: flex;
+    align-items: center;
+
+    span {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+`
 
 const ButtonsWrapper = styled.div`
     display: flex;
