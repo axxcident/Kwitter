@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { Colors,TextColor } from '../styles'
+import { Colors, TextColor } from '../styles'
 
-function LinkToUserPage() {
+function LinkToUserPage({ strokeWidth, strokeColor, path }) {
     const [id, setId] = useState(0)
+
+    const userPagePath = path.split('/')[1]
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -19,10 +21,15 @@ function LinkToUserPage() {
 
     if (id) {
         return (
-            <ButtonContainer>
+            <ButtonContainer
+                strokeWidth={strokeWidth}
+                strokeColor={strokeColor}
+            >
                 <Link to={`/userpage/${id}`}>
                     <svg
-                        className="user-icon"
+                        className={
+                            userPagePath === 'userpage' ? 'active' : 'user-icon'
+                        }
                         id="a"
                         data-name="Layer 1"
                         xmlns="http://www.w3.org/2000/svg"
@@ -72,19 +79,25 @@ const ButtonContainer = styled.div`
         transform: translate(7px, 0px);
     } */
 
+    .active,
     .user-icon {
         height: 30px;
+    }
+
+    .user-icon {
         fill: ${Colors.KWITTERBLUE};
     }
 
+    .active,
     .user-icon:hover,
-    .user-icon:active{
+    .user-icon:active {
         fill: #000;
     }
 
     .user-icon-detail {
-        stroke: #000;
+        stroke: none;
+        stroke: ${(props) => props.strokeColor};
+        stroke-width: ${(props) => props.strokeWidth};
         stroke-miterlimit: 10;
-        stroke-width: 1px;
     }
 `

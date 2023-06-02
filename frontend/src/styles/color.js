@@ -13,8 +13,8 @@ export const Colors = {
     // GREY : "#D9DDDC",
     // GREY : "#D9D9D9,"
 
-    KWITTERBLUE : "#4A30F3",
-    // KWITTERBLUE : "#29ABE2",
+    // KWITTERBLUE : "#4A30F3",
+    KWITTERBLUE : "#29ABE2",
 
     // NYA FÄRGER!
     MAINLYBLUE : "#4A30F3",

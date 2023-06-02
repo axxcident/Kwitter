@@ -3,10 +3,16 @@ import { Colors, Shadows } from '../styles'
 import styled from 'styled-components'
 import LinkToUserPage from './LinkToUserpage'
 import LinkToPostAPost from './LinkToPostAPost'
+import { useLocation } from 'react-router-dom'
 
 const backgroundImage = 'url("/kwitter-logo-3.png")'
 
+const colorStroke = ""
+const widthStroke = 1
+
 function NavBar() {
+    const location = useLocation()
+    const currentPath = location.pathname
     return (
         <Container>
             <Wrapper>
@@ -14,10 +20,10 @@ function NavBar() {
                     <LogoContainer />
                 </Link>
                 <ButtonContainer>
-                    <LinkToUserPage />
-                    <Link to="/">
+                    <LinkToUserPage  strokeWidth={widthStroke} strokeColor={colorStroke} path={currentPath} />
+                    <Link to="/" >
                         <svg
-                            className="flow-icon"
+                            className={currentPath === '/' ? "active" : "flow-icon"}
                             id="a"
                             data-name="Layer 1"
                             xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +39,7 @@ function NavBar() {
                             />
                         </svg>
                     </Link>
-                    <LinkToPostAPost />
+                    <LinkToPostAPost strokeWidth={widthStroke} strokeColor={colorStroke} path={currentPath}/>
                 </ButtonContainer>
             </Wrapper>
         </Container>
@@ -54,7 +60,7 @@ const Container = styled.div`
         bottom: 0;
         top: auto !important;
         /* border: 1px solid #000; */
-        background-color: #fff;
+        background-color: ${Colors.GREY};
         box-shadow: ${Shadows.NAVBARSHADOW};
         -webkit-box-shadow: ${Shadows.NAVBARSHADOW};
         -moz-box-shadow: ${Shadows.NAVBARSHADOW};
@@ -94,17 +100,28 @@ const ButtonContainer = styled.div`
     @media (max-width: 425px) {
         justify-content: space-between;
     }
+
+    .active,
     .flow-icon {
         height: 30px;
     }
+
     .flow-icon-detail {
         fill: ${Colors.KWITTERBLUE};
-        stroke: #000;
-        stroke-width: 1px;
+        stroke: none;
+        stroke : ${colorStroke};
+        stroke-width: ${widthStroke};
     }
 
-    .flow-icon:hover .flow-icon-detail{
+    .flow-icon:hover .flow-icon-detail,
+    .flow-icon:active .flow-icon-detail{
         fill: #000;
         stroke: none;
     }
+
+    .active .flow-icon-detail{
+        fill: #000;
+        stroke: none;
+    }
+
 `
