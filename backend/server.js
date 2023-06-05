@@ -53,7 +53,7 @@ client.connect(function (err) {
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   firstname VARCHAR(25) NOT NULL,
-  lastname VARCHAR(25),
+  lastname VARCHAR(150),
   email VARCHAR(50) NOT NULL UNIQUE,
   password VARCHAR(50) NOT NULL
 )`;
