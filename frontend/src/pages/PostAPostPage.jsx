@@ -93,7 +93,7 @@ const UserName = styled.div`
     font-family: 'Poppins', sans-serif;
     color: #000;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-`;
+  }`;
 
 function PostAPostPage() {
   const navigate = useNavigate()
