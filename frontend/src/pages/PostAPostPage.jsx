@@ -12,6 +12,8 @@ const PageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  /* margin-bottom: 5rem; */
 `;
 
 const Container = styled.div`
@@ -19,7 +21,7 @@ const Container = styled.div`
   max-width: 500px;
   background-color: ${Colors.GREY};
   padding: 1rem;
-  margin-bottom: 1.5rem;
+
   border-radius: 10px;
   box-shadow: ${Shadows.DROPSHADOWS};
 
@@ -29,7 +31,7 @@ const Container = styled.div`
   justify-content: center;
   margin: 0 auto;
   text-align: center;
-  margin-top: 75px;
+  /* margin-top: 75px; */
 `;
 
 const CommentForm = styled.form`

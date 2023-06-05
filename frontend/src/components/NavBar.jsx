@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom'
 
 const backgroundImage = 'url("/kwitter-logo-3.png")'
 
-const colorStroke = ""
+const colorStroke = ''
 const widthStroke = 1
 
 function NavBar() {
@@ -20,26 +20,46 @@ function NavBar() {
                     <LogoContainer />
                 </Link>
                 <ButtonContainer>
-                    <LinkToUserPage  strokeWidth={widthStroke} strokeColor={colorStroke} path={currentPath} />
-                    <Link to="/" >
+                    <LinkToUserPage
+                        strokeWidth={widthStroke}
+                        strokeColor={colorStroke}
+                        path={currentPath}
+                    />
+                    <Link to="/">
                         <svg
-                            className={currentPath === '/' ? "active" : "flow-icon"}
+                            className={
+                                currentPath === '/' ? 'active' : 'flow-icon'
+                            }
                             id="a"
                             data-name="Layer 1"
                             xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 120.41 73.79"
+                            viewBox="0 0 74.64 76.41"
                         >
-                            <path
+                            <rect
                                 className="flow-icon-detail"
-                                d="M109.74,47.98c0-3.92-3.67-7.49-9.72-10.23-7.3,6.83-23.78,11.49-43.4,11.49-5.46,0-10.81-.37-15.91-1.09l-10.85,2.52c3.25,7.43,19.76,13.07,39.63,13.07,4.93,0,9.64-.33,14-.98l16.1,3.73-3.9-6.53c8.59-2.9,14.05-7.18,14.05-11.96Z"
+                                x="7.65"
+                                y="10.04"
+                                width="60"
+                                height="28.17"
+                                rx="5"
+                                ry="5"
                             />
-                            <path
+                            <rect
                                 className="flow-icon-detail"
-                                d="M56.61,44.23c26.58,0,44.44-8.52,44.44-16.47S83.2,11.29,56.61,11.29,12.17,19.81,12.17,27.76c0,4.49,5.61,9.06,15,12.22,.43,.14,.77,.48,.93,.9,.16,.42,.11,.9-.12,1.29l-2.65,4.46,14.97-3.47c.18-.04,.37-.05,.55-.02,5.04,.73,10.34,1.1,15.75,1.1Z"
+                                x="7.65"
+                                y="41.88"
+                                width="60"
+                                height="28.17"
+                                rx="5"
+                                ry="5"
                             />
                         </svg>
                     </Link>
-                    <LinkToPostAPost strokeWidth={widthStroke} strokeColor={colorStroke} path={currentPath}/>
+                    <LinkToPostAPost
+                        strokeWidth={widthStroke}
+                        strokeColor={colorStroke}
+                        path={currentPath}
+                    />
                 </ButtonContainer>
             </Wrapper>
         </Container>
@@ -109,19 +129,18 @@ const ButtonContainer = styled.div`
     .flow-icon-detail {
         fill: ${Colors.KWITTERBLUE};
         stroke: none;
-        stroke : ${colorStroke};
+        stroke: ${colorStroke};
         stroke-width: ${widthStroke};
     }
 
     .flow-icon:hover .flow-icon-detail,
-    .flow-icon:active .flow-icon-detail{
+    .flow-icon:active .flow-icon-detail {
         fill: #000;
         stroke: none;
     }
 
-    .active .flow-icon-detail{
+    .active .flow-icon-detail {
         fill: #000;
         stroke: none;
     }
-
 `
