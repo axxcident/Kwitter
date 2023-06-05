@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 
 const SignUppWrap = styled.div`
-/* margin: 0 auto; */
+    /* margin: 0 auto; */
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -50,7 +50,7 @@ const SignUppWrap = styled.div`
         margin-bottom: 3rem;
     }
 
-    .input-header{
+    .input-header {
         margin-top: 1rem;
         font-weight: bold;
     }
@@ -64,6 +64,23 @@ const UserForm = () => {
 
     const navigate = useNavigate()
 
+    const handleLogin = () => {
+        axios
+            .post('http://localhost:8800/login', {
+                email,
+                password
+            })
+            .then((response) => {
+                console.log('User found')
+                console.log(response.data[0].id)
+                localStorage.setItem('userId', response.data[0].id)
+                navigate('/')
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -75,15 +92,12 @@ const UserForm = () => {
                 password
             })
             .then((response) => {
-                alert('Välkommen till Kwitter!')
-
+                console.log(response.data)
+                handleLogin()
                 setFirstname('')
                 setLastname('')
                 setEmail('')
                 setPassword('')
-                localStorage.setItem('userId', response.data[0].id)
-                console.log(response.data)
-                navigate('/')
             })
             .catch((error) => {
                 console.log(error)
