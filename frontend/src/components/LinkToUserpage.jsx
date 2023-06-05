@@ -5,7 +5,6 @@ import { Colors, TextColor } from '../styles'
 
 function LinkToUserPage({ strokeWidth, strokeColor, path }) {
     const [id, setId] = useState(0)
-
     const userPagePath = path.split('/')[1]
 
     useEffect(() => {
@@ -43,6 +42,8 @@ function LinkToUserPage({ strokeWidth, strokeColor, path }) {
                 </Link>
             </ButtonContainer>
         )
+    } else if (path === '/login' || path === '/signupp') {
+        return ''
     } else {
         return (
             <ButtonContainer>
@@ -71,7 +72,7 @@ const ButtonContainer = styled.div`
         --moz-boz-box-shadow: 0px 0px 0px 0px #000;
         box-shadow: 0px 0px 0px 0px #000;
         transition: transform 50ms ease-in, box-shadow 50ms ease-in;
-        background-color: #fff;
+        background-color: transparent;
     }
 
     /* .login:hover{
