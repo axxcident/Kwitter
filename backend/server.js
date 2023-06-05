@@ -354,6 +354,19 @@ app.get('/comments', async (req, res) => {
     }
 })
 
+//  ------------------------------------- HÄMTA ALLA KOMMENTARER FRÅN ETT INLÄGG
+app.get('/comments/:post_id', async (req, res) => {
+  const { post_id } = req.params
+    try {
+        const result = await client.query(
+          `SELECT * FROM comments WHERE post_id=$1`,[post_id])
+        res.status(200).json(result.rows)
+    } catch (err) {
+        res.status(500).send('Internal Server Error')
+        console.log(err)
+    }
+})
+
 //  -------------------------------------  LÄGG TILL KOMMENTAR
 app.post('/comments/submit', async (req, res) => {
   const { post_id, poster_id, comment } = req.body;
@@ -370,10 +383,10 @@ app.post('/comments/submit', async (req, res) => {
 })
 
 // ------------------------------------- RADERA KOMMENTAR
-app.delete('/comments/:comments_id/delete', async (req, res) => {
-  const { comments_id } = req.params;
+app.delete('/comments/:comment_id/delete', async (req, res) => {
+  const { comment_id } = req.params;
   try {
-    await client.query('DELETE FROM comments WHERE id = $1', [comments_id]);
+    await client.query('DELETE FROM comments WHERE comment_id = $1', [comment_id]);
     res.status(204).send('kommentar raderad');
   } catch (err) {
     res.status(500).send('Internal Server Error');
