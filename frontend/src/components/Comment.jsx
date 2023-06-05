@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import { Colors, TextColor, Shadows } from '../styles'
-import { useNavigate } from 'react-router-dom'
 
 const Comment = (props) => {
   const [dateCreated, setDateCreated] = useState(null)
@@ -124,36 +123,32 @@ const Comment = (props) => {
 
   return (
     <Container>
-        <TopContainer>
-            <UserInfo onClick={() => goToUserPage(user.id)}>
-                {user.firstname} {user.lastname} {formatTimeDifference()}{' '}
-            </UserInfo>
+      <TopContainer>
+          <UserInfo onClick={() => goToUserPage(user.id)}>
+            {user.firstname} {user.lastname} {formatTimeDifference()}{' '}
+          </UserInfo>
 
-            <ButtonsContainer>
-                {canEdit && (
-                    <div>
-                        {!isEditing && (
-                            <button onClick={handleEdit}>Redigera</button>
-                        )}
-                        {isEditing && (
-                            <>
-                                <button onClick={handleEdit}>Avbryt</button>
-                                <button
-                                    onClick={() =>
-                                        handleDelete(props.comment_id)
-                                    }
-                                >
-                                    Ta bort
-                                </button>
-                            </>
-                        )}
-                    </div>
-                )}
-            </ButtonsContainer>
-        </TopContainer>
-        <PostContainer>{props.comment}</PostContainer>
+        <ButtonsContainer>
+            {canEdit && (
+              <div>
+                  {!isEditing && (
+                      <button className="edit-button" onClick={handleEdit}>Redigera</button>
+                  )}
+                  {isEditing && (
+                      <>
+                          <button className="cancel-button" onClick={handleEdit}>Avbryt</button>
+                          <button className="delete-button" onClick={() => handleDelete(props.comment_id)}>
+                              Ta bort
+                          </button>
+                      </>
+                  )}
+              </div>
+            )}
+        </ButtonsContainer>
+      </TopContainer>
+      <PostContainer>{props.comment}</PostContainer>
     </Container>
-)
+  )
 }
 
 export default Comment
@@ -199,6 +194,37 @@ const ButtonsContainer = styled.div`
         font-size: 1.5rem;
         font-weight: bold;
     }
+  .edit-button {
+  background-color: ${Colors.KWITTERBLUE};
+  color: ${TextColor.LIGHT};
+  padding: .5rem;
+  border: solid black .5px;
+  border-radius: 5rem;
+  cursor: pointer;
+  right: 2rem;
+  top: 6rem;
+  }
+  .cancel-button {
+    background-color: ${Colors.GREY};
+    color: ${TextColor.LIGHT};
+  padding: .5rem;
+  margin-right: .25rem;
+  border: solid black .5px;
+  border-radius: 5rem;
+  cursor: pointer;
+  right: 2rem;
+  top: 6rem;
+  }
+  .delete-button {
+    background-color: ${Colors.RUSTRED};
+    color: ${TextColor.LIGHT};
+  padding: .5rem;
+  border: solid black .5px;
+  border-radius: 5rem;
+  cursor: pointer;
+  right: 2rem;
+  top: 6rem;
+  }
 `
 
 const ButtonsWrapper = styled.div`

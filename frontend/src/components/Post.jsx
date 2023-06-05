@@ -10,6 +10,7 @@ function Post(props) {
     const [canEdit, setCanEdit] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [numberLikes, setNumberLikes] = useState(0)
+    const [comments, setComments] = useState([])
     const navigate = useNavigate()
 
     // Hämta all data om en user
@@ -26,6 +27,17 @@ function Post(props) {
                 console.error(error)
             })
     }, [props.user_id, props.created])
+
+  // Hämta alla kommentarer kopplad till ett visst inlägg
+  useEffect(() => {
+    axios.get(`http://localhost:8800/comments/${props.post_id}`)
+        .then((response) => {
+          setComments(response.data)
+        })
+        .catch((error) => {
+            console.error(error)
+        })
+    }, [])
 
     // kolla ifall user är inloggad
     useEffect(() => {
@@ -133,7 +145,6 @@ function Post(props) {
                 <UserInfo onClick={() => goToUserPage(user.id)}>
                     {user.firstname} {user.lastname} {formatTimeDifference()}{' '}
                 </UserInfo>
-
                 <ButtonsContainer>
                     {canEdit && (
                         <div>
@@ -141,16 +152,13 @@ function Post(props) {
                                 <button className="edit-button" onClick={handleEdit}>Redigera</button>
                             )}
                             {isEditing && (
-                                <>
-                                    <button className="cancel-button" onClick={handleEdit}>Avbryt</button>
-                                    <button className="delete-button"
-                                        onClick={() =>
-                                            handleDelete(props.post_id)
-                                        }
-                                    >
-                                        Ta bort
-                                    </button>
-                                </>
+                            <>
+                                <button className="cancel-button" onClick={handleEdit}>Avbryt</button>
+                                <button className="delete-button"
+                                    onClick={() => handleDelete(props.post_id)}>
+                                    Ta bort
+                                </button>
+                            </>
                             )}
                         </div>
                     )}
@@ -177,7 +185,6 @@ function Post(props) {
                                 />
                             </g>
                         </svg>
-                        {numberLikes != 0 && <span>{numberLikes}</span>}
                     </ButtonsContainer>
                 ) : (
                     <ButtonsContainer>
@@ -199,6 +206,7 @@ function Post(props) {
                         {numberLikes != 0 && <span>{numberLikes}</span>}
                     </ButtonsContainer>
                 )}
+                {comments.length > 0 ? (
                 <ButtonsContainer>
                     <svg
                         onClick={() => handleComment(props.post_id, user.id)}
@@ -212,10 +220,33 @@ function Post(props) {
                             id="b"
                             data-name="Commnet"
                             className="comment-stroke"
+                            fill="#fff"
                             d="M24.64,7.21H9.61c-2.41,0-4.36,1.95-4.36,4.36v8.48c0,2.35,1.86,4.25,4.19,4.34-.71,.92-1.46,1.8-2.29,2.62l-1.12,1.1c3.18-.64,6.17-1.91,8.84-3.7h9.78c2.41,0,4.36-1.95,4.36-4.36V11.57c0-2.41-1.95-4.36-4.36-4.36Z"
                         />
                     </svg>
+                    {comments.length != 0 && <span>{comments.length}</span>}
                 </ButtonsContainer>
+                ) : (
+                <ButtonsContainer>
+                    <svg
+                        onClick={() => handleComment(props.post_id, user.id)}
+                        className="comment-btn"
+                        id="a"
+                        data-name="Layer 1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 34.25 35.31"
+                    >
+                        <path
+                            id="b"
+                            data-name="Commnet"
+                            className="comment-stroke"
+                            // fill="#fff"
+                            d="M24.64,7.21H9.61c-2.41,0-4.36,1.95-4.36,4.36v8.48c0,2.35,1.86,4.25,4.19,4.34-.71,.92-1.46,1.8-2.29,2.62l-1.12,1.1c3.18-.64,6.17-1.91,8.84-3.7h9.78c2.41,0,4.36-1.95,4.36-4.36V11.57c0-2.41-1.95-4.36-4.36-4.36Z"
+                        />
+                    </svg>
+                    {/* {comments.length != 0 && <span>{comments.length}</span>} */}
+                </ButtonsContainer>
+                )}
             </ButtonsWrapper>
         </Container>
     )
@@ -258,6 +289,7 @@ const PostContainer = styled.div`
 const ButtonsContainer = styled.div`
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     span {
         font-size: 1.5rem;
