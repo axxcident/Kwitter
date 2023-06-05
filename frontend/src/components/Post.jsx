@@ -143,7 +143,7 @@ function Post(props) {
         <Container>
             <TopContainer>
                 <UserInfo onClick={() => goToUserPage(user.id)}>
-                    {user.firstname} {user.lastname} {formatTimeDifference()}{' '}
+                    {user.firstname} {/* {user.lastname} */} {formatTimeDifference()}{' '}
                 </UserInfo>
                 <ButtonsContainer>
                     {canEdit && (

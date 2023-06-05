@@ -240,19 +240,61 @@ app.delete('/users/:poster_id/delete', async (req, res) => {
 })
 
 // ------------------------------------- ÄNDRA ANVÄNDARE
+// app.put('/users/:poster_id/put', async (req, res) => {
+//   const { poster_id } = req.params;
+//   const { firstname, lastname, email, password } = req.body;
+//   try {
+//     await client.query(`
+//     UPDATE users SET firstname = $1, lastname = $2, email = $3, password = $4 WHERE id = $5`,
+//     [firstname, lastname, email, password, poster_id]);
+//     res.status(204).send('användare updaterad');
+//   } catch (err) {
+//     res.status(500).send('Internal Server Error');
+//     console.log(err);
+//   }
+// })
+
 app.put('/users/:poster_id/put', async (req, res) => {
   const { poster_id } = req.params;
   const { firstname, lastname, email, password } = req.body;
+  const updateFields = [];
+
+  // Check which fields are provided and add them to the updateFields array
+  if (firstname) {
+    updateFields.push('firstname');
+  }
+  if (lastname) {
+    updateFields.push('lastname');
+  }
+  if (email) {
+    updateFields.push('email');
+  }
+  if (password) {
+    updateFields.push('password');
+  }
+
+  // Construct the SQL query dynamically based on the provided fields
+  let updateQuery = 'UPDATE users SET';
+  updateFields.forEach((field, index) => {
+    updateQuery += ` ${field} = $${index + 1}`;
+    if (index !== updateFields.length - 1) {
+      updateQuery += ',';
+    }
+  });
+  updateQuery += ` WHERE id = $${updateFields.length + 1}`;
+
+  // Prepare the parameter values for the query
+  const parameterValues = updateFields.map(field => req.body[field]);
+  parameterValues.push(poster_id);
+
   try {
-    await client.query(`
-    UPDATE users SET firstname = $1, lastname = $2, email = $3, password = $4 WHERE id = $5`,
-    [firstname, lastname, email, password, poster_id]);
+    await client.query(updateQuery, parameterValues);
     res.status(204).send('användare updaterad');
   } catch (err) {
     res.status(500).send('Internal Server Error');
     console.log(err);
   }
-})
+});
 
 //  ------------------------------------- HÄMTA ALLA Likes
 app.get('/likes', async (req, res) => {

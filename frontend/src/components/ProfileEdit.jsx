@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Colors, TextColor } from '../styles';
+import { Colors, TextColor, Shadows } from '../styles';
 
 
-function ProfileEdit({ user, id, onCancel}) {
-  const [editMode, setEditMode] = useState(false);
+function ProfileEdit({ user, id}) {
   const [formData, setFormData] = useState({
     firstname: user.firstname || '',
     lastname: user.lastname || '',
     email: user.email || '',
     password: user.password || '',
   });
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData((prevFormData) => ({
@@ -20,21 +20,9 @@ function ProfileEdit({ user, id, onCancel}) {
     }));
   };
 
-  const handleEditProfile = () => {
-    setEditMode(true);
-    handleOpenModal();
-  };
-
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setEditMode(false);
-  };
+  const handleModal = () => {
+    setModalOpen(!isModalOpen)
+  }
 
   const handleSaveProfile = () => {
     const updatedUser = {
@@ -44,20 +32,16 @@ function ProfileEdit({ user, id, onCancel}) {
       password: formData.password,
     };
 
-    axios
-      .put(`http://localhost:8800/users/${id}/put`, updatedUser)
+    axios.put(`http://localhost:8800/users/${id}/put`, updatedUser)
       .then(() => {
         console.log('Profile updated successfully');
-        setEditMode(false);
+        // setEditMode(false);
+        window.location.reload()
       })
       .catch((error) => {
         console.error('Error updating profile:', error);
+        alert("Något gick fel")
       });
-  };
-
-  const handleCancel = () => {
-    setEditMode(false);
-  handleCloseModal();
   };
 
   const handleDeleteAccount = () => {
@@ -79,55 +63,14 @@ function ProfileEdit({ user, id, onCancel}) {
   const handleLogout = () => {
     localStorage.removeItem('userId');
     console.log("Användaren är utloggad")
+    alert('Du loggas ut')
     window.location.href = '/login';
   };
 
-
   return (
     <Container>
-      {!editMode ? (
-        <>
-          <EditButton onClick={handleEditProfile}>Redigera profil</EditButton>
-        </>
-      ) : (
-        <>
-{/*           <Input
-            type="text"
-            name="firstname"
-            placeholder="Skriv in ditt förnamn"
-            value={formData.firstname}
-            onChange={handleInputChange}
-          />
-          <Input
-            type="text"
-            name="lastname"
-            placeholder='Skriv in ditt efternamn'
-            value={formData.lastname}
-            onChange={handleInputChange}
-          />
-          <Input
-            type="email"
-            name="email"
-            placeholder="exempel.email@gmail.com"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-          <Input
-            type="password"
-            name="password"
-            placeholder="Skriv in ditt lösenord"
-            value={formData.password}
-            onChange={handleInputChange}
-          /> */}
-{/*           <ButtonContainer>
-          <SaveButton onClick={handleSaveProfile}>Spara</SaveButton>
-          <CancelButton onClick={handleCancel}>Avbryt</CancelButton>
-          <LogoutButton onClick={handleLogout}>Logga ut</LogoutButton>
-          <DeleteButton onClick={handleDeleteAccount}>Radera kontot</DeleteButton>
-          </ButtonContainer> */}
-        </>
-      )}
-            {isModalOpen && (
+      <EditButton onClick={handleModal}>Redigera profil</EditButton>
+      {isModalOpen && (
         <ModalOverlay>
           <ModalContent>
             <Input
@@ -136,35 +79,34 @@ function ProfileEdit({ user, id, onCancel}) {
             placeholder="Ändra ditt användarnamn"
             value={formData.firstname}
             onChange={handleInputChange}
-          />
-          {/* <Input
-            type="text"
-            name="lastname"
-            placeholder='Skriv in ditt efternamn'
-            value={formData.lastname}
-            onChange={handleInputChange}
-          /> */}
-         {/*  <Input
-            type="email"
-            name="email"
-            placeholder="exempel.email@gmail.com"
-            value={formData.email}
-            onChange={handleInputChange}
-          /> */}
-          <Input
-            type="password"
-            name="password"
-            placeholder="Skriv in ditt nya lösenord"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-
-<ButtonContainer>
-            <SaveButton onClick={handleSaveProfile}>Spara</SaveButton>
-            <CancelButton onClick={handleCloseModal}>Avbryt</CancelButton>
-            <LogoutButton onClick={handleLogout}>Logga ut</LogoutButton>
-            <DeleteButton onClick={handleDeleteAccount}>Radera kontot</DeleteButton>
-</ButtonContainer>
+            />
+            <Input
+              type="text"
+              name="lastname"
+              placeholder='Bio'
+              value={formData.lastname}
+              onChange={handleInputChange}
+            />
+            <Input
+              type="email"
+              name="email"
+              placeholder="exempel.email@gmail.com"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+            <Input
+              type="password"
+              name="password"
+              placeholder="Skriv in ditt nya lösenord"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+            <ButtonContainer>
+              <SaveButton onClick={handleSaveProfile}>Spara</SaveButton>
+              <CancelButton onClick={handleModal}>Avbryt</CancelButton>
+              <LogoutButton onClick={handleLogout}>Logga ut</LogoutButton>
+              <DeleteButton onClick={handleDeleteAccount}>Radera kontot</DeleteButton>
+            </ButtonContainer>
           </ModalContent>
         </ModalOverlay>
       )}
@@ -267,8 +209,7 @@ const ModalContent = styled.div`
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: ${Shadows.DROPSHADOWS};
   max-width: 400px;
   width: 100%;
-  box-shadow: rgb(0, 0, 0) 10px 10px
 `;
