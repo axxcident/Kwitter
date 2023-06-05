@@ -138,12 +138,12 @@ function Post(props) {
                     {canEdit && (
                         <div>
                             {!isEditing && (
-                                <button onClick={handleEdit}>Redigera</button>
+                                <button className="edit-button" onClick={handleEdit}>Redigera</button>
                             )}
                             {isEditing && (
                                 <>
-                                    <button onClick={handleEdit}>Avbryt</button>
-                                    <button
+                                    <button className="cancel-button" onClick={handleEdit}>Avbryt</button>
+                                    <button className="delete-button"
                                         onClick={() =>
                                             handleDelete(props.post_id)
                                         }
@@ -263,6 +263,38 @@ const ButtonsContainer = styled.div`
         font-size: 1.5rem;
         font-weight: bold;
     }
+
+    .edit-button {
+    background-color: ${Colors.KWITTERBLUE};
+    color: ${TextColor.LIGHT};
+  padding: .5rem;
+  border: solid black .5px;
+  border-radius: 5rem;
+  cursor: pointer;
+  right: 2rem;
+  top: 6rem;
+  }
+  .cancel-button {
+    background-color: ${Colors.GREY};
+    color: ${TextColor.LIGHT};
+  padding: .5rem;
+  margin-right: .25rem;
+  border: solid black .5px;
+  border-radius: 5rem;
+  cursor: pointer;
+  right: 2rem;
+  top: 6rem;
+  }
+  .delete-button {
+    background-color: ${Colors.RUSTRED};
+    color: ${TextColor.LIGHT};
+  padding: .5rem;
+  border: solid black .5px;
+  border-radius: 5rem;
+  cursor: pointer;
+  right: 2rem;
+  top: 6rem;
+  }
 `
 
 const ButtonsWrapper = styled.div`
