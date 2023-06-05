@@ -105,9 +105,10 @@ function UserPage() {
                 )}
                  <Presentation>
                     <p className="user-title">
-                        {user?.firstname} {user?.lastname}
+                        {user?.firstname} {/* {user?.lastname} */}
                     </p>
                     <p className="user-email">{user?.email}</p>
+                    <p className="user-bio">{user?.lastname}</p>
                 </Presentation>
             </PresentationContainer>
             <ButtonsWrapper>
@@ -154,19 +155,29 @@ const TopContainer = styled.div`
 const PresentationContainer = styled.div`
     font-family: 'Poppins', sans-serif;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     background-color: ${Colors.GREY};
     min-height: 200px;
-`
+
+    @media (min-width: 370px) and (max-width: 630px) {
+        justify-content: flex-start;
+  }
+`;
+
 const Presentation = styled.div`
     padding: 1rem;
-    margin-right: -30rem;
+    /* margin-right: -30rem; */
 
 
     .user-title,
     .user-email {
         font-size: 1.2rem;
+    }
+
+    .user-bio{
+        font-size: 1rem;
+        margin-top: 1rem;
     }
 
     .user-title {
@@ -180,8 +191,7 @@ const Presentation = styled.div`
     @media (max-width: 375px) {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    justify-content: center;
     margin-right: 0;
   }
 `;

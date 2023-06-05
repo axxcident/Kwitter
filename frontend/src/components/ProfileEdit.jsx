@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Colors, TextColor } from '../styles';
+import { Colors, TextColor, Shadows } from '../styles';
 
 
 function ProfileEdit({ user, id, onCancel}) {
@@ -137,20 +137,20 @@ function ProfileEdit({ user, id, onCancel}) {
             value={formData.firstname}
             onChange={handleInputChange}
           />
-          {/* <Input
+          <Input
             type="text"
             name="lastname"
-            placeholder='Skriv in ditt efternamn'
+            placeholder='Bio'
             value={formData.lastname}
             onChange={handleInputChange}
-          /> */}
-         {/*  <Input
+          />
+          <Input
             type="email"
             name="email"
             placeholder="exempel.email@gmail.com"
             value={formData.email}
             onChange={handleInputChange}
-          /> */}
+          />
           <Input
             type="password"
             name="password"
@@ -267,8 +267,7 @@ const ModalContent = styled.div`
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: ${Shadows.DROPSHADOWS};
   max-width: 400px;
   width: 100%;
-  box-shadow: rgb(0, 0, 0) 10px 10px
 `;
