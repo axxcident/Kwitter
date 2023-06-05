@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const PageContainer = styled.div`
   font-family: 'Poppins', sans-serif;
   background-color: white;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,8 +22,7 @@ const Container = styled.div`
   margin-bottom: 1.5rem;
   border-radius: 10px;
   box-shadow: ${Shadows.DROPSHADOWS};
-  -webkit-box-shadow: ${Shadows.DROPSHADOWS};
-  -moz-box-shadow: ${Shadows.DROPSHADOWS};
+  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,7 +31,6 @@ const Container = styled.div`
   text-align: center;
   margin-top: 75px;
 `;
-
 
 const CommentForm = styled.form`
   width: 100%;
@@ -46,7 +44,7 @@ const CommentForm = styled.form`
 const CommentTextarea = styled.textarea`
   font-size: 1.5rem;
   height: 250px;
-  width: 450px;
+  width: 100%;
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -80,6 +78,7 @@ const CancelLink = styled(Link)`
   text-decoration: none;
   color: black;
   font-weight: bold;
+
   &:hover {
     color: white;
   }
@@ -93,6 +92,7 @@ const UserName = styled.div`
     font-family: 'Poppins', sans-serif;
     color: #000;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
 `;
 
 function PostAPostPage() {
@@ -135,25 +135,25 @@ function PostAPostPage() {
 
   return (
     <PageContainer>
-    <Container>
-      <CancelLink to="/">X Avbryt</CancelLink>
-      <CommentForm onSubmit={handlePost}>
-        <br />
-        <label>
-          <UserName>
-            <h3 className="user-title">{user.firstname}</h3>
+      <Container>
+        <CancelLink to="/">X Avbryt</CancelLink>
+        <CommentForm onSubmit={handlePost}>
+          <br />
+          <label>
+            <UserName>
+              <h3 className="user-title">{user.firstname}</h3>
             </UserName>
-          <CommentTextarea
-            type="text"
-            value={post}
-            onChange={e => setPost(e.target.value)}
-            required
-          ></CommentTextarea>
-        </label>
-        <br />
-        <CommentButton type="submit">Posta</CommentButton>
-      </CommentForm>
-    </Container>
+            <CommentTextarea
+              type="text"
+              value={post}
+              onChange={e => setPost(e.target.value)}
+              required
+            ></CommentTextarea>
+          </label>
+          <br />
+          <CommentButton type="submit">Posta</CommentButton>
+        </CommentForm>
+      </Container>
     </PageContainer>
   );
 }

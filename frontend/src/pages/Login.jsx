@@ -3,6 +3,8 @@ import LoginComp from '../components/LoginComp';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useNavigate } from 'react-router';
 
+const backgroundImage = 'url("/kwitter-logo-2.png")';
+
 // Global styles for the body element
 const GlobalStyle = createGlobalStyle`
   body {
@@ -15,7 +17,21 @@ const GlobalStyle = createGlobalStyle`
 // Styled component for the login container
 const LoginContainer = styled.div`
   padding: 20px;
+  padding-top: 50px;
   text-align: center;
+`;
+
+const Navbar = styled.nav`
+  background-image: ${backgroundImage};
+  background-size: 160px 60px;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
 `;
 
 const Login = () => {
@@ -33,7 +49,7 @@ const Login = () => {
     <>
       <GlobalStyle />
       <LoginContainer>
-        <h1>Välkommen till Kwitter</h1>
+        <Navbar />
         <LoginComp />
       </LoginContainer>
     </>
@@ -41,3 +57,4 @@ const Login = () => {
 };
 
 export default Login;
+
