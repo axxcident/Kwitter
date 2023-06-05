@@ -1,124 +1,153 @@
-import { useState } from 'react';
-import axios from 'axios';
-import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import axios from 'axios'
+import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 const SignUppWrap = styled.div`
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  form {
+    /* margin: 0 auto; */
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 250px;
-  }
-  form label {
-    margin-top: 30px;
-    font-weight: bolder;
-  }
-  form label, button {
-    display: flex;
-  }
-  form input {
-    margin-top: 9px;
-    width: 250px;
-    padding: 10px;
-    border-radius: 7px;
-  }
-  .submitBTN {
-    background-color: black;
-    color: white;
-    padding: 10px 35px;
-    border-radius: 15px;
-    margin-top: 45px;
-    cursor: pointer;
-    font-size: 1.1rem;
-
-    &:hover {
-      background-color: #B2D6F8;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    form {
     }
-  }
+    /* button {
+        display: flex;
+    } */
+    form input {
+        font-weight: bolder;
+        padding: 0.7rem;
+        margin-top: 0.5rem;
+        border-radius: 7px;
+        border: none;
+    }
+    .submitBTN {
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+        max-width: 200px;
+        background-color: transparent;
+        border: none;
+        border: 1px solid #000;
+        background-color: #000;
+        color: #fff;
+        font-weight: bold;
+        padding: 1rem;
+        border-radius: 100px;
+        &:hover {
+            background-color: #fff;
+            color: #000;
+        }
+    }
+
+    .input-container {
+        max-width: 600px;
+        display: grid;
+        /* width: 100%; */
+        /* margin: 0 auto; */
+        margin-bottom: 3rem;
+    }
+
+    .input-header {
+        margin-top: 1rem;
+        font-weight: bold;
+    }
 `
 
 const UserForm = () => {
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+    const [firstname, setFirstname] = useState('')
+    const [lastname, setLastname] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
-  const navigate = useNavigate();
+    const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const handleLogin = () => {
+        axios
+            .post('http://localhost:8800/login', {
+                email,
+                password
+            })
+            .then((response) => {
+                console.log('User found')
+                console.log(response.data[0].id)
+                localStorage.setItem('userId', response.data[0].id)
+                navigate('/')
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 
-    axios.post('http://localhost:8800/users/submit', {
-      firstname,
-      lastname,
-      email,
-      password,
-    })
-      .then(response => {
-        alert('Välkommen till Kwitter!');
+    const handleSubmit = (e) => {
+        e.preventDefault()
 
-        setFirstname('');
-        setLastname('');
-        setEmail('');
-        setPassword('');
+        axios
+            .post('http://localhost:8800/users/submit', {
+                firstname,
+                lastname,
+                email,
+                password
+            })
+            .then((response) => {
+                console.log(response.data)
+                handleLogin()
+                setFirstname('')
+                setLastname('')
+                setEmail('')
+                setPassword('')
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 
-        console.log(response.data);
-        navigate('/login');
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+    return (
+        <SignUppWrap>
+            <form
+                className="input-container"
+                onSubmit={handleSubmit}
+                id="signeraUppFormulär"
+            >
+                <label>
+                    <p className="input-header">Användarnamn</p>
+                </label>
+                <input
+                    type="text"
+                    value={firstname}
+                    onChange={(e) => setFirstname(e.target.value)}
+                    required
+                />
+                <label>
+                    <p className="input-header">Mejladdress</p>
+                </label>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <label>
+                    <p className="input-header">Lösenord</p>
+                </label>
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+            </form>
+            <button
+                type="submit"
+                form="signeraUppFormulär"
+                className="submitBTN"
+            >
+                Skapa Konto
+            </button>
+        </SignUppWrap>
+    )
+}
 
-  return (
-    <SignUppWrap>
-      <form onSubmit={handleSubmit} id="signeraUppFormulär">
-        <label>
-          Användarnamn
-          </label>
-          <input
-            type="text"
-            value={firstname}
-            onChange={e => setFirstname(e.target.value)}
-            required
-          />
-        {/* <label>
-          Lastname:
-          <input
-            type="text"
-            value={lastname}
-            onChange={e => setLastname(e.target.value)}
-          />
-        </label> */}
-        <label>
-          Mejladress
-        </label>
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-        <label>
-          Lösenord
-        </label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-        {/* <button type="submit">Submit</button> */}
-      </form>
-      <button type="submit" form="signeraUppFormulär" className='submitBTN'>Skapa Konto</button>
-    </SignUppWrap>
-  );
-};
-
-export default UserForm;
+export default UserForm

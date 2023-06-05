@@ -7,13 +7,11 @@ import { Colors, TextColor } from '../styles';
 function ProfileEdit({ user, id, onCancel}) {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
-    firstname: user.firstname,
-    lastname: user.lastname,
-    email: user.email,
-    password: user.password,
+    firstname: user.firstname || '',
+    lastname: user.lastname || '',
+    email: user.email || '',
+    password: user.password || '',
   });
-
-
 
   const handleInputChange = (e) => {
     setFormData((prevFormData) => ({
@@ -24,6 +22,18 @@ function ProfileEdit({ user, id, onCancel}) {
 
   const handleEditProfile = () => {
     setEditMode(true);
+    handleOpenModal();
+  };
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setEditMode(false);
   };
 
   const handleSaveProfile = () => {
@@ -47,7 +57,7 @@ function ProfileEdit({ user, id, onCancel}) {
 
   const handleCancel = () => {
     setEditMode(false);
-    onCancel();
+  handleCloseModal();
   };
 
   const handleDeleteAccount = () => {
@@ -72,6 +82,7 @@ function ProfileEdit({ user, id, onCancel}) {
     window.location.href = '/login';
   };
 
+
   return (
     <Container>
       {!editMode ? (
@@ -80,7 +91,7 @@ function ProfileEdit({ user, id, onCancel}) {
         </>
       ) : (
         <>
-          <Input
+{/*           <Input
             type="text"
             name="firstname"
             placeholder="Skriv in ditt förnamn"
@@ -107,12 +118,55 @@ function ProfileEdit({ user, id, onCancel}) {
             placeholder="Skriv in ditt lösenord"
             value={formData.password}
             onChange={handleInputChange}
-          />
+          /> */}
+{/*           <ButtonContainer>
           <SaveButton onClick={handleSaveProfile}>Spara</SaveButton>
           <CancelButton onClick={handleCancel}>Avbryt</CancelButton>
           <LogoutButton onClick={handleLogout}>Logga ut</LogoutButton>
           <DeleteButton onClick={handleDeleteAccount}>Radera kontot</DeleteButton>
+          </ButtonContainer> */}
         </>
+      )}
+            {isModalOpen && (
+        <ModalOverlay>
+          <ModalContent>
+            <Input
+            type="text"
+            name="firstname"
+            placeholder="Ändra ditt användarnamn"
+            value={formData.firstname}
+            onChange={handleInputChange}
+          />
+          {/* <Input
+            type="text"
+            name="lastname"
+            placeholder='Skriv in ditt efternamn'
+            value={formData.lastname}
+            onChange={handleInputChange}
+          /> */}
+         {/*  <Input
+            type="email"
+            name="email"
+            placeholder="exempel.email@gmail.com"
+            value={formData.email}
+            onChange={handleInputChange}
+          /> */}
+          <Input
+            type="password"
+            name="password"
+            placeholder="Skriv in ditt nya lösenord"
+            value={formData.password}
+            onChange={handleInputChange}
+          />
+
+<ButtonContainer>
+            <SaveButton onClick={handleSaveProfile}>Spara</SaveButton>
+            <CancelButton onClick={handleCloseModal}>Avbryt</CancelButton>
+            <LogoutButton onClick={handleLogout}>Logga ut</LogoutButton>
+            <DeleteButton onClick={handleDeleteAccount}>Radera kontot</DeleteButton>
+</ButtonContainer>
+          </ModalContent>
+        </ModalOverlay>
       )}
     </Container>
   );
@@ -122,40 +176,48 @@ export default ProfileEdit;
 
 const Container = styled.div`
   font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 `;
 
 const LogoutButton = styled.button`
-    background-color: ${Colors.RED};
+    background-color: ${Colors.YELLOW};
     color: ${TextColor.LIGHT};
     padding: 10px;
-    margin-left: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 `
 const DeleteButton = styled.button`
-    background-color: ${Colors.RED};
+    background-color: ${Colors.RUSTRED};
     color: ${TextColor.LIGHT};
     padding: 10px;
-    margin-left: 10px;
+    margin-left: 1rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 `
 
 const Input = styled.input`
-  width: 300%;
-  display: flex;
-  flex-direction: row;
+  width: 100%;
+  margin-left: 50%;
+  transform: translateX(-50%);
   padding: 10px;
   margin-top: 1rem;
-  margin-bottom: 10px;
-  margin-left: -10rem;
-  margin-right: 5rem;
+  margin-bottom: .5rem;
+  border-radius: 5rem;
+  border: solid black 1px;
 `;
 
 const EditButton = styled.button`
-  background-color: #B2D6F8 /* ${Colors.BLUE} */;
+  background-color: ${Colors.KWITTERBLUE};
   color: ${TextColor.LIGHT};
   padding: .5rem;
   border: solid black .5px;
@@ -170,7 +232,7 @@ const SaveButton = styled.button`
   background-color: ${Colors.BLUE};
   color: ${TextColor.LIGHT};
   padding: 10px;
-  margin-left: -10rem;
+
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -180,8 +242,33 @@ const CancelButton = styled.button`
   background-color: ${Colors.GREY};
   color: ${TextColor.DARK};
   padding: 10px;
-  margin-right: 10px;
-  border: none;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border: solid black 1px;
   border-radius: 5px;
   cursor: pointer;
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1.5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+`;
+
+const ModalContent = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  box-shadow: rgb(0, 0, 0) 10px 10px
 `;

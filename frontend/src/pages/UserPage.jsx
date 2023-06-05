@@ -20,6 +20,9 @@ function UserPage() {
     const [sortOption, setSortOption] = useState('created_at')
     const [activeButton, setActiveButton] = useState('')
 
+    const [editMode, setEditMode] = useState(false);
+
+
     // Hämtar alla users likade post
     useEffect(() => {
         axios
@@ -68,6 +71,7 @@ function UserPage() {
     // Knsk tas bort.knsk överflödig.
     const handleEditProfile = () => {
         setShowLogoutButton(!showLogoutButton)
+        setEditMode(!editMode);
     }
 
     // Ändrar sortering
@@ -81,6 +85,10 @@ function UserPage() {
         }
     }
 
+    const handleCancel = () => {
+        setEditMode(false);
+      };
+
     return (
         <>
             <TopContainer />
@@ -90,10 +98,12 @@ function UserPage() {
                         className="edit-button"
                         user={user}
                         id={id}
-                        onClick={handleEditProfile}
+                        editMode={editMode}
+          onCancel={handleCancel}
+                        /* onClick={handleEditProfile} */
                     />
                 )}
-                <Presentation>
+                 <Presentation>
                     <p className="user-title">
                         {user?.firstname} {user?.lastname}
                     </p>
@@ -151,8 +161,8 @@ const PresentationContainer = styled.div`
 `
 const Presentation = styled.div`
     padding: 1rem;
-    width: 100%;
-    max-width: 500px;
+    margin-right: -30rem;
+
 
     .user-title,
     .user-email {
@@ -166,7 +176,16 @@ const Presentation = styled.div`
         font-weight: 500;
         color: ${TextColor.LIGHTER};
     }
-`
+
+    @media (max-width: 375px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-right: 0;
+  }
+`;
+
 
 const ButtonsWrapper = styled.div`
     position: sticky;

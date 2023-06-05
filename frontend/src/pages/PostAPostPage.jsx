@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const PageContainer = styled.div`
   font-family: 'Poppins', sans-serif;
   background-color: white;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,8 +22,7 @@ const Container = styled.div`
   margin-bottom: 1.5rem;
   border-radius: 10px;
   box-shadow: ${Shadows.DROPSHADOWS};
-  -webkit-box-shadow: ${Shadows.DROPSHADOWS};
-  -moz-box-shadow: ${Shadows.DROPSHADOWS};
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,53 +32,55 @@ const Container = styled.div`
   margin-top: 75px;
 `;
 
-
 const CommentForm = styled.form`
   width: 100%;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 `;
 
 const CommentTextarea = styled.textarea`
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
   font-size: 1.5rem;
-  height: 250px;
-  width: 450px;
+  height: 300px;
+  width: 100%;
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #ccc;
   resize: vertical;
+  margin-bottom: 1.5rem;
 `;
 
 const CommentButton = styled.button`
-  background-color: #000;
-  padding: 10px 35px;
-  color: #fff;
-  border-radius: 50px;
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
-  margin-top: 25px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  font-weight: bold;
-
-  &:hover {
-    background-color: ${Colors.GREY};
-    color: #000;
-  }
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+        /* max-width: 600px; */
+        background-color: transparent;
+        border: none;
+        border: 1px solid #000;
+        background-color: #000;
+        color: #fff;
+        font-weight: bold;
+        padding: 1rem;
+        border-radius: 100px;
+        &:hover {
+            background-color: #fff;
+            color: #000;
+        }
+        margin-bottom: 1.5rem;
 `;
 
 const CancelLink = styled(Link)`
   align-self: flex-start;
   margin-bottom: 1rem;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
   text-decoration: none;
   color: black;
   font-weight: bold;
+
   &:hover {
     color: white;
   }
@@ -92,8 +93,10 @@ const UserName = styled.div`
     margin-right: 100%;
     font-family: 'Poppins', sans-serif;
     color: #000;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  }`;
+
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
+  }
+`;
 
 function PostAPostPage() {
   const navigate = useNavigate()
@@ -135,25 +138,25 @@ function PostAPostPage() {
 
   return (
     <PageContainer>
-    <Container>
-      <CancelLink to="/">X Avbryt</CancelLink>
-      <CommentForm onSubmit={handlePost}>
-        <br />
-        <label>
-          <UserName>
-            <h3 className="user-title">{user.firstname}</h3>
+      <Container>
+        <CancelLink to="/">X Avbryt</CancelLink>
+        <CommentForm onSubmit={handlePost}>
+          <br />
+          <label>
+            <UserName>
+              <h3 className="user-title">{user.firstname}</h3>
             </UserName>
-          <CommentTextarea
-            type="text"
-            value={post}
-            onChange={e => setPost(e.target.value)}
-            required
-          ></CommentTextarea>
-        </label>
-        <br />
-        <CommentButton type="submit">Posta</CommentButton>
-      </CommentForm>
-    </Container>
+            <CommentTextarea
+              type="text"
+              value={post}
+              onChange={e => setPost(e.target.value)}
+              required
+            ></CommentTextarea>
+          </label>
+          <br />
+          <CommentButton type="submit">Posta</CommentButton>
+        </CommentForm>
+      </Container>
     </PageContainer>
   );
 }
