@@ -297,7 +297,7 @@ const ButtonsContainer = styled.div`
     }
 
     .edit-button {
-    background-color: ${Colors.KWITTERBLUE};
+    background-color: transparent;
     color: ${TextColor.LIGHT};
   padding: .5rem;
   border: solid black .5px;
