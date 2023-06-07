@@ -21,7 +21,7 @@ const LoginContainer = styled.div`
     align-items: center;
     flex-direction: column;
     padding: 20px;
-    padding-top: 150px;
+    padding-top: 2rem;
     width: 100%;
 `
 
