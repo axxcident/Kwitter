@@ -59,7 +59,7 @@ const ButtonContainer = styled.div`
     }
 
     .add-icon-detail {
-        fill: none;
+        fill: ${Colors.KWITTERBLUE};
         stroke: none;
         stroke: ${(props) => props.strokeColor};
         stroke-width: ${(props) => props.strokeWidth};

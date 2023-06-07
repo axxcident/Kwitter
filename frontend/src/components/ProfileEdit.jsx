@@ -166,7 +166,7 @@ const EditButton = styled.button`
   @media (max-width: 425px){
     margin-top: 1rem;
   }
-  background-color: transparent;
+  background-color: ${Colors.KWITTERBLUE};
   color: ${TextColor.LIGHT};
   padding: .5rem;
   border: solid black .5px;

@@ -111,7 +111,7 @@ const ButtonContainer = styled.div`
     }
 
     .flow-icon-detail {
-        fill: none;
+        fill: ${Colors.KWITTERBLUE};
         stroke: none;
         stroke : ${colorStroke};
         stroke-width: ${widthStroke};
