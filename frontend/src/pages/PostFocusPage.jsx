@@ -95,10 +95,79 @@ const handleComment = e => {
     navigate(`/userpage/${id}`)
   }
 
+// Likea ett inlägg
+const handleLike = async () => {
+  const loggedInUserId = localStorage.getItem('userId')
+  if (!loggedInUserId) {
+      console.log(loggedInUserId)
+      alert('Du måste vara inloggad för att kunna gilla ett inlägg')
+      return
+  }
+  try {
+      const postId = singlePost.post_id
+      const requestBody = {
+          poster_id: loggedInUserId
+      }
+      await axios.post(`http://localhost:8800/posts/${postId}/like`,requestBody)
+      console.log('Du som användare ', loggedInUserId,' har gillat inlägg nr: ', postId)
+      window.location.reload()
+  } catch (error) {
+      console.error(error)
+  }
+}
+
+// Un-Likea ett inlägg
+const handleDisLike = async () => {
+  const loggedInUserId = localStorage.getItem('userId')
+  if (!loggedInUserId) {
+      console.log(loggedInUserId)
+      alert('Du måste vara inloggad för att kunna ogilla ett inlägg')
+      return
+  }
+  try {
+      const postId = singlePost.post_id
+      const requestBody = {
+          poster_id: loggedInUserId
+      }
+      await axios.post(`http://localhost:8800/posts/${postId}/dislike`,requestBody)
+      console.log('Du som användare ', loggedInUserId, ' har ogillat inlägg nr: ', postId)
+      window.location.reload()
+  } catch (error) {
+      console.error(error)
+  }
+}
+
+const handleClick = () => {
+  navigate('/')
+}
+
   return (
     <>
     <Container>
       <SinglePostContainer>
+      <ButtonContainer>
+        <ArrowBTN
+          onClick={handleClick}
+          id="a"
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 39.9 35.31"
+        >
+        <ArrowLine
+          id="b"
+          data-name="LINE"
+          x1="28.95"
+          y1="17.12"
+          x2="11.12"
+          y2="17.12"
+        />
+        <ArrowPoint
+          id="c"
+          data-name="POINT"
+          points="19.96 8.11 10.95 17.12 19.96 26.13"
+        />
+        </ArrowBTN>
+      </ButtonContainer>
         <PositionInfoContainer>
           <NameInfoContainer>
           <TopContainer onClick={() => goToUserPage(user.id)}>
@@ -109,7 +178,7 @@ const handleComment = e => {
           {singlePost.likes > 0 ? (
             <ButtonsContainer>
                 <svg
-                  // onClick={handleDisLike}
+                  onClick={handleDisLike}
                   className="like-btn"
                   id="a"
                   data-name="Layer 1"
@@ -129,7 +198,7 @@ const handleComment = e => {
         ) : (
             <ButtonsContainer>
                 <svg
-                  // onClick={handleLike}
+                  onClick={handleLike}
                   className="like-btn"
                   id="a"
                   data-name="Layer 1"
@@ -191,6 +260,7 @@ const PositionInfoContainer = styled.div`
 `
 
 const SinglePostContainer = styled.div`
+  position: relative;
     font-family: 'Poppins', sans-serif;
     width: 100%;
     max-width: 500px;
@@ -233,11 +303,6 @@ const PostContainer = styled.div`
 
 const CommentForm = styled.form`
   width: 100%;
-  /* display: flex;
-  flex-direction: column; */
-  /* margin-bottom: 16px; */
-  /* justify-content: center; */
-  /* align-items: center; */
 `;
 
 const CommentTextarea = styled.textarea`
@@ -321,4 +386,39 @@ const ButtonsContainer = styled.div`
   right: 2rem;
   top: 6rem;
   }
+`
+
+
+
+const ButtonContainer = styled.div`
+    position: absolute;
+    left: 0;
+    top: -2rem;
+    width: 40px;
+    background-color: #000;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 425px) {
+      left: 41vw;
+      top: -5rem;
+  }
+`
+
+const ArrowBTN = styled.svg`
+    cursor: pointer;
+    height: 40px;
+`
+
+const ArrowLine = styled.line`
+    stroke: white;
+    stroke-miterlimit: 205;
+`
+
+const ArrowPoint = styled.polyline`
+    stroke: white;
+    stroke-miterlimit: 205;
+    fill: none;
 `

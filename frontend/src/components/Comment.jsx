@@ -125,7 +125,7 @@ const Comment = (props) => {
     <Container>
       <TopContainer>
           <UserInfo onClick={() => goToUserPage(user.id)}>
-            {user.firstname} {user.lastname} {formatTimeDifference()}{' '}
+            {user.firstname} {formatTimeDifference()}{' '}
           </UserInfo>
 
         <ButtonsContainer>
