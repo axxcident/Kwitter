@@ -86,7 +86,7 @@ const ButtonContainer = styled.div`
     }
 
     .user-icon {
-        fill: ${Colors.KWITTERBLUE};
+        fill: none;
     }
 
     .active,

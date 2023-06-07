@@ -91,9 +91,8 @@ function UserPage() {
 
     return (
         <>
-            <TopContainer />
-            <PresentationContainer>
-                {id === userId && (
+            <TopContainer >
+            {id === userId && (
                     <ProfileEdit
                         className="edit-button"
                         user={user}
@@ -103,6 +102,8 @@ function UserPage() {
                         /* onClick={handleEditProfile} */
                     />
                 )}
+                </TopContainer>
+            <PresentationContainer>
                  <Presentation>
                     <p className="user-title">
                         {user?.firstname} {/* {user?.lastname} */}
@@ -150,13 +151,14 @@ export default UserPage
 
 const TopContainer = styled.div`
     min-height: 200px;
-    background-color: ${Colors.BLUE};
+    background-color: ${Colors.GREEN};
 `
 const PresentationContainer = styled.div`
     font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-direction: column;
     background-color: ${Colors.GREY};
     min-height: 200px;
 
@@ -166,6 +168,8 @@ const PresentationContainer = styled.div`
 `;
 
 const Presentation = styled.div`
+width: 100%;
+    max-width: 1200px;
     padding: 1rem;
     /* margin-right: -30rem; */
 

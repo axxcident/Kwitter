@@ -117,10 +117,12 @@ function ProfileEdit({ user, id}) {
 export default ProfileEdit;
 
 const Container = styled.div`
+margin: 0 auto;
   font-family: 'Poppins', sans-serif;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: right;
+  max-width: 1200px;
+  width: 100%;
 `;
 
 const ButtonContainer = styled.div`
@@ -159,15 +161,20 @@ const Input = styled.input`
 `;
 
 const EditButton = styled.button`
-  background-color: ${Colors.KWITTERBLUE};
+  margin: 0 1rem;
+  margin-top: 5rem;
+  @media (max-width: 425px){
+    margin-top: 1rem;
+  }
+  background-color: transparent;
   color: ${TextColor.LIGHT};
   padding: .5rem;
   border: solid black .5px;
   border-radius: 5rem;
   cursor: pointer;
-  right: 2rem;
+  /* right: 2rem;
   top: 6rem;
-  position: absolute;
+  position: absolute; */
 `;
 
 const SaveButton = styled.button`
