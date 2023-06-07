@@ -31,7 +31,7 @@ const Container = styled.div`
   justify-content: center;
   margin: 0 auto;
   text-align: center;
-  /* margin-top: 75px; */
+  margin-top: 40px;
 `;
 
 const CommentForm = styled.form`
