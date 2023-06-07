@@ -7,8 +7,8 @@ import { useLocation } from 'react-router-dom'
 
 const backgroundImage = 'url("/kwitter-logo-3.png")'
 
-const colorStroke = ""
-const widthStroke = 1
+const colorStroke = "#000"
+const widthStroke = 2;
 
 function NavBar() {
     const location = useLocation()
@@ -55,6 +55,10 @@ const Container = styled.div`
     left: 0;
     right: 0;
     /* border: 1px solid #000; */
+    /* background-color: ${Colors.GREY};
+        box-shadow: ${Shadows.DROPSHADOWS};
+        -webkit-box-shadow: ${Shadows.DROPSHADOWS};
+        -moz-box-shadow: ${Shadows.DROPSHADOWS}; */
 
     @media (max-width: 425px) {
         bottom: 0;
@@ -107,7 +111,7 @@ const ButtonContainer = styled.div`
     }
 
     .flow-icon-detail {
-        fill: ${Colors.KWITTERBLUE};
+        fill: none;
         stroke: none;
         stroke : ${colorStroke};
         stroke-width: ${widthStroke};
