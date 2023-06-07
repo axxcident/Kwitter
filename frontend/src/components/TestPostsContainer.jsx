@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import Post from './Post'
 
 const backgroundImage = 'url("/kwitter-logo-3.png")'
-const loggedInUserId = localStorage.getItem('userId')
 
-function PostsContainer({ posts }) {
+// DENNA FUNCTION SKA BORT
+function FlowContainer({ posts }) {
     const [flowPosts, setFlowPosts] = useState([])
     const [likesList, setLikesList] = useState([])
 
@@ -20,20 +20,19 @@ function PostsContainer({ posts }) {
             .catch((error) => {
                 console.error(error)
             })
-    }, [])
-
-    useEffect(() => {
-      setFlowPosts(posts);
-    }, [posts]);
+        setFlowPosts(posts)
+    }, [posts])
 
     const getHasLike = (postId) => {
-        for(let i =0; i < likesList.length; i++) {
-            if(likesList[i].poster_id === parseInt(loggedInUserId, 10) && likesList[i].post_id === postId) {
-                return true
-            }
-        }
-        return false;
+        return likesList.some((like) => like.post_id === postId)
     }
+
+    //   SORT NYAST
+    const sortPostsByNewest = (post) => {
+        post.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    }
+
+    sortPostsByNewest(flowPosts)
 
     if (flowPosts !== null && flowPosts !== '' && flowPosts.length !== 0) {
         return (
@@ -46,7 +45,6 @@ function PostsContainer({ posts }) {
                         post={post.post}
                         created={post.created_at}
                         hasLike={getHasLike(post.post_id)}
-                        xLikes={post.likes}
                     />
                 ))}
             </Container>
@@ -63,7 +61,7 @@ function PostsContainer({ posts }) {
     }
 }
 
-export default PostsContainer
+export default FlowContainer
 
 const Container = styled.div`
     display: flex;
@@ -76,7 +74,6 @@ const NoPosts = styled.div`
     font-family: 'Poppins', sans-serif;
     padding: 1rem;
     text-align: center;
-    margin-bottom: 10rem;
 `
 
 const LogoContainer = styled.div`

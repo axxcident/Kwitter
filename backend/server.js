@@ -38,12 +38,22 @@ client.connect(function (err) {
         console.log(err)
         throw err
     }
+
+      // Set the timezone to 'Europe/Stockholm'
+  client.query('SET TIME ZONE \'Europe/Stockholm\';', function (err, result) {
+    if (err) {
+      console.log(err);
+      throw err;
+    }
+    console.log('Timezone set successfully');
+  })
+
     // Create Users table
     const createUsersTableQuery = `
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   firstname VARCHAR(25) NOT NULL,
-  lastname VARCHAR(25),
+  lastname VARCHAR(150),
   email VARCHAR(50) NOT NULL UNIQUE,
   password VARCHAR(50) NOT NULL
 )`;
@@ -172,7 +182,7 @@ app.get('/users/:id', async (req, res) => {
         } else {
           // Successful Fetch
           res.status(200).json(result.rows[0]);
-          console.log('Found');
+          console.log('Användare hämtad');
         }
       } catch (err) {
         res.status(500).send('Internal Server Error');
@@ -230,17 +240,70 @@ app.delete('/users/:poster_id/delete', async (req, res) => {
 })
 
 // ------------------------------------- ÄNDRA ANVÄNDARE
+// app.put('/users/:poster_id/put', async (req, res) => {
+//   const { poster_id } = req.params;
+//   const { firstname, lastname, email, password } = req.body;
+//   try {
+//     await client.query(`
+//     UPDATE users SET firstname = $1, lastname = $2, email = $3, password = $4 WHERE id = $5`,
+//     [firstname, lastname, email, password, poster_id]);
+//     res.status(204).send('användare updaterad');
+//   } catch (err) {
+//     res.status(500).send('Internal Server Error');
+//     console.log(err);
+//   }
+// })
+
 app.put('/users/:poster_id/put', async (req, res) => {
   const { poster_id } = req.params;
   const { firstname, lastname, email, password } = req.body;
+  const updateFields = [];
+
+  // Check which fields are provided and add them to the updateFields array
+  if (firstname) {
+    updateFields.push('firstname');
+  }
+  if (lastname) {
+    updateFields.push('lastname');
+  }
+  if (email) {
+    updateFields.push('email');
+  }
+  if (password) {
+    updateFields.push('password');
+  }
+
+  // Construct the SQL query dynamically based on the provided fields
+  let updateQuery = 'UPDATE users SET';
+  updateFields.forEach((field, index) => {
+    updateQuery += ` ${field} = $${index + 1}`;
+    if (index !== updateFields.length - 1) {
+      updateQuery += ',';
+    }
+  });
+  updateQuery += ` WHERE id = $${updateFields.length + 1}`;
+
+  // Prepare the parameter values for the query
+  const parameterValues = updateFields.map(field => req.body[field]);
+  parameterValues.push(poster_id);
+
   try {
-    await client.query(`
-    UPDATE users SET firstname = $1, lastname = $2, email = $3, password = $4 WHERE id = $5`,
-    [firstname, lastname, email, password, poster_id]);
+    await client.query(updateQuery, parameterValues);
     res.status(204).send('användare updaterad');
   } catch (err) {
     res.status(500).send('Internal Server Error');
     console.log(err);
+  }
+});
+
+//  ------------------------------------- HÄMTA ALLA Likes
+app.get('/likes', async (req, res) => {
+  try {
+      const result = await client.query('SELECT * FROM likes')
+      res.status(200).json(result.rows)
+  } catch (err) {
+      res.status(500)
+      console.log(err)
   }
 })
 
@@ -256,21 +319,21 @@ app.get('/posts', async (req, res) => {
 })
 
 //  ------------------------------------- HÄMTA ETT INLÄGG
-app.get('/posts/:id', async (req, res) => {
-    const poster_id = req.params.id;
+app.get('/posts/:post_id', async (req, res) => {
+    const post_id = req.params.post_id;
     try {
         const result = await client.query(
           `SELECT * FROM posts WHERE post_id=$1;`,
-          [poster_id]
+          [post_id]
         );
 
         if (result.rows.length === 0) {
           // No matching user found
           res.status(401).send('Unauthorized');
         } else {
-          // Successful login
+          // Successful Post Fetch
           res.status(200).json(result.rows);
-          console.log('Found');
+          console.log('Inlägg Hämtat');
           console.log(result.rows[0].likes); // KOLLA ALLA LIKES ETT INLÄGG HAR
         }
       } catch (err) {
@@ -299,7 +362,7 @@ app.post('/posts/submit', async (req, res) => {
 app.delete('/posts/:post_id/delete', async (req, res) => {
   const { post_id } = req.params;
   try {
-    await client.query('DELETE FROM posts WHERE id = $1', [post_id]);
+    await client.query('DELETE FROM posts WHERE post_id = $1', [post_id]);
     res.status(204).send('inlägg raderat');
   } catch (err) {
     res.status(500).send('Internal Server Error');
@@ -333,6 +396,19 @@ app.get('/comments', async (req, res) => {
     }
 })
 
+//  ------------------------------------- HÄMTA ALLA KOMMENTARER FRÅN ETT INLÄGG
+app.get('/comments/:post_id', async (req, res) => {
+  const { post_id } = req.params
+    try {
+        const result = await client.query(
+          `SELECT * FROM comments WHERE post_id=$1`,[post_id])
+        res.status(200).json(result.rows)
+    } catch (err) {
+        res.status(500).send('Internal Server Error')
+        console.log(err)
+    }
+})
+
 //  -------------------------------------  LÄGG TILL KOMMENTAR
 app.post('/comments/submit', async (req, res) => {
   const { post_id, poster_id, comment } = req.body;
@@ -349,10 +425,10 @@ app.post('/comments/submit', async (req, res) => {
 })
 
 // ------------------------------------- RADERA KOMMENTAR
-app.delete('/comments/:comments_id/delete', async (req, res) => {
-  const { comments_id } = req.params;
+app.delete('/comments/:comment_id/delete', async (req, res) => {
+  const { comment_id } = req.params;
   try {
-    await client.query('DELETE FROM comments WHERE id = $1', [comments_id]);
+    await client.query('DELETE FROM comments WHERE comment_id = $1', [comment_id]);
     res.status(204).send('kommentar raderad');
   } catch (err) {
     res.status(500).send('Internal Server Error');
@@ -407,6 +483,28 @@ app.post('/posts/:post_id/like', async (req, res) => {
 
     const updateLikesQuery = `
       UPDATE posts SET likes = likes + 1 WHERE post_id = $1
+    `;
+    await client.query(updateLikesQuery, [post_id]);
+
+    res.sendStatus(201);
+  } catch (err) {
+    res.sendStatus(400);
+    console.log(err);
+  }
+})
+
+//  ------------------------------------- OGILLA ETT INLÄGG
+// UPDATE posts SET likes = likes - 1 WHERE post_id = $1
+app.post('/posts/:post_id/dislike', async (req, res) => {
+  const { post_id } = req.params;
+  const { poster_id } = req.body;
+  try {
+    const disLikeQuery = `
+      DELETE FROM likes WHERE post_id = $1 AND poster_id = $2`;
+    await client.query(disLikeQuery, [post_id, poster_id]);
+
+    const updateLikesQuery = `
+    UPDATE posts SET likes = CASE WHEN likes > 0 THEN likes - 1 ELSE 0 END WHERE post_id = $1
     `;
     await client.query(updateLikesQuery, [post_id]);
 
