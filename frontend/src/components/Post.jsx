@@ -143,7 +143,7 @@ function Post(props) {
         <Container>
             <TopContainer>
                 <UserInfo onClick={() => goToUserPage(user.id)}>
-                    {user.firstname} {user.lastname} {formatTimeDifference()}{' '}
+                    {user.firstname} {/* {user.lastname} */} {formatTimeDifference()}{' '}
                 </UserInfo>
                 <ButtonsContainer>
                     {canEdit && (
@@ -185,6 +185,7 @@ function Post(props) {
                                 />
                             </g>
                         </svg>
+                        {numberLikes != 0 && <span>{numberLikes}</span>}
                     </ButtonsContainer>
                 ) : (
                     <ButtonsContainer>

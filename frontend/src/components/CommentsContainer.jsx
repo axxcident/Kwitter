@@ -67,6 +67,7 @@ function CommentsContainer({ comments }) {
 export default CommentsContainer
 
 const Container = styled.div`
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
