@@ -185,6 +185,7 @@ function Post(props) {
                                 />
                             </g>
                         </svg>
+                        {numberLikes != 0 && <span>{numberLikes}</span>}
                     </ButtonsContainer>
                 ) : (
                     <ButtonsContainer>
